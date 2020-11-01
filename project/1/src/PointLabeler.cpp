@@ -51,7 +51,7 @@ int print_usage()
     std::cout << "" << std::endl;
     std::cout << "usage:" << std::endl;
     std::cout << "" << std::endl;
-    std::cout << "PointLabeler [FILENAME].txt" << std::endl;
+    std::cout << "PointLabeler [INPUT_FILENAME].txt " << "[OUTPUT_FILENAME].txt" << std::endl;
     std::cout << "" << std::endl;
     return 1;
 }
@@ -94,7 +94,8 @@ int read_file(std::string filename)
 int main(int argc, char** argv)
 {   
 
-    std::string filename;
+    std::string read_filename = "";
+    std::string write_filename = "";
 
 
     // greeting the user
@@ -110,7 +111,7 @@ int main(int argc, char** argv)
 
 
     // if no additional args given print usage
-    if(argc < 2)
+    if(argc < 3)
     {
         print_usage();
         return -1;
@@ -120,7 +121,16 @@ int main(int argc, char** argv)
     // checks if file name has the right suffix (.txt)
     if(has_suffix(argv[1], ".txt"))
     {
-        filename = argv[1];
+        read_filename = argv[1];
+    } else
+    {
+        print_usage();
+        return -1;
+    }
+
+    if(has_suffix(argv[2], ".txt"))
+    {
+        write_filename = argv[2];
     } else
     {
         print_usage();
@@ -128,23 +138,15 @@ int main(int argc, char** argv)
     }
     
     
-    
-    PointLabeler::Map map = PointLabeler::Map(filename);
+    print_message("Reading from file \"" + read_filename + "\"");
+    PointLabeler::Map map = PointLabeler::Map(read_filename);
     //map.load_from_file(filename);
+    print_message("Random generate points");
     std::vector<PointLabeler::Point> *points = map.random_generate_points(100, -100, 100, -100, 10, 6, 25);
-
-    //map.write_to_file(points, "output.txt");
-
-    
-
-    
-  
-
-    
+    print_message("Writing to file \"" + write_filename + "\"");
+    map.write_to_file(points, write_filename);
 
     std::cout << " " << std::endl;
-    
-    
     
     return 0;
 }

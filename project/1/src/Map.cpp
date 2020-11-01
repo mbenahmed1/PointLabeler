@@ -213,17 +213,45 @@ std::vector<Point>* Map::random_generate_points(int max_x_pos, int min_x_pos, in
         
         points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));
     }
-    
+
     return points;
+
 }
 
-int write_to_file(std::vector<Point> *points, std::string filename)
+int Map::write_to_file(std::vector<Point> *points, std::string filename)
 {
     std::ofstream file;
     file.open(filename);
+
+    int number_of_points = points->size();
     
-    file << points->size();
+    file << number_of_points;
     file << "\n";
+
+    std::vector<Point>::iterator it;
+    
+    
+    int i = 0;
+
+    for(it = points->begin(); it != points->end(); it++, i++)    
+    {
+        file << it->get_x();
+        file << " ";
+        file << it->get_y();
+        file << " ";
+        file << it->get_label_length();
+        file << " ";
+        file << it->get_label_height();
+        file << " ";
+        file << it->get_label_text();
+        file << " ";
+        file << "0";
+        file << " ";
+        file << "0";
+        file << " ";
+        file << "0";
+        file << "\n";
+    }
 
     file.close();
 
