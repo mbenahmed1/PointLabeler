@@ -6,7 +6,7 @@ project(PointLabeler)
 set(POINTLABELER_SOURCES
     src/PointLabeler.cpp
     src/Map.cpp
-    src/Point.cpp)
+    src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp)
 
 # set compiler warnings
 set(CMAKE_CXX_FLAGS_DEBUG "-Wall")

@@ -11,6 +11,7 @@
 #include <ctime>
 #include <chrono>
 #include "Map.hpp"
+#include "GreedyAlgorithm.hpp"
 
 /**
  * Checks if string ends with .txt
@@ -33,9 +34,9 @@ bool has_suffix(const std::string &str, const std::string &suffix)
 
 int print_message(std::string text)
 {
-     time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     std::cout << buf << ":" << " " << text << std::endl;
@@ -80,8 +81,8 @@ int read_file(std::string filename)
     file.open(filename);
     file << "Test\n";
     file.close();
-    
-    
+
+
     message = "Finished reading file \"";
     message.append(filename);
     message.append("\".");
@@ -96,9 +97,8 @@ int read_file(std::string filename)
  * 
  *@param you know...
  */
-
-int main(int argc, char** argv)
-{   
+int main(int argc, char **argv)
+{
 
     std::string read_filename = "";
     std::string write_filename = "";
@@ -107,7 +107,7 @@ int main(int argc, char** argv)
     std::string arg2 = "";
     std::string arg3 = "";
     std::string arg4 = "";
-    
+
 
 
     // greeting the user
@@ -121,27 +121,28 @@ int main(int argc, char** argv)
     std::cout << " " << std::endl;
     std::cout << " " << std::endl;
 
-    
-    
+
+
     // if 3 args are given (generate random with filepath)
-    if(argc == 3)
+    if (argc == 3)
     {
         std::string arg1 = argv[1];
         std::string arg2 = argv[2];
-        
-        
-        if(arg1 == "--cluster-gen" && has_suffix(argv[2], ".txt"))
+
+
+        if (arg1 == "--cluster-gen" && has_suffix(argv[2], ".txt"))
         {
             write_filename = arg2;
             print_message("Generate cluster instance.");
-            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 2000, 10, 1000, 10);
+            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 2000,
+                                                                                   10, 1000, 10);
             print_message("Write to file \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);
             return 1;
         }
-        
-        
-        if(arg1 == "--random-gen" && has_suffix(argv[2], ".txt"))
+
+
+        if (arg1 == "--random-gen" && has_suffix(argv[2], ".txt"))
         {
             write_filename = arg2;
             print_message("Generate random instance.");
@@ -149,22 +150,23 @@ int main(int argc, char** argv)
             print_message("Write to file \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);
             return 1;
-        } else
+        }
+        else
         {
             print_usage();
             return -1;
         }
-    } 
+    }
 
     // if 5 args are given (read from file, calculate solution, write to file)
-    if(argc == 5)
+    if (argc == 5)
     {
         std::string arg1 = argv[1];
         std::string arg2 = argv[2];
         std::string arg3 = argv[3];
         std::string arg4 = argv[4];
-        
-        if(arg1 == "--in" && arg3 == "--out" && has_suffix(argv[2], ".txt") && has_suffix(argv[4], ".txt"))
+
+        if (arg1 == "--in" && arg3 == "--out" && has_suffix(argv[2], ".txt") && has_suffix(argv[4], ".txt"))
         {
             write_filename = arg4;
             read_filename = arg2;
@@ -172,18 +174,22 @@ int main(int argc, char** argv)
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
             // todo
+            PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
+            greedyAlgorithm.solve();
 
             print_message("Write to file: \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);
 
             return 1;
-        } else
+        }
+        else
         {
             print_usage();
             return -1;
         }
 
-    } else
+    }
+    else
     {
         print_usage();
         return -1;

@@ -1,9 +1,14 @@
+#ifndef POINT_HPP
+#define POINT_HPP
+
 #include <stdio.h>
 #include <string>
-namespace PointLabeler{
 
+namespace PointLabeler
+{
 
-class Point{
+class Point
+{
 
 public:
 
@@ -41,7 +46,9 @@ private:
     int label_x;
     int label_y;
 
-    
+
 };
 
 }
+
+#endif
