@@ -55,7 +55,7 @@ int print_usage()
     std::cout << "" << std::endl;
     std::cout << "or" << std::endl;
     std::cout << "" << std::endl;
-    std::cout << "$ ./PointLabeler --random-gen [INPUT_FILENAME].txt" << std::endl;
+    std::cout << "$ ./PointLabeler --random-gen [OUTPUT_FILENAME].txt" << std::endl;
     return 1;
 }
 
@@ -121,12 +121,12 @@ int main(int argc, char** argv)
     
     
     // if 3 args are given (generate random with filepath)
-    if(argc = 3)
+    if(argc == 3)
     {
         std::string arg1 = argv[1];
         std::string arg2 = argv[2];
 
-        if(arg1 == "--gen-random" && has_suffix(argv[2], ".txt"))
+        if(arg1 == "--random-gen" && has_suffix(argv[2], ".txt"))
         {
             write_filename = arg2;
             print_message("Generate random instance.");
@@ -142,7 +142,7 @@ int main(int argc, char** argv)
     } 
 
     // if 5 args are given (read from file, calculate solution, write to file)
-    if(argc = 5)
+    if(argc == 5)
     {
         std::string arg1 = argv[1];
         std::string arg2 = argv[2];
@@ -164,7 +164,6 @@ int main(int argc, char** argv)
 
     } else
     {
-        std::cout << "here" << std::endl;
         print_usage();
         return -1;
     }
