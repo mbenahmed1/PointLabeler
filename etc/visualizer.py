@@ -69,10 +69,10 @@ if __name__ == "__main__":
 
     ax.set(xlim=(minLim, maxLim), ylim=(minLim, maxLim))
     
-    ticks = np.arange(minLim, maxLim, 1)
-    plt.xticks(ticks)
-    plt.yticks(ticks)
+    #ticks = np.arange(minLim, maxLim, 1)
+    #plt.xticks(ticks)
+    #plt.yticks(ticks)
 
-    plt.grid()
+    #plt.grid()
 
     plt.show()
