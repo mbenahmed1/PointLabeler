@@ -108,14 +108,14 @@ std::string Map::get_filename()
     return Map::filename;
 }
 
-int Map::load_from_file(std::string filename)
+std::vector<Point>* Map::load_from_file(std::string filename)
 {
     // opening input filestream
     std::ifstream file(filename);
     if (!file.good())
     {
         std::cerr << "Cannot open file." <<std::endl;
-        return -1;
+        return nullptr;
     }
 
     // number of points = number of lines + 1
@@ -124,36 +124,30 @@ int Map::load_from_file(std::string filename)
     // variables to fill points in
     int x_pos = 0;
     int y_pos = 0;
-    int length = 0;
-    int height = 0;
+    int label_length = 0;
+    int label_height = 0;
     std::string label_text = "";
-    int is_labeled = 0;
-    int label_x = 0;
-    int label_y = 0;
+    int temp = 0;
+
+    std::vector<PointLabeler::Point> *points = new std::vector<Point>;
 
     // reading values line by line
     for(int i = 0; i < number_of_points; i++)
     {
         file >> x_pos;
         file >> y_pos;
-        file >> length;
-        file >> height;
+        file >> label_length;
+        file >> label_height;
         file >> label_text;
-        file >> is_labeled;
-        file >> label_x;
-        file >> label_y;
+        file >> temp;
+        file >> temp;
+        file >> temp;
+
+        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));        
     }
-
-    // TODO: parse points
-
-    // debug
-    std::cout << x_pos << std::endl;
-    std::cout << y_pos << std::endl;
-    std::cout << length << std::endl;
-    std::cout << height << std::endl;
-
-    return 1;
+    return points; 
 }
+
 
 std::vector<Point>* Map::random_generate_points(int max_x_pos, int min_x_pos, int max_y_pos, int min_y_pos, int max_label_length, int max_label_height, int number_of_points)
 {
@@ -161,24 +155,28 @@ std::vector<Point>* Map::random_generate_points(int max_x_pos, int min_x_pos, in
     if(!(max_x_pos > min_x_pos))
     {
         std::cerr << "max_x_pos has to be greater than min_x_pos" << std::endl;
+        return nullptr;
     }
 
     // check if max_y_pos is true greater than min_y_pos
     if(!(max_y_pos > min_y_pos))
     {
         std::cerr << "max_y_pos has to be greater than min_y_pos" << std::endl;
+        return nullptr;
     }   
 
     // check if both label lenght and heigth are greater than 1
     if(!(max_label_height > 1 && max_label_length >1))
     {
         std::cerr << "max_label_height and max_label_length have to be greater than 1" << std::endl;
+        return nullptr;
     }
 
     // check if number of points is greater than 1
     if(!(number_of_points > 1))
     {
         std::cerr << "number of points has to be greater than 1" << std::endl;
+        return nullptr;
     }
 
     
@@ -229,34 +227,40 @@ std::vector<Point>* Map::cluster_generate_points(int max_x_pos, int min_x_pos,
     if(!(max_x_pos > min_x_pos))
     {
         std::cerr << "max_x_pos has to be greater than min_x_pos" << std::endl;
+        return nullptr;
     }
 
     // check if max_y_pos is true greater than min_y_pos
     if(!(max_y_pos > min_y_pos))
     {
         std::cerr << "max_y_pos has to be greater than min_y_pos" << std::endl;
+        return nullptr;
     }   
 
     // check if both label lenght and heigth are greater than 1
     if(!(max_label_height > 1 && max_label_length >1))
     {
         std::cerr << "max_label_height and max_label_length have to be greater than 1" << std::endl;
+        return nullptr;
     }
 
     // check if number of points is greater than 1
     if(!(number_of_points > 1))
     {
         std::cerr << "number of points has to be greater than 1" << std::endl;
+        return nullptr;
     }
 
     if(!(number_of_clusters > 1))
     {
         std::cerr << "number of clusters has to be greater than 1" << std::endl;
+        return nullptr;
     }
 
     if(!(max_cluster_size < number_of_points))
     {
         std::cerr << "max cluster size has to be smaller than number of points" << std::endl;
+        return nullptr;
     }
     
 

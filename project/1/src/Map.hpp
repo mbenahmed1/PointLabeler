@@ -20,7 +20,7 @@ public:
     
     int get_y_size();
 
-    int load_from_file(std::string filename);
+    std::vector<Point>* load_from_file(std::string filename);
 
     int write_to_file(std::vector<Point> *points, std::string filename);
 

@@ -17,6 +17,12 @@ public:
 
     int get_label_height();
 
+    void set_is_labeled(int is_labeled);
+
+    void set_label_x(int x);
+
+    void set_label_y(int y);
+
     std::string get_label_text();
 
 private:
@@ -25,6 +31,11 @@ private:
     int label_length;
     int label_height;
     std::string label_text;
+    int is_labeled;
+    int label_x;
+    int label_y;
+
+    
 };
 
 }

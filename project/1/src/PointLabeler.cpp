@@ -134,7 +134,7 @@ int main(int argc, char** argv)
         {
             write_filename = arg2;
             print_message("Generate cluster instance.");
-            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 150, 10, 10, 35);
+            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 2000, 10, 1000, 10);
             print_message("Write to file \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);
             return 1;
@@ -166,10 +166,21 @@ int main(int argc, char** argv)
         
         if(arg1 == "--in" && arg3 == "--out" && has_suffix(argv[2], ".txt") && has_suffix(argv[4], ".txt"))
         {
-            // TODO
             write_filename = arg4;
             read_filename = arg2;
-            print_message("Read form --in, calculate, write to --out (todo)");
+            print_message("Read from file: \"" + read_filename + "\".");
+            std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
+
+            for(int i = 1; i < points->size(); i++)
+            {
+                points->at(i).set_is_labeled(1);
+                points->at(1).set_label_x(50);
+                points->at(1).set_label_y(50);
+            }
+
+            print_message("Write to file: \"" + write_filename + "\".");
+            map.write_to_file(points, write_filename);
+
             return 1;
         } else
         {
