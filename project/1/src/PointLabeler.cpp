@@ -38,7 +38,7 @@ int print_message(std::string text)
     char       buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-    std::cout << buf << " " << text << std::endl;
+    std::cout << buf << ":" << " " << text << std::endl;
     return 1;
 }
 
@@ -51,8 +51,11 @@ int print_usage()
     std::cout << "" << std::endl;
     std::cout << "usage:" << std::endl;
     std::cout << "" << std::endl;
-    std::cout << "PointLabeler [INPUT_FILENAME].txt " << "[OUTPUT_FILENAME].txt" << std::endl;
+    std::cout << "$ ./PointLabeler --in [INPUT_FILENAME].txt --out OUTPUT_FILENAME].txt" << std::endl;
     std::cout << "" << std::endl;
+    std::cout << "or" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "$ ./PointLabeler --random-gen [INPUT_FILENAME].txt" << std::endl;
     return 1;
 }
 
@@ -96,6 +99,12 @@ int main(int argc, char** argv)
 
     std::string read_filename = "";
     std::string write_filename = "";
+    PointLabeler::Map map = PointLabeler::Map(read_filename);
+    std::string arg1 = "";
+    std::string arg2 = "";
+    std::string arg3 = "";
+    std::string arg4 = "";
+    
 
 
     // greeting the user
@@ -109,44 +118,55 @@ int main(int argc, char** argv)
     std::cout << " " << std::endl;
     std::cout << " " << std::endl;
 
+    
+    
+    // if 3 args are given (generate random with filepath)
+    if(argc = 3)
+    {
+        std::string arg1 = argv[1];
+        std::string arg2 = argv[2];
 
-    // if no additional args given print usage
-    if(argc < 3)
+        if(arg1 == "--gen-random" && has_suffix(argv[2], ".txt"))
+        {
+            write_filename = arg2;
+            print_message("Generate random instance.");
+            std::vector<PointLabeler::Point> *points = map.random_generate_points(100, -100, 100, -100, 10, 6, 25);
+            print_message("Write to file \"" + write_filename + "\".");
+            map.write_to_file(points, write_filename);
+            return 1;
+        } else
+        {
+            print_usage();
+            return -1;
+        }
+    } 
+
+    // if 5 args are given (read from file, calculate solution, write to file)
+    if(argc = 5)
     {
-        print_usage();
-        return -1;
-    }
-    
-    
-    // checks if file name has the right suffix (.txt)
-    if(has_suffix(argv[1], ".txt"))
-    {
-        read_filename = argv[1];
+        std::string arg1 = argv[1];
+        std::string arg2 = argv[2];
+        std::string arg3 = argv[3];
+        std::string arg4 = argv[4];
+        
+        if(arg1 == "--in" && arg3 == "--out" && has_suffix(argv[2], ".txt") && has_suffix(argv[4], ".txt"))
+        {
+            // TODO
+            write_filename = arg4;
+            read_filename = arg2;
+            print_message("Read form --in, calculate, write to --out (todo)");
+            return 1;
+        } else
+        {
+            print_usage();
+            return -1;
+        }
+
     } else
     {
+        std::cout << "here" << std::endl;
         print_usage();
         return -1;
     }
-
-    if(has_suffix(argv[2], ".txt"))
-    {
-        write_filename = argv[2];
-    } else
-    {
-        print_usage();
-        return -1;
-    }
-    
-    
-    print_message("Reading from file \"" + read_filename + "\"");
-    PointLabeler::Map map = PointLabeler::Map(read_filename);
-    //map.load_from_file(filename);
-    print_message("Random generate points");
-    std::vector<PointLabeler::Point> *points = map.random_generate_points(100, -100, 100, -100, 10, 6, 25);
-    print_message("Writing to file \"" + write_filename + "\"");
-    map.write_to_file(points, write_filename);
-
-    std::cout << " " << std::endl;
-    
-    return 0;
+    return 1;
 }
