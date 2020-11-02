@@ -171,12 +171,7 @@ int main(int argc, char** argv)
             print_message("Read from file: \"" + read_filename + "\".");
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
-            for(int i = 1; i < points->size(); i++)
-            {
-                points->at(i).set_is_labeled(1);
-                points->at(1).set_label_x(50);
-                points->at(1).set_label_y(50);
-            }
+            // todo
 
             print_message("Write to file: \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);

@@ -49,14 +49,31 @@ void Point::set_label_x(int x)
     Point::label_x = x;
 }
 
+int Point::get_label_x()
+{
+    return Point::label_x;
+}
+
 void Point::set_label_y(int y)
 {
     Point::label_y = y;
 }
 
+
+int Point::get_label_y()
+{
+    return Point::label_y;
+}
+
+
 void Point::set_is_labeled(int is_labeled)
 {
     Point::is_labeled = is_labeled;
+}
+
+int Point::get_is_labeled()
+{
+    return Point::is_labeled;
 }
 
 }

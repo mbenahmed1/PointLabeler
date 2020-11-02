@@ -350,11 +350,11 @@ int Map::write_to_file(std::vector<Point> *points, std::string filename)
         file << " ";
         file << it->get_label_text();
         file << " ";
-        file << "0";
+        file << it->get_is_labeled();
         file << " ";
-        file << "0";
+        file << it->get_label_x();
         file << " ";
-        file << "0";
+        file << it->get_label_y();
         file << "\n";
     }
 

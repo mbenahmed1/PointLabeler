@@ -17,9 +17,15 @@ public:
 
     int get_label_height();
 
+    int get_is_labeled();
+
     void set_is_labeled(int is_labeled);
 
+    int get_label_x();
+
     void set_label_x(int x);
+
+    int get_label_y();
 
     void set_label_y(int y);
 
