@@ -56,6 +56,9 @@ int print_usage()
     std::cout << "or" << std::endl;
     std::cout << "" << std::endl;
     std::cout << "$ ./PointLabeler --random-gen [OUTPUT_FILENAME].txt" << std::endl;
+    std::cout << "or" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "$ ./PointLabeler --cluster-gen [OUTPUT_FILENAME].txt" << std::endl;
     return 1;
 }
 
@@ -125,7 +128,19 @@ int main(int argc, char** argv)
     {
         std::string arg1 = argv[1];
         std::string arg2 = argv[2];
-
+        
+        
+        if(arg1 == "--cluster-gen" && has_suffix(argv[2], ".txt"))
+        {
+            write_filename = arg2;
+            print_message("Generate cluster instance.");
+            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 150, 10, 10, 35);
+            print_message("Write to file \"" + write_filename + "\".");
+            map.write_to_file(points, write_filename);
+            return 1;
+        }
+        
+        
         if(arg1 == "--random-gen" && has_suffix(argv[2], ".txt"))
         {
             write_filename = arg2;

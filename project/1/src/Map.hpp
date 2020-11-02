@@ -24,7 +24,16 @@ public:
 
     int write_to_file(std::vector<Point> *points, std::string filename);
 
-    std::vector<Point>* random_generate_points(int max_x_pos, int min_x_pos, int max_y_pos, int min_y_pos, int max_label_length, int max_label_height, int number_of_points);
+    std::vector<Point>* random_generate_points  (int max_x_pos, int min_x_pos, 
+                                                int max_y_pos, int min_y_pos, 
+                                                int max_label_length, int max_label_height, 
+                                                int number_of_points);
+
+    std::vector<Point>* cluster_generate_points(int max_x_pos, int min_x_pos, 
+                                                int max_y_pos, int min_y_pos, 
+                                                int max_label_length, int max_label_height, 
+                                                int number_of_points, int number_of_clusters,
+                                                int max_cluster_size, int max_cluster_radius);
 
 private:
     std::vector<Point*> points;
