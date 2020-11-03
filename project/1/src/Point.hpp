@@ -12,11 +12,13 @@ class Point
 
 public:
 
-    enum Position {top_left, top_right, bottom_left, bottom_right};
+    enum Position {top_left = 1, top_right = 2, bottom_left = 3, bottom_right = 4};
 
     void set_label_pos(Position pos);
 
     bool is_overlapping(Point &point) const;
+
+    void clear();
 
     Point(int x, int y, int label_length, int label_height, std::string label_text);
 

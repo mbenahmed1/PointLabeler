@@ -9,7 +9,7 @@ set(POINTLABELER_SOURCES
     src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp)
 
 # set compiler warnings
-set(CMAKE_CXX_FLAGS_DEBUG "-Wall")
+#set(CMAKE_CXX_FLAGS_DEBUG "-Wall")
 
 # add the executable
 add_executable(PointLabeler ${POINTLABELER_SOURCES})

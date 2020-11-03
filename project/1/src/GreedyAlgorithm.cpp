@@ -12,29 +12,30 @@ GreedyAlgorithm::GreedyAlgorithm(std::vector<PointLabeler::Point> &points) : poi
 
 void GreedyAlgorithm::solve()
 {
-    std::vector<PointLabeler::Point> labeled_points = std::vector<PointLabeler::Point>();
+    //std::vector<PointLabeler::Point> labeled_points = std::vector<PointLabeler::Point>();
     for (auto &point : points)
     {
         point.set_label_pos(Point::top_left);
-        if (!check_overlap(labeled_points, point))
+        if (!check_overlap(points, point))
         {
-            labeled_points.push_back(point);
+            continue;
         }
         point.set_label_pos(Point::top_right);
-        if (!check_overlap(labeled_points, point))
+        if (!check_overlap(points, point))
         {
-            labeled_points.push_back(point);
+            continue;
         }
         point.set_label_pos(Point::bottom_left);
-        if (!check_overlap(labeled_points, point))
+        if (!check_overlap(points, point))
         {
-            labeled_points.push_back(point);
+            continue;
         }
         point.set_label_pos(Point::bottom_right);
-        if (!check_overlap(labeled_points, point))
+        if (!check_overlap(points, point))
         {
-            labeled_points.push_back(point);
+            continue;
         }
+        point.clear();
     }
 
 
@@ -44,6 +45,9 @@ bool GreedyAlgorithm::check_overlap(std::vector<PointLabeler::Point> &labeled, P
 {
     for (auto &label : labeled)
     {
+        if (label.get_x() == point.get_x() && label.get_y() == point.get_y()) {
+            continue;
+        }
         if (label.is_overlapping(point))
         {
             return true;

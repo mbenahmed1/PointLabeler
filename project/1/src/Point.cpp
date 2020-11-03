@@ -104,12 +104,12 @@ void Point::set_label_pos(Point::Position pos)
 
 bool Point::is_overlapping(Point &point) const
 {
-    int xPosA = get_x();
-    int yPosA = get_y();
+    int xPosA = get_label_x();
+    int yPosA = get_label_y();
     int wA = get_label_length();
     int hA = get_label_height();
-    int xPosB = point.get_x();
-    int yPosB = point.get_y();
+    int xPosB = point.get_label_x();
+    int yPosB = point.get_label_y();
     int wB = point.get_label_length();
     int hB = point.get_label_height();
 
@@ -117,21 +117,32 @@ bool Point::is_overlapping(Point &point) const
         return false;
     }
     if (get_is_labeled() == 0 && point.get_is_labeled() == 1) {
+        xPosA = get_x();
+        yPosA = get_y();
         return xPosA >= xPosB && xPosA <= xPosB + wB && yPosA <= yPosB && yPosA >= yPosB - hB;
     }
     if (get_is_labeled() == 1 && point.get_is_labeled() == 0) {
+        xPosB = point.get_x();
+        yPosB = point.get_y();
         return xPosB >= xPosA && xPosB <= xPosA + wA && yPosB <= yPosA && yPosB >= yPosA - hA;
     }
     if (get_is_labeled() == 1 && point.get_is_labeled() == 1) {
-        if (xPosA > xPosB + wB || xPosB > xPosA + wA) {
+        if (xPosA >= xPosB + wB || xPosB >= xPosA + wA) {
             return false;
         }
-        if (yPosA > yPosB + hB || yPosB > yPosA + hA) {
+        if (yPosA <= yPosB - hB || yPosB <= yPosA - hA) {
             return false;
         }
         return true;
     }
     return true;
+}
+
+void Point::clear()
+{
+    is_labeled = 0;
+    label_x = 0;
+    label_y = 0;
 }
 
 }
