@@ -195,6 +195,27 @@ Universität Osnabrück \\ % Your institution for the title page
 	\end{frame}
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{Aufgabe 1.1 (a) - Externe Queue}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Anzahl I/Os interne Queue}
+	\begin{itemize}
+		\item \texttt{enqueue()}
+		\item \texttt{dequeue()}
+		\item[]
+		\item \textbf{O(1)} pro Operation für beliebige Aufrufreihenfolge 
+	\end{itemize}
+	
+	\column{.5\textwidth} % Right column and width
+	\includegraphics[scale=.5]{queue0.pdf}
+	
+\end{columns}
+\end{frame}
+%------------------------------------------------
+
+
 
 
 \begin{frame}
@@ -204,8 +225,12 @@ Universität Osnabrück \\ % Your institution for the title page
 	\column{.45\textwidth} % Left column and width
 	\textbf{Externe Queue}
 	\begin{itemize}
-		\item Falls $n>B$, halte nur ersten und letzten Block im Speicher
-		\item Blöcke dazwischen $\rightarrow$ extern
+		\item Zwei Puffer Arrays $B_1$ und $B_2$ der Größe $B$
+		\item \texttt{enqueue()} am rear Array $B_1$
+		\item \texttt{dequeue()} am front Array $B_2$
+		\item restliche Daten $\rightarrow$ extern
+		\item falls $B_1$ voll $\rightarrow$ gesamten Block in den externen Speicher schreiben
+		\item falls $B_2$ leer $\rightarrow$ einen Block aus dem externen speicher laden
 	\end{itemize}
 	
 	\column{.5\textwidth} % Right column and width
@@ -214,6 +239,27 @@ Universität Osnabrück \\ % Your institution for the title page
 	\end{columns}
 	\end{frame}
 %------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Aufgabe 1.1 (a) - Externe Queue}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Anzahl I/Os externe Queue}
+	\begin{itemize}
+		\item Ein I/O zugriff nachdem jeweils $B$ Elemente eingefügt/entfernt wurden.
+		\item[]
+		\item \textbf{O(1/B)} I/Os pro Operation
+	\end{itemize}
+	
+	\column{.5\textwidth} % Right column and width
+	\includegraphics[scale=.5]{queue1.pdf}
+	
+\end{columns}
+\end{frame}
+%------------------------------------------------
+
 
 
 
