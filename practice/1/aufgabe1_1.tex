@@ -500,15 +500,60 @@ Universität Osnabrück \\ % Your institution for the title page
 	\textbf{I/O Fallunterscheidung}
 	\begin{enumerate}
 	\item $ k = \alpha \cdot M $ mit $\alpha = 0,5$
-	\item $ k = \alpha \cdot M $ mit $\alpha > 1$ \pause
 	\end{enumerate}
 	
 
 	\column{.5\textwidth} % Right column and width
 	\begin{itemize}
-		\item Temp. array passt vollständig in den Speicher $\rightarrow$ keine I/O \pause
-		\item Temp. array passt nicht in den Speicher $\rightarrow$ viele I/O
+		\item Iterieren über Input Array (inkl. zählen): $\mathcal{O}(n/B)$\pause
+		\item Aufsummieren in temp. Array: kein I/O\pause
+		\item Zurück iterieren über Inputarray: $\mathcal{O}(n/B)$\pause
+		\item Verweis finden in temp. Array: kein I/O\pause
+		\item Schreiben in Output Array: $\mathcal{O}(n)$
+		\item  $\Rightarrow \mathcal{O}(n)$
 	\end{itemize}
+	
+	\end{columns}
+	\end{frame}
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{Aufgabe 1.1 (b) - Counting Sort}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{I/O Fallunterscheidung}
+	\begin{enumerate}
+	\item $ k = \alpha \cdot M $ mit $\alpha > 1$ 
+	\end{enumerate}
+	
+
+	\column{.5\textwidth} % Right column and width
+	\begin{itemize}
+		\item Iterieren über Input Array: $\mathcal{O}(n/B)$\pause
+		\item Zählen in temp. Array: $\mathcal{O}(n)$\pause
+		\item Aufsummieren in temp. Array: $\mathcal{O}(k/B)$\pause
+		\item Zurück iterieren über Inputarray: $\mathcal{O}(n/B)$\pause
+		\item Verweis finden in temp. Array: $\mathcal{O}(n)$\pause
+		\item Schreiben in Output Array: $\mathcal{O}(n)$\pause
+		\item $\Rightarrow \mathcal{O}(n + k/B)$
+	\end{itemize}
+	
+	\end{columns}
+	\end{frame}
+%------------------------------------------------
+
+
+
+\begin{frame}
+	\frametitle{Aufgabe 1.1 (b) - Counting Sort}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	Lässt sich Counting Sort \textbf{einfach} verbessern?	
+	\column{.5\textwidth} % Right column and width
+	\includegraphics[scale=.7]{cs14.pdf}
 	
 	\end{columns}
 	\end{frame}
