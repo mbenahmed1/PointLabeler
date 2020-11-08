@@ -1,3 +1,17 @@
+# Latex
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.synctex.gz
+*.toc
+
+# C++ / CMake
 **/build
 .idea
 cmake-build-debug
@@ -12,3 +26,6 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+# misc
+.directory

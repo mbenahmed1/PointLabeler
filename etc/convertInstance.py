@@ -3,13 +3,16 @@ import os
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        print("usage: $python convertInstance.py path/to/file.txt")
+    if len(sys.argv) != 2 and len(sys.argv) != 3:
+        print("usage: $python convertInstance.py path/to/file.txt [scalefactor]")
         exit()
 
 
 
     filename = str(sys.argv[1])
+    scalefactor = 1
+    if len (sys.argv) == 3:
+        scalefactor = int(sys.argv[2])
     linecount = 0
 
     with open(filename, "r") as fin:
@@ -39,10 +42,10 @@ if __name__ == "__main__":
                 continue
 
             name = split[2].replace(" ", "_").strip('\n').strip('"')
-            x = round(float(split[0]))
-            y = round(float(split[1]))
-            w = len(name) + 2
-            h = 8
+            x = round(float(split[0]) * scalefactor)
+            y = round(float(split[1]) * scalefactor)
+            w = (len(name) + 4) * scalefactor
+            h = 6 * scalefactor
 
             print(name, x, y, w, h)
             
