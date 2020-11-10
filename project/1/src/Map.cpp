@@ -271,8 +271,8 @@ std::vector<Point>* Map::cluster_generate_points(int max_x_pos, int min_x_pos,
     std::mt19937 gen(rd()); 
     std::uniform_int_distribution<> x_distr(min_x_pos, max_x_pos);
     std::uniform_int_distribution<> y_distr(min_y_pos, max_y_pos);
-    std::uniform_int_distribution<> label_length_distr(1, max_label_length);
-    std::uniform_int_distribution<> label_height_distr(1, max_label_height);
+    std::uniform_int_distribution<> label_length_distr(0.5 * max_label_length, max_label_length);
+    std::uniform_int_distribution<> label_height_distr(0.5 * max_label_height, max_label_height);
     std::uniform_int_distribution<> label_distr(100000, 999999);
     std::uniform_int_distribution<> cluster_size_distr(1, max_cluster_size);
     std::uniform_int_distribution<> cluster_radius_distr(-(max_cluster_radius/2), (max_cluster_radius/2));
