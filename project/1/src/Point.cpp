@@ -2,16 +2,16 @@
 
 namespace PointLabeler
 {
-Point::Point(int x, int y, int label_length, int label_height, std::string label_text)
+Point::Point(int x, int y, int label_length, int label_height, std::string label_text, int is_labeled, int label_x, int label_y)
 {
     Point::x = x;
     Point::y = y;
     Point::label_height = label_height;
     Point::label_length = label_length;
     Point::label_text = label_text;
-    Point::is_labeled = 0;
-    Point::label_x = 0;
-    Point::label_y = 0;
+    Point::is_labeled = is_labeled;
+    Point::label_x = label_x;
+    Point::label_y = label_y;
 
 }
 
