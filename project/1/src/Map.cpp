@@ -127,7 +127,9 @@ std::vector<Point>* Map::load_from_file(std::string filename)
     int label_length = 0;
     int label_height = 0;
     std::string label_text = "";
-    int temp = 0;
+    int is_labeled = 0;
+    int label_x = 0;
+    int label_y = 0;
 
     std::vector<PointLabeler::Point> *points = new std::vector<Point>;
 
@@ -139,11 +141,11 @@ std::vector<Point>* Map::load_from_file(std::string filename)
         file >> label_length;
         file >> label_height;
         file >> label_text;
-        file >> temp;
-        file >> temp;
-        file >> temp;
+        file >> is_labeled;
+        file >> label_x;
+        file >> label_y;
 
-        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));        
+        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text, is_labeled, label_x, label_y));        
     }
     return points; 
 }
@@ -209,7 +211,7 @@ std::vector<Point>* Map::random_generate_points(int max_x_pos, int min_x_pos, in
         //std::cout << "x: " << x_pos << " y: " << y_pos << " label: " << label_text << std::endl;
         
         
-        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));
+        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text, 0, 0, 0));
     }
 
     return points;
@@ -298,7 +300,7 @@ std::vector<Point>* Map::cluster_generate_points(int max_x_pos, int min_x_pos,
         label_height = label_height_distr(gen);
         label_text = std::to_string(label_distr(gen));
 
-        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));
+        points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text, 0, 0, 0));
 
         for(int j = 0; j < cluster_size_distr(gen); j++)
         {
@@ -314,7 +316,7 @@ std::vector<Point>* Map::cluster_generate_points(int max_x_pos, int min_x_pos,
             label_height = label_height_distr(gen);
             label_text = std::to_string(label_distr(gen));
 
-            points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));
+            points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text, 0, 0, 0));
 
         }
     }
