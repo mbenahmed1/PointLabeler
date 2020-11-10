@@ -94,6 +94,15 @@
 %gets rid of bottom navigation symbols
 \setbeamertemplate{navigation symbols}{}
 
+
+\usepackage{amsmath}
+\usepackage{selinput}      % Halbautomatische Auswahl der Eingabecodierung
+\SelectInputMappings{      % mit Hilfe ausgewählter Glyphen
+  adieresis={ä},	   % siehe: http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt
+  germandbls={ß},
+  Euro={€}
+}
+
 \addtobeamertemplate{footline}{%
   \leavevmode%
   \hbox{%
@@ -126,7 +135,7 @@
 Universität Osnabrück \\ % Your institution for the title page
 
 \medskip
-\textit{Algorithm Engineering} % Your email address
+\textit{Æ} % Your email address
 
 
 }
