@@ -122,7 +122,6 @@ void evaluate_solution(std::vector<Point> &solution)
         {
             continue;
         }
-        std::cout << p.get_label_text() << std::endl;
         int lx = p.get_label_x();
         int ly = p.get_label_y();
         int x = p.get_x();
@@ -149,7 +148,7 @@ void evaluate_solution(std::vector<Point> &solution)
         {
             continue;
         }
-        std::cout << "ERROR: label of point " << i << "is not touching the point" << std::endl;
+        std::cout << "ERROR: label of point " << i << " ("<< p.get_label_text() << ") is not touching the point" << std::endl;
         return;
     }
     std::cout << valid << std::endl;
