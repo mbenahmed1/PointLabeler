@@ -192,12 +192,19 @@ int main(int argc, char **argv)
 
         if (arg1 == "--cluster-gen")
         {
+            int i = 1;
+            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100*i, -100*i, 100*i, -100*i, 25*i, 12*i, 2000*i, 10*i, 1000*i, 25*i);
+            for(int i = 1; i < 101; i++)
+            {
             write_filename = arg2;
             print_message("Generate cluster instance.");
-            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100, -100, 100, -100, 10, 6, 2000,
-                                                                                   10, 1000, 10);
-            print_message("Write to file \"" + write_filename + "\".");
-            map.write_to_file(points, write_filename);
+            points = map.cluster_generate_points(100*i, -100*i, 100*i, -100*i, 25*i, 12*i, 2000*i, 10*i, 1000*i, 25*i);
+            
+            
+            print_message("Write to file \"" + std::to_string(i-1) + write_filename + "\".");
+            map.write_to_file(points, std::to_string(i-1) + write_filename);
+            
+            }
             return 1;
         }
         if (arg1 == "--random-gen")
