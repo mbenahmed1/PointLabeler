@@ -104,6 +104,10 @@ void Point::set_label_pos(Point::Position pos)
 
 bool Point::is_overlapping(Point &point) const
 {
+    if (this == &point)
+    {
+        return false;
+    }
     int xPosA = get_label_x();
     int yPosA = get_label_y();
     int wA = get_label_length();

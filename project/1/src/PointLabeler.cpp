@@ -108,7 +108,8 @@ void evaluate_solution(std::vector<Point> &solution)
             }
             if (solution[i].is_overlapping(solution[j]))
             {
-                std::cout << "ERROR: point " << i << " is overlapping point " << j << std::endl;
+                std::cout << "ERROR: point " << i << " (" << solution[i].get_label_text() << ") "
+                          << "is overlapping point " << j << " (" << solution[j].get_label_text() << ") " << std::endl;
                 return;
             }
         }
@@ -117,7 +118,8 @@ void evaluate_solution(std::vector<Point> &solution)
     for (int i = 0; i < solution.size(); i++)
     {
         Point p = solution[i];
-        if (p.get_is_labeled() == 0) {
+        if (p.get_is_labeled() == 0)
+        {
             continue;
         }
         std::cout << p.get_label_text() << std::endl;
@@ -128,25 +130,42 @@ void evaluate_solution(std::vector<Point> &solution)
         int w = p.get_label_length();
         int h = p.get_label_height();
         // bottom right
-        if (lx == x && ly == y) {
+        if (lx == x && ly == y)
+        {
             continue;
         }
         // top left
-        if (lx + w == x && ly - h == y) {
+        if (lx + w == x && ly - h == y)
+        {
             continue;
         }
         // bottom left
-        if (lx == x && ly - h == y) {
+        if (lx == x && ly - h == y)
+        {
             continue;
         }
         // top right
-        if (lx + w == x && ly == y) {
+        if (lx + w == x && ly == y)
+        {
             continue;
         }
         std::cout << "ERROR: label of point " << i << "is not touching the point" << std::endl;
         return;
     }
     std::cout << valid << std::endl;
+}
+
+int get_labeled_count(std::vector<Point> &points)
+{
+    int count = 0;
+    for (auto &p : points)
+    {
+        if (p.get_is_labeled() == 1)
+        {
+            count++;
+        }
+    }
+    return count;
 }
 
 /**
@@ -220,8 +239,12 @@ int main(int argc, char **argv)
 
             // solve with greedy Algorithm
             PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
+            auto start = std::chrono::high_resolution_clock::now();
             greedyAlgorithm.solve();
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
+            std::cout << get_labeled_count(*points) << "\t" << ((double) duration)/1000 << std::endl;
             //print_message("Write to file: \"" + write_filename + "\".");
             map.write_to_file(points, write_filename);
 
@@ -238,5 +261,4 @@ int main(int argc, char **argv)
         print_usage();
         return -1;
     }
-    return 1;
 }
