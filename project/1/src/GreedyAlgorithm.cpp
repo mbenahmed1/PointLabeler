@@ -45,9 +45,6 @@ bool GreedyAlgorithm::check_overlap(std::vector<PointLabeler::Point> &labeled, P
 {
     for (auto &label : labeled)
     {
-        if (label.get_x() == point.get_x() && label.get_y() == point.get_y()) {
-            continue;
-        }
         if (label.is_overlapping(point))
         {
             return true;

@@ -94,6 +94,15 @@
 %gets rid of bottom navigation symbols
 \setbeamertemplate{navigation symbols}{}
 
+
+\usepackage{amsmath}
+\usepackage{selinput}      % Halbautomatische Auswahl der Eingabecodierung
+\SelectInputMappings{      % mit Hilfe ausgewählter Glyphen
+  adieresis={ä},	   % siehe: http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt
+  germandbls={ß},
+  Euro={€}
+}
+
 \addtobeamertemplate{footline}{%
   \leavevmode%
   \hbox{%
@@ -126,7 +135,7 @@
 Universität Osnabrück \\ % Your institution for the title page
 
 \medskip
-\textit{Algorithm Engineering} % Your email address
+\textit{Æ} % Your email address
 
 
 }
@@ -159,8 +168,9 @@ Universität Osnabrück \\ % Your institution for the title page
 	\column{.45\textwidth} % Left column and width
 	\begin{enumerate}
 	\item Generiert: gleichverteilte Punkte\pause
-	\item Geografisch: Bahnhöfe, Städte, Sehenswürdigkeiten\pause
-	\item Regulär: Gitter mit Punkten
+	\item Generiert: Cluster mit umliegenden Punkten\pause
+	\item Geografisch: Bahnhöfe, Städte, Sehenswürdigkeiten
+	
 	\end{enumerate}
 	
 
@@ -196,10 +206,51 @@ Universität Osnabrück \\ % Your institution for the title page
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
 	\column{.5\textwidth} % Right column and width
-	\textbf{Gleichverteilte Punkte}
+	\textbf{Generiert: Gleichverteilte Punkte}
+	\begin{itemize}
+		\item 100 Instanzen mit 100 - 10000 Punkten
+	\end{itemize}
 	
 	\column{.45\textwidth} % Left column and width
-	\includegraphics[scale=.5]{random_50.pdf}
+	\includegraphics[scale=.5]{random.pdf}
+	
+
+	\end{columns}
+	\end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{(A) Benchmark-Instanzen}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Right column and width
+	\textbf{Generiert: Gleichverteilte Punkte}
+	\begin{itemize}
+		\item 100 Instanzen mit 100 - 10000 Punkten
+	\end{itemize}
+	
+	\column{.45\textwidth} % Left column and width
+	\includegraphics[scale=.5]{random_big.pdf}
+	
+
+	\end{columns}
+	\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{(A) Benchmark-Instanzen}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Right column and width
+	\textbf{Generiert: Gleichverteilte Punkte}\\
+	Erfolgsquote des primitiven Algorithmus
+	
+	
+	\column{.45\textwidth} % Left column and width
+	\includegraphics[scale=.45]{random_solve.pdf}
 	
 
 	\end{columns}
@@ -209,6 +260,65 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 
+\begin{frame}
+	\frametitle{(A) Benchmark-Instanzen}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Right column and width
+	\textbf{Generiert: Cluster}
+	\begin{itemize}
+		\item 100 Instanzen mit 100 - 10000 Punkten
+		\item Clusterzentren umgeben von weiteren Punkten
+	\end{itemize}
+	
+	\column{.45\textwidth} % Left column and width
+	\includegraphics[scale=.5]{cluster.pdf}
+	
+
+	\end{columns}
+	\end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{(A) Benchmark-Instanzen}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Right column and width
+	\textbf{Generiert: Cluster}
+	\begin{itemize}
+		\item 100 Instanzen mit 100 - 10000 Punkten
+		\item Clusterzentren umgeben von weiteren Punkten
+	\end{itemize}
+	
+	\column{.45\textwidth} % Left column and width
+	\includegraphics[scale=.5]{cluster_big.pdf}
+	
+
+	\end{columns}
+	\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{(A) Benchmark-Instanzen}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Right column and width
+	\textbf{Generiert: Gleichverteilte Punkte}\\
+	Erfolgsquote des primitiven Algorithmus
+	
+	
+	\column{.45\textwidth} % Left column and width
+	\includegraphics[scale=.45]{cluster_solve.pdf}
+	
+
+	\end{columns}
+	\end{frame}
+
+%------------------------------------------------
+
 
 \begin{frame}
 	\frametitle{(A) Benchmark-Instanzen}
@@ -217,7 +327,7 @@ Universität Osnabrück \\ % Your institution for the title page
 	\column{.5\textwidth} % Right column and width
 	\textbf{Geografische Punkte}
 	\begin{itemize}
-		\item Sehenswürdigkeiten
+		\item Sehenswürdigkeiten in Berlin: 57\% Erfolgsquote
 	\end{itemize}
 	
 	\column{.45\textwidth} % Left column and width
@@ -230,7 +340,6 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 
-
 \begin{frame}
 	\frametitle{(A) Benchmark-Instanzen}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
@@ -238,8 +347,7 @@ Universität Osnabrück \\ % Your institution for the title page
 	\column{.5\textwidth} % Right column and width
 	\textbf{Geografische Punkte}
 	\begin{itemize}
-		\item Sehenswürdigkeiten
-		\item Bahnhöfe
+		\item Deutsche Bahnhöfe: 69\% Erfolgsquote
 	\end{itemize}
 	
 	\column{.45\textwidth} % Left column and width
@@ -251,7 +359,6 @@ Universität Osnabrück \\ % Your institution for the title page
 
 %------------------------------------------------
 
-
 \begin{frame}
 	\frametitle{(A) Benchmark-Instanzen}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
@@ -259,9 +366,7 @@ Universität Osnabrück \\ % Your institution for the title page
 	\column{.5\textwidth} % Right column and width
 	\textbf{Geografische Punkte}
 	\begin{itemize}
-		\item Sehenswürdigkeiten
-		\item Bahnhöfe
-		\item Städte
+		\item US Städte: 68\% Erfolgsquote
 	\end{itemize}
 	
 	\column{.45\textwidth} % Left column and width
@@ -274,29 +379,21 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 
-
-
 \begin{frame}
-	\frametitle{Aufgabe 1.1 (a) - Externe Queue}
-	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+\frametitle{(B) Algorithmus}
 	
-	\column{.45\textwidth} % Left column and width
-	\textbf{Queue}
-	\begin{enumerate}
-	\item \texttt{void enqueue(type v)}
-	\item \texttt{type v dequeue()}
-	\end{enumerate}
+\textbf{Greedy Heuristik}
+\begin{itemize}
+	\item über alle Punkte iterieren
+	\item für jeden Punkt alle Labelpositionen ausprobieren
+	\item erste Labelposition ohne Konflikt übernehmen
+	\item Laufzeit: $\mathcal{O}(n^2)$
+\end{itemize}
 	
-	\column{.5\textwidth} % Right column and width
-	\begin{itemize}
-		\item Queue funktioniert nach dem First-In/First-Out Prinzip (\textbf{FIFO})
-		\item Array Implementation mit \textbf{front} und \textbf{rear} Zeiger
-	\end{itemize}
-	
-	\end{columns}
-	\end{frame}
-%------------------------------------------------
 
+\end{frame}
+
+%------------------------------------------------
 
 
 
