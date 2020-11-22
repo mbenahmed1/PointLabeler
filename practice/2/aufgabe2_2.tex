@@ -124,7 +124,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Aufgabe 1.1]{Aufgabe 2.2} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Aufgabe 1.1]{Aufgabe 2.0 \& 2.2} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{T. Adam, M. ben Ahmed} % Your name
 \institute[UOS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -133,7 +133,7 @@
 Universität Osnabrück \\ % Your institution for the title page
 
 \medskip
-\textit{Algorithm Engineering} % Your email address
+\textit{Æ} % Your email address
 
 
 }
@@ -163,9 +163,6 @@ Universität Osnabrück \\ % Your institution for the title page
 		\item Anzahl an Elemente bis Level $j$ entspricht: $ \sum_{i = 1}^{j} |\mathcal{L}_i|$
 		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i| \leq \ell_{j+1} = B \cdot \alpha^{j+1}$
 		\item[]
-		%\item $\sum_{i = 1}^{j} \frac{(cM)^{i+1}}{B^{i}} < \frac{(cM)^{j+2}}{B^{j+1}} = cM \cdot (\frac{cM}{B})^{j+1} = cM \cdot \alpha^{j+1}$
-		%\item $N \leq cM \cdot \alpha^{j+1}$ mit $cM > 3B$
-		%\item $N \leq B \cdot \alpha^{j+1} \Rightarrow N/B \leq \alpha^{j+1} \Rightarrow \log_{\alpha}(N/B) \leq j$
 	\end{itemize}
 
 		\quad $N \leq B \cdot \alpha^{j+1} \Rightarrow$ 
@@ -185,12 +182,16 @@ Universität Osnabrück \\ % Your institution for the title page
 \begin{frame}
 \frametitle{Aufgabe 2.0 Lemma D}
 
-\textbf{Lemma D - store(i,S)}
+\textbf{Lemma D}
 \begin{itemize}
 	\item $\mathtt{store(i,S), compact(i)}$ und $\mathtt{merge(i-1,S,S')}$ benötigen maximal $\frac{3\ell_i}{B}$ I/Os
+	\item[]
+\end{itemize}
+\textbf{store(i,S)}
+\begin{itemize}
 	\item $\mathtt{store(i,S)}$: Speichere $S$ in einem freien Slot von $\mathcal{L}_i$ und verschiebe $B$ Elemente nach $H_2$
 	\item Über $S$ iterieren (lesen und schreiben): $2\frac{\ell_i}{B}$ I/Os $(|S| < \ell_i)$
-	\item $B$ Elemente in $H_2$ speichern: $2$ I/0s
+	\item $B$ Elemente in $H_2$ speichern: $2$ I/Os
 	\item Mit $\ell_i > \ell_1 = cM > 3B$ gilt:
 	\item $2\frac{\ell_i}{B} + 2 < 3\frac{\ell_i}{B}$
 	
