@@ -158,14 +158,26 @@ Universität Osnabrück \\ % Your institution for the title page
 	
 	\textbf{Lemma C}
 	\begin{itemize}
-		\item Sei $cM > 3B$. Nach $N$ Operationen werden maximal $L \leq \log_{\alpha}(N/B)$ Level benutzt.
-		\item $l_i = B \cdot \alpha^i$
-		\item $|L_i| = \mu \cdot B \cdot \alpha^i = \frac{cM}{B} \cdot B \cdot \alpha^i = cM \cdot \frac{(cM)^i}{B^{i}} = \frac{(cM)^{i+1}}{B^{i}}$
-		\item Anzahl an Elemente bis Level $j$ entspricht $ \sum_{i = 1}^{j} |L_i|$
-		\item $\sum_{i = 1}^{j} \frac{(cM)^{i+1}}{B^{i}} < \frac{(cM)^{j+2}}{B^{j+1}} = cM \cdot (\frac{cM}{B})^{j+1} = cM \cdot \alpha^{j+1}$
-		\item $N \leq cM \cdot \alpha^{j+1}$ mit $cM > 3B$
-		\item $N \leq B \cdot \alpha^{j+1} \Rightarrow N/B \leq \alpha^{j+1} \Rightarrow \log_{\alpha}(N/B) \leq j$
+		\item Zu Zeigen: Nach $N$ Operationen werden maximal $L \leq \log_{\alpha}(\frac{N}{B})$ Level benutzt.
+		\item Im schlimmsten fall $N$ insert Operationen
+		\item Anzahl an Elemente bis Level $j$ entspricht: $ \sum_{i = 1}^{j} |\mathcal{L}_i|$
+		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i| \leq \ell_{j+1} = B \cdot \alpha^{j+1}$
+		\item[]
+		%\item $\sum_{i = 1}^{j} \frac{(cM)^{i+1}}{B^{i}} < \frac{(cM)^{j+2}}{B^{j+1}} = cM \cdot (\frac{cM}{B})^{j+1} = cM \cdot \alpha^{j+1}$
+		%\item $N \leq cM \cdot \alpha^{j+1}$ mit $cM > 3B$
+		%\item $N \leq B \cdot \alpha^{j+1} \Rightarrow N/B \leq \alpha^{j+1} \Rightarrow \log_{\alpha}(N/B) \leq j$
 	\end{itemize}
+
+		\quad $N \leq B \cdot \alpha^{j+1} \Rightarrow$ 
+		$\frac{N}{B} \leq \alpha^{j+1} \Rightarrow$
+		$\log_{\alpha}(\frac{N}{B}) \leq j + 1$ 
+		
+	\begin{itemize}
+		\item[]
+		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i|$ ist somit erfüllt $\forall j \geq \log_{\alpha}(\frac{N}{B})$
+		\item $L \leq \log_{\alpha}(\frac{N}{B})$
+	\end{itemize}
+		
 	
 	\end{frame}
 %------------------------------------------------
@@ -175,12 +187,12 @@ Universität Osnabrück \\ % Your institution for the title page
 
 \textbf{Lemma D - store(i,S)}
 \begin{itemize}
-	\item $\mathtt{store(i,S), compact(i)}$ und $\mathtt{merge(i-1,S,S')}$ benötigen maximal $\frac{3l_i}{B}$ I/Os
-	\item $\mathtt{store(i,S)}$: Speichere $S$ in einem freien Slot von $L_i$ und verschiebe $B$ Elemente nach $H_2$
-	\item Über $S$ iterieren (lesen und schreiben): $2\frac{l_i}{B}$ I/Os $(|S| < l_i)$
+	\item $\mathtt{store(i,S), compact(i)}$ und $\mathtt{merge(i-1,S,S')}$ benötigen maximal $\frac{3\ell_i}{B}$ I/Os
+	\item $\mathtt{store(i,S)}$: Speichere $S$ in einem freien Slot von $\mathcal{L}_i$ und verschiebe $B$ Elemente nach $H_2$
+	\item Über $S$ iterieren (lesen und schreiben): $2\frac{\ell_i}{B}$ I/Os $(|S| < \ell_i)$
 	\item $B$ Elemente in $H_2$ speichern: $2$ I/0s
-	\item Mit $l_i > l_1 = cM > 3B$ gilt:
-	\item $2\frac{l_i}{B} + 2 < 3\frac{l_i}{B}$
+	\item Mit $\ell_i > \ell_1 = cM > 3B$ gilt:
+	\item $2\frac{\ell_i}{B} + 2 < 3\frac{\ell_i}{B}$
 	
 \end{itemize}
 
@@ -193,10 +205,10 @@ Universität Osnabrück \\ % Your institution for the title page
 \textbf{compact(i)}
 \begin{itemize}
 	\item $\mathtt{compact(i)}$: Verschmelzen von 2 kleinen Slots zu einem großen Slot auf Level $i$
-	\item Mergen der kleinen Slots maximal: $\frac{l_i}{2B} + \frac{l_i}{2B} + \frac{l_i}{B} = 2\frac{l_i}{B}$ I/Os
+	\item Mergen der kleinen Slots maximal: $\frac{\ell_i}{2B} + \frac{\ell_i}{2B} + \frac{\ell_i}{B} = 2\frac{\ell_i}{B}$ I/Os
 	\item Blöcke in $H_2$ verschmelzen: $3$ I/Os
-	\item Mit $l_i > l_1 = cM > 3B$ gilt:
-	\item $2\frac{l_i}{B} + 3 < 3\frac{l_i}{B}$
+	\item Mit $\ell_i > \ell_1 = cM > 3B$ gilt:
+	\item $2\frac{\ell_i}{B} + 3 < 3\frac{\ell_i}{B}$
 \end{itemize}
 
 \end{frame}
@@ -207,10 +219,10 @@ Universität Osnabrück \\ % Your institution for the title page
 
 \textbf{merge(i-1,S,S')}
 \begin{itemize}
-	\item $\mathtt{merge(i-1,S,S')}$: Verschmelzen alle Slots aus $L_{i-1}$ und $S$ zu einer Folge $S'$
-	\item $\mu$ Slots in $L_{i-1}$ mit jeweils Größe $l_{i-1}$ und $|S| \leq  l_{i-1}$
-	\item Jeder Block aus $L_{i-1}$ und $S$ wird einmal gelesen und geschrieben 
-	\item $2\mu\frac{l_{i-1}}{B} + 2\frac{l_{i-1}}{B} = 2\frac{l_{i}}{B} + 2\frac{l_{i-1}}{B} < 3\frac{l_i}{B}$ I/Os
+	\item $\mathtt{merge(i-1,S,S')}$: Verschmelzen alle Slots aus $\mathcal{L}_{i-1}$ und $S$ zu einer Folge $S'$
+	\item $\mu$ Slots in $\mathcal{L}_{i-1}$ mit jeweils Größe $l_{i-1}$ und $|S| \leq  \ell_{i-1}$
+	\item Jeder Block aus $\mathcal{L}_{i-1}$ und $S$ wird einmal gelesen und geschrieben 
+	\item $2\mu\frac{\ell_{i-1}}{B} + 2\frac{\ell_{i-1}}{B} = 2\frac{\ell_{i}}{B} + 2\frac{\ell_{i-1}}{B} < 3\frac{\ell_i}{B}$ I/Os
 \end{itemize}
 
 \end{frame}
