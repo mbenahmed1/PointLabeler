@@ -12,6 +12,7 @@ Point::Point(int x, int y, int label_length, int label_height, std::string label
     Point::is_labeled = 0;
     Point::label_x = 0;
     Point::label_y = 0;
+    Point::neighborhood_count = -1;
 
 }
 
@@ -148,6 +149,21 @@ void Point::clear()
     is_labeled = 0;
     label_x = 0;
     label_y = 0;
+}
+
+int Point::get_neighborhood_count() const
+{
+    return Point::neighborhood_count;
+}
+
+void Point::set_neighborhood_count(int number_of_neighbors)
+{
+    Point::neighborhood_count = number_of_neighbors;
+}
+
+bool Point::compare(const PointLabeler::Point &first, const PointLabeler::Point &second)
+{
+    return first.get_neighborhood_count() > second.get_neighborhood_count(); 
 }
 
 }

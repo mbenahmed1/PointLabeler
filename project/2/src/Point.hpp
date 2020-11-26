@@ -46,6 +46,12 @@ public:
 
     std::string get_label_text() const;
 
+    int get_neighborhood_count() const;
+
+    void set_neighborhood_count(int number_of_neighbors);
+
+    static bool compare(const PointLabeler::Point &first, const PointLabeler::Point &second);
+
 private:
     int x;
     int y;
@@ -55,6 +61,7 @@ private:
     int is_labeled;
     int label_x;
     int label_y;
+    int neighborhood_count;
 
 
 };

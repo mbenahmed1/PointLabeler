@@ -78,23 +78,9 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
         {
             x_mean = x_sum / neighbor_count;
             y_mean = y_sum / neighbor_count;
+            points[i].set_neighborhood_count(neighbor_count);
         }
         
-        
-        /*        
-        // this should never be the case other than symmetrical constructed instances
-        if(points[i].get_x() == x_mean or points[i].get_y() == y_mean)
-        {
-            std::cout << "Error: Centroid same as point itself. Something went terribly wrong" << std::endl;
-            break;
-        }
-        */
-
-        std::cout << x_mean << " " << y_mean << std::endl;
-       
-        //std::cout << (points[i].get_x() - x_mean) << " " << (points[i].get_y() - y_mean) << std::endl;
-        //std::cout << neighbor_count << std::endl;
-
 
         // centroid lies right of point i
         if(points[i].get_x() - x_mean < 0)
@@ -131,7 +117,12 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
         x_mean = 0.0;
         y_mean = 0.0;
         neighbor_count = 0;
-    }
+    } // end of label computing loop
+
+    
+    // sorting the points by their neighborhood count descending
+    // so that points with many neighbors get placed the first
+    std::sort(points.begin(), points.end(), PointLabeler::Point::compare);
 
     // setting labels according to prefered direction    
     for(int i = 0; i < points.size(); i++)
@@ -239,7 +230,6 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
         points[i].clear();
     }
     
-
     return points;
 }
 
@@ -248,6 +238,5 @@ float Normals::euclidean_distance(PointLabeler::Point point_a, PointLabeler::Poi
     return std::sqrt((point_a.get_x() - point_b.get_x()) * (point_a.get_x() - point_b.get_x())
          + (point_a.get_y() - point_b.get_y()) * (point_a.get_y() - point_b.get_y()));
 }
-
 
 }
