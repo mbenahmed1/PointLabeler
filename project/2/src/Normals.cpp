@@ -59,22 +59,20 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
             //std::cout << i << " " << j << ": " << distances[i][j] << std::endl;
             if(distances[i][j] <= Normals::radius)
             {
-                
                 x_sum += points[j].get_x();
                 y_sum += points[j].get_y();
-
                 neighbor_count++;
-
-               
             }
         }
-
+    
         // no neightbors within reach
         if(neighbor_count == 0)
         {
             // set default pos
-            // maybe figure out someting smarter later
-            prefered_label_pos[i] = Point::bottom_left;
+            // maybe figure out something smarter later
+            //std::cout << "No neighbors" << std::endl;
+            prefered_label_pos[i] = Point::top_left;
+            continue;
         }
         else
         {
@@ -92,6 +90,10 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
         }
         */
 
+        std::cout << x_mean << " " << y_mean << std::endl;
+       
+        //std::cout << (points[i].get_x() - x_mean) << " " << (points[i].get_y() - y_mean) << std::endl;
+        //std::cout << neighbor_count << std::endl;
 
 
         // centroid lies right of point i
@@ -124,9 +126,10 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
                 prefered_label_pos[i] = Point::top_right;
             }
         }
-
-        x_mean = 0;
-        y_mean = 0;
+        x_sum = 0;
+        y_sum = 0;
+        x_mean = 0.0;
+        y_mean = 0.0;
         neighbor_count = 0;
     }
 

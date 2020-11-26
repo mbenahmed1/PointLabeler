@@ -15,6 +15,11 @@ Point::Point(int x, int y, int label_length, int label_height, std::string label
 
 }
 
+Point::~Point()
+{
+    // nothing to do here (?)
+}
+
 int Point::get_x() const
 {
     return Point::x;

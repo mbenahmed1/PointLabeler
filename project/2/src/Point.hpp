@@ -22,6 +22,8 @@ public:
 
     Point(int x, int y, int label_length, int label_height, std::string label_text);
 
+    ~Point();
+
     int get_x() const;
 
     int get_y() const;
