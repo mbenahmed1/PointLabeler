@@ -175,7 +175,7 @@ int main(int argc, char **argv)
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
            
-            PointLabeler::Normals normas = PointLabeler::Normals(100);
+            PointLabeler::Normals normas = PointLabeler::Normals(50);
             normas.solve(*points);
            
             

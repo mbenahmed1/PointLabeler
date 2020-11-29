@@ -3,88 +3,6 @@
 namespace PointLabeler{
 
 
-std::vector<std::string> cities = { "Berlin", 
-                                    "Hamburg", 
-                                    "Munic", 
-                                    "Cologne", 
-                                    "Frankfurt",
-                                    "Stuttgart",
-                                    "Düsseldorf",
-                                    "Dortmund",
-                                    "Essen",
-                                    "Leipzig",
-                                    "Bremen",
-                                    "Dresden",
-                                    "Hanover",
-                                    "Nuremberg",
-                                    "Duisburg",
-                                    "Bochum",
-                                    "Wuppertal",
-                                    "Bielefeld",
-                                    "Bonn",
-                                    "Münster",
-                                    "Karlsruhe",
-                                    "Mannheim",
-                                    "Augsburg",
-                                    "Wiesbaden",
-                                    "Gelsenkirchen",
-                                    "Mönchengladbach",
-                                    "Braunschweig",
-                                    "Chemnitz",
-                                    "Kiel",
-                                    "Aachen",
-                                    "Halle",
-                                    "Magdeburg",
-                                    "Freiburg",
-                                    "Krefeld",
-                                    "Lübeck",
-                                    "Oberhausen",
-                                    "Erfurt",
-                                    "Mainz",
-                                    "Rostock",
-                                    "Kassel",
-                                    "Hagen",
-                                    "Hamm",
-                                    "Saarbrücken",
-                                    "Mülheim",
-                                    "Potsdam",
-                                    "Ludwigshafen",
-                                    "Oldenburg",
-                                    "Leverkusen",
-                                    "Osnabrück",
-                                    "Solingen",
-                                    "Heidelberg",
-                                    "Herne",
-                                    "Neuss",
-                                    "Darmstadt",
-                                    "Paderborn",
-                                    "Regensburg",
-                                    "Ingolstadt",
-                                    "Würzburg",
-                                    "Fürth",
-                                    "Wolfsburg",
-                                    "Führt",
-                                    "Wolfsburg",
-                                    "Offenbach",
-                                    "Ulm",
-                                    "Heilbronn",
-                                    "Pforzheim",
-                                    "Göttingen",
-                                    "Bottrop",
-                                    "Trier",
-                                    "Recklingshausen",
-                                    "Bremerhaven",
-                                    "Koblenz", 
-                                    "BergischGladbach",
-                                    "Jena",
-                                    "Remscheid",
-                                    "Erlangen",
-                                    "Moers",
-                                    "Siegen",
-                                    "Hildesheim",
-                                    "Salzgitter"};
-
-
 Map::Map(std::string filename)
 {
     Map::filename = filename;
@@ -144,7 +62,7 @@ std::vector<Point>* Map::load_from_file(std::string filename)
         file >> temp;
 
         points->push_back(Point(x_pos, y_pos, label_length, label_height, label_text));        
-    }
+    }    
     return points; 
 }
 

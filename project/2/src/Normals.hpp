@@ -6,6 +6,7 @@
 #include "Point.hpp"
 #include "GreedyAlgorithm.hpp"
 #include <cmath>
+#include <algorithm>
 
 
 
@@ -27,7 +28,6 @@ private:
     int radius;
 
     static float euclidean_distance(PointLabeler::Point point_a, PointLabeler::Point point_b);
-
 };
 }
 #endif //POINTLABELER_NORMALS_HPP
