@@ -22,6 +22,8 @@ if __name__ == "__main__":
     rH = []
     draw = []
     
+    labeled = 0
+    points = 0
 
     with open(filename) as data:
 
@@ -42,7 +44,14 @@ if __name__ == "__main__":
             rX.append(int(item[6]))
             rY.append(int(item[7]))
 
+            points += 1
+            if int(item[5]) != 0:
+                labeled += 1 
+
     
+    print(f"labeled {labeled}/{points} points ({100 * labeled/points}%)")
+
+
     def plot_rect(ax, x, y, w, h):
         rect = plt.Rectangle((x,y), w, -h, edgecolor="k")
         ax.add_patch(rect)
