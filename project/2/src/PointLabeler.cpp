@@ -262,9 +262,15 @@ int main(int argc, char **argv)
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             
 
+            // print how many % were labeled
+            int labeled_count = get_labeled_count(*points);
+            int label_count = points->size();
+            float rate = 0.0;
+            rate = labeled_count / (float)label_count;
 
             std::cout << get_labeled_count(*points) << "\t" << ((double) duration)/1000 << std::endl;
             //print_message("Write to file: \"" + write_filename + "\".");
+            print_message("Labeled Rate: " + std::to_string(rate) + "%");
             map.write_to_file(points, write_filename);
 
             return 1;
