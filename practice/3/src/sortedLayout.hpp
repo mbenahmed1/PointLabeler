@@ -10,9 +10,11 @@ class sortedLayout
 {
 public:
 
-    explicit sortedLayout(int keys[], int size);
+    explicit sortedLayout(int n);
 
     int find(int key);
+
+    ~sortedLayout();
 
 private:
 

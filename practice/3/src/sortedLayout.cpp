@@ -3,10 +3,16 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "sortedLayout.hpp"
 
-sortedLayout::sortedLayout(int *keys, int size) : sorted_keys(keys), size(size), depth(0)
+sortedLayout::sortedLayout(int n) : size(std::pow(2, n) - 1), depth(0)
 {
+    sorted_keys = new int[size];
+
+    for (int i = 0; i < size; i++) {
+        sorted_keys[i] = i+1;
+    }
 }
 
 int sortedLayout::find(int key)
@@ -34,6 +40,11 @@ int sortedLayout::find_rec(int key, int a, int b) {
     if (key > current_key) {
         return find_rec(key, root_index + 1, b);
     }
+}
+
+sortedLayout::~sortedLayout()
+{
+    delete[] sorted_keys;
 }
 
 
