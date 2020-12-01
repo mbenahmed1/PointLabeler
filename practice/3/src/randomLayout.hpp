@@ -10,9 +10,11 @@ class randomLayout
 {
 public:
 
-    explicit randomLayout(int keys[], int size);
+    explicit randomLayout(int n);
 
     int find(int key);
+
+    ~randomLayout();
 
 private:
 
