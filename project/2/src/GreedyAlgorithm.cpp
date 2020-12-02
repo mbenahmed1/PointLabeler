@@ -10,8 +10,10 @@ namespace PointLabeler
 GreedyAlgorithm::GreedyAlgorithm(std::vector<PointLabeler::Point> &points) : points(points)
 {}
 
-void GreedyAlgorithm::solve()
+int GreedyAlgorithm::solve()
 {
+
+    int labeled_count = points.size();
     //std::vector<PointLabeler::Point> labeled_points = std::vector<PointLabeler::Point>();
     for (auto &point : points)
     {
@@ -35,10 +37,10 @@ void GreedyAlgorithm::solve()
         {
             continue;
         }
+        labeled_count--;
         point.clear();
     }
-
-
+    return labeled_count;
 }
 
 bool GreedyAlgorithm::check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point)
