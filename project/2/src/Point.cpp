@@ -175,4 +175,9 @@ void Point::set_label_enum(Position label_enum)
     Point::label_enum = label_enum;
 }
 
+Point::Position Point::get_label_enum()
+{
+    return Point::label_enum;
+}
+
 }
