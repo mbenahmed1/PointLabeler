@@ -4,7 +4,9 @@
 #include <vector>
 #include <iostream>
 #include "Point.hpp"
+#include "GreedyAlgorithm.hpp"
 #include <cmath>
+#include <random>
 
 namespace PointLabeler
 {
@@ -13,12 +15,18 @@ class SimulatedAnnealing
 {
 
 public:
-    explicit SimulatedAnnealing(int steps);
+    explicit SimulatedAnnealing(int steps, float alpha);
 
-    void solve(std::vector<PointLabeler::Point> &points);
+    int solve(std::vector<PointLabeler::Point> &points);
+
+    float get_alpha();
 
 private:
+
+    int set_labels(std::vector<Point> &points, Point &point, Point::Position pos);
+    float euler(int c_temp, int c_current, int t_i);
     int steps;
+    float alpha;
 };
 }
 #endif //POINTLABELER_SIMULATEDANNEALING_HPP

@@ -267,7 +267,7 @@ int main(int argc, char **argv)
 
            
             // solve with simulated annealing algorithm
-            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(2000);
+            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(20, 0.9999);
             auto start = std::chrono::high_resolution_clock::now();
             sa.solve(*points);
             auto end = std::chrono::high_resolution_clock::now();
