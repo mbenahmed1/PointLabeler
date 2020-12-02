@@ -21,7 +21,7 @@ class Normals
 public:
     explicit Normals(int radius);
 
-    void solve(std::vector<PointLabeler::Point> &points);
+    int solve(std::vector<PointLabeler::Point> &points);
 
 
 private:
