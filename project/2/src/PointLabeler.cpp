@@ -13,6 +13,7 @@
 #include "Map.hpp"
 #include "GreedyAlgorithm.hpp"
 #include "Normals.hpp"
+#include "SimulatedAnnealing.hpp"
 
 using namespace PointLabeler;
 
@@ -244,6 +245,8 @@ int main(int argc, char **argv)
             //print_message("Read from file: \"" + read_filename + "\".");
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
+           
+           
             /*
             // solve with greedy Algorithm
             PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
@@ -253,14 +256,25 @@ int main(int argc, char **argv)
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             */
 
-
+            /*
             // solve with normal algorithm
             PointLabeler::Normals normals = PointLabeler::Normals(3000);
             auto start = std::chrono::high_resolution_clock::now();
             normals.solve(*points);
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            */
+
+           
+            // solve with simulated annealing algorithm
+            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(2000);
+            auto start = std::chrono::high_resolution_clock::now();
+            sa.solve(*points);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             
+
+
 
             // print how many % were labeled
             int labeled_count = get_labeled_count(*points);
