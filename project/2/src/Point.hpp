@@ -52,6 +52,10 @@ public:
 
     static bool compare(const PointLabeler::Point &first, const PointLabeler::Point &second);
 
+    void set_label_enum(Position label_enum);
+
+    Position get_label_enum();
+
 private:
     int x;
     int y;
@@ -62,6 +66,7 @@ private:
     int label_x;
     int label_y;
     int neighborhood_count;
+    Position label_enum;
 
 
 };

@@ -91,18 +91,22 @@ void Point::set_label_pos(Point::Position pos)
         case top_left:
             set_label_x(x - w);
             set_label_y(y + h);
+            PointLabeler::Point::set_label_enum(top_left);
             break;
         case top_right:
             set_label_x(x);
             set_label_y(y + h);
+            PointLabeler::Point::set_label_enum(top_right);
             break;
         case bottom_left:
             set_label_x(x - w);
             set_label_y(y);
+            PointLabeler::Point::set_label_enum(bottom_left);
             break;
         case bottom_right:
             set_label_x(x);
             set_label_y(y);
+            PointLabeler::Point::set_label_enum(bottom_right);
             break;
     }
     set_is_labeled(1);
@@ -164,6 +168,11 @@ void Point::set_neighborhood_count(int number_of_neighbors)
 bool Point::compare(const PointLabeler::Point &first, const PointLabeler::Point &second)
 {
     return first.get_neighborhood_count() > second.get_neighborhood_count(); 
+}
+
+void Point::set_label_enum(Position label_enum)
+{
+    Point::label_enum = label_enum;
 }
 
 }
