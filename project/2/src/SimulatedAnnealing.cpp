@@ -26,10 +26,8 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
     std::vector<PointLabeler::Point> s_opt;
     std::vector<PointLabeler::Point> s;
 
-    for(int i = 0; i < points.size(); i++)
-    {
-        s_opt.push_back(Point(points[i].get_x(), points[i].get_y(), points[i].get_label_length(), points[i].get_label_height(), points[i].get_label_text()));
-    }
+    // copy solution
+    s_opt = SimulatedAnnealing::copy(points);
 
 
     // init random devices
@@ -60,12 +58,12 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
     // c(s')
     int c_temp = c_opt;
     // c(s)
-    int c_current;
+    int c_current = c_opt;
 
     int temp = c_opt;
 
     // t_i
-    float t_i = 100.0;
+    float t_i = 10.0;
 
     
 
@@ -93,30 +91,27 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
         }
         
         // Generate random solution (c(s'))
-        temp = SimulatedAnnealing::set_labels(points, points[index], static_cast<Point::Position>(pos_distr(gen)));
+        temp = SimulatedAnnealing::set_labels(points, points[index], static_cast<Point::Position>(pos));
         
         //std::cout << std::to_string(temp) << std::endl;
-        
         c_current += temp;
 
         //std::cout << std::to_string(c_current) << std::endl;
-
-        std::cout << std::to_string(euler(c_temp, c_current, t_i)) << std::endl;
+        std::cout << "e:" << std::to_string(euler(c_temp, c_current, t_i)) << std::endl;
         
         //std::cout << std::to_string(annealing_distr(gen)) << std::endl;
-        
         //std::cout << std::to_string(c_current <= c_temp) << std::endl;
 
-        std::cout << std::to_string(annealing_distr(gen) < euler(c_temp, c_current, t_i)) << std::endl;
+        //std::cout << std::to_string(annealing_distr(gen) < euler(c_temp, c_current, t_i)) << std::endl;
 
         // if c(s') <= c(s) or Rand(0,1) < e⁻⁽⁾ then
-        if(c_current >= c_temp || annealing_distr(gen) < euler(c_temp, c_current, t_i))
+        if(c_current <= c_temp || annealing_distr(gen) < euler(c_temp, c_current, t_i))
         {
 
             // s:=s'
             for(int i = 0; i < points.size(); i++)
             {
-                //s[i] = points[i];
+                s = SimulatedAnnealing::copy(points);
             }
             
             // if c(s') < c* then
@@ -127,7 +122,7 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
                 c_temp = c_current;
             }
         }
-        //std::cout << std::to_string(c_current / (float)points.size()) << std::endl;
+        std::cout << std::to_string(c_current / (float)points.size()) << std::endl;
         i++;
         t_i = get_alpha()*t_i;
         //std::cout << std::to_string(t_i) << std::endl;
@@ -140,6 +135,21 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
 float SimulatedAnnealing::euler(int c_temp, int c_current, int t_i)
 {
     return std::exp(-( (c_temp - c_current) / (float)(t_i) ) );
+}
+
+std::vector<PointLabeler::Point> SimulatedAnnealing::copy(std::vector<PointLabeler::Point> vector)
+{
+    std::vector<PointLabeler::Point> vector_copy;
+
+    for(int i = 0; i < vector.size(); i++)
+    {
+        vector_copy.push_back(Point(vector[i].get_x(), vector[i].get_y(), 
+                                    vector[i].get_label_length(), 
+                                    vector[i].get_label_height(), 
+                                    vector[i].get_label_text()));
+    }
+
+    return vector_copy;
 }
 
 float SimulatedAnnealing::get_alpha()

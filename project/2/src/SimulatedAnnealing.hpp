@@ -25,6 +25,7 @@ private:
 
     int set_labels(std::vector<Point> &points, Point &point, Point::Position pos);
     float euler(int c_temp, int c_current, int t_i);
+    std::vector<PointLabeler::Point> copy(std::vector<PointLabeler::Point> vector);
     int steps;
     float alpha;
 };
