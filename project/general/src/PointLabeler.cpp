@@ -270,7 +270,7 @@ int main(int argc, char **argv)
             // solve with simulated annealing algorithm
             // choose alpha close to 1, the closer the solver the decay
             
-            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(200000, 0.9999, 1.0);
+            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(200000, 0.9999, 0.1);
             auto start = std::chrono::high_resolution_clock::now();
             sa.solve(*points);
             auto end = std::chrono::high_resolution_clock::now();

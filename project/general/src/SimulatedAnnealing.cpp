@@ -120,7 +120,7 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
        
        
         // reheating after some time
-        if(t(i) < 0.0001)
+        if(t(i) < 0.00001)
         {
             i = 1;
         }
