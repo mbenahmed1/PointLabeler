@@ -3,7 +3,7 @@
 namespace PointLabeler
 {
 
-SimulatedAnnealing::SimulatedAnnealing(int steps, float alpha) : steps(steps), alpha(alpha)
+SimulatedAnnealing::SimulatedAnnealing(int steps, double alpha, double t_i) : steps(steps), alpha(alpha), t_i(t_i)
 {}
 
 int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
@@ -22,13 +22,6 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
         return -1;
     }
 
-    // copying original vector
-    std::vector<PointLabeler::Point> s_opt;
-    std::vector<PointLabeler::Point> s;
-
-    // copy solution
-    s_opt = SimulatedAnnealing::copy(points);
-
 
     // init random devices
     std::random_device rd; 
@@ -40,101 +33,147 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
     std::uniform_int_distribution<> pos_distr(Point::Position::top_left, Point::Position::bottom_right);
     // random distribution for annealing descision
     std::uniform_real_distribution<> annealing_distr(0, 1);
-    
-    // initializing greedy solver
-    PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(points);
-
-    
 
 
-    // start SA
-
-    // step counter
-    int i = 0;
-
-    // generating initial solution 
-    int c_opt = greedyAlgorithm.solve();
-    
-    // c(s')
-    int c_temp = c_opt;
-    // c(s)
-    int c_current = c_opt;
-
-    int temp = c_opt;
-
-    // t_i
-    float t_i = 10.0;
-
+    std::vector<Point> s;
+    std::vector<Point> s_dash;
+    s = copy(points);
+    int c_s_dash;
     
 
-    // varibales for loop
-    // declare outside for better performance
+    //******** i = 0;
+    
+    int step_count = 1;
+    int i = 1;
+
+    //******** Generiere eine initiale Lösung s E S;
+
+    GreedyAlgorithm greedy = GreedyAlgorithm(s);
+
+    //******* c* = c(s);
+    int c_s = greedy.solve();
+
+    //****** s_opt = s;
+    std::vector<Point> s_opt = copy(s);
+
+    //******** c* = c(s)
+    int c_opt = c_s;
+
+
     int index;
-    Point::Position current_label_pos;
     int pos;
-    
-    
+    Point::Position label;
+    float progress = 0.0;
+    int solution_size = s.size();
 
+    while(step_count <= steps)
+    {
+        
+        
+        // copying old solution to s_dash
+        s_dash = copy(s);
+        // copying old c value to c_s_dash
+        c_s_dash = c_s;
 
-    while(i < SimulatedAnnealing::steps)
-    {   
         // generate random index to be changed
         index = index_distr(gen);
-        // get label pos of index to be changed
-        Point::Position current_label_pos = points[index].get_label_enum();
-        
-        // generate new position different from original position
+
+        // generate random label pos
         pos = pos_distr(gen);
-        while(pos == current_label_pos)
+
+        // while it is the same as before generate new one
+        while(pos == s_dash[index].get_label_enum())
         {
             pos = pos_distr(gen);
         }
-        
-        // Generate random solution (c(s'))
-        temp = SimulatedAnnealing::set_labels(points, points[index], static_cast<Point::Position>(pos));
-        
-        //std::cout << std::to_string(temp) << std::endl;
-        c_current += temp;
 
-        //std::cout << std::to_string(c_current) << std::endl;
-        std::cout << "e:" << std::to_string(euler(c_temp, c_current, t_i)) << std::endl;
+        // setting changed label and returning c delta
+        // counting of labeled points does not seem to work properly
+        // though results don't take negative effect
+
+        c_s_dash += set_labels(s_dash, s_dash[index], static_cast<Point::Position>(pos));
+       
+        c_s_dash = c(s_dash);
+
+        //std::cout << c_s_dash << std::endl;
+        //std::cout << euler(c_s_dash, c_s, t(i)) << std::endl;
+        //std::cout << t(i) << std::endl;
+        //std::cout << c_s_dash << ">=" << c_s << std::endl;
+        //std::cout << annealing_distr(gen) << "<" << euler(c_s_dash, c_s, t(i)) << std::endl;
+        //std::cout << annealing_distr(gen) << std::endl;
+        //std::cout << c_s_dash - c_s << std::endl;
+
+        //if(c_s_dash >= c_s || annealing_distr(gen) < euler(c_s_dash, c_s, t(i)))
         
-        //std::cout << std::to_string(annealing_distr(gen)) << std::endl;
-        //std::cout << std::to_string(c_current <= c_temp) << std::endl;
-
-        //std::cout << std::to_string(annealing_distr(gen) < euler(c_temp, c_current, t_i)) << std::endl;
-
-        // if c(s') <= c(s) or Rand(0,1) < e⁻⁽⁾ then
-        if(c_current <= c_temp || annealing_distr(gen) < euler(c_temp, c_current, t_i))
+        if(c_s_dash >= c_s || annealing_distr(gen) < t(i))
         {
+            s = SimulatedAnnealing::copy(s_dash);
+            c_s = c_s_dash;
 
-            // s:=s'
-            for(int i = 0; i < points.size(); i++)
+            if(c_s_dash > c_opt)
             {
-                s = SimulatedAnnealing::copy(points);
-            }
-            
-            // if c(s') < c* then
-            if(c_current > c_opt)
-            {
-                s_opt = s;
-                c_opt = c_current;
-                c_temp = c_current;
+                s_opt = SimulatedAnnealing::copy(s_dash);
+                c_opt = c_s_dash;
             }
         }
-        std::cout << std::to_string(c_current / (float)points.size()) << std::endl;
-        i++;
-        t_i = get_alpha()*t_i;
-        //std::cout << std::to_string(t_i) << std::endl;
-    }                                                                                                                                                                                                                                                                                                                                                                                                                                   
-    
+        step_count++;
+       
+       
+        // reheating after some time
+        if(t(i) < 0.0001)
+        {
+            i = 1;
+        }
+        
 
+
+        i++;
+        
+        
+        progress = c_opt / (float)solution_size;
+        int barWidth = 50;
+
+        std::cout << "[";
+        int pos = barWidth * progress;
+        for (int i = 0; i < barWidth; ++i) 
+            {
+            if (i < pos)
+            {
+                std::cout << "=";
+            }
+            else if (i == pos)
+            {
+                std::cout << ">";
+            }
+            else
+            {
+                std::cout << " ";
+            }
+        }
+        std::cout << "] " << float(progress * 100.0) << " %\r";
+        std::cout << "Step " << step_count << " of " << steps << " t_i: " << t(i) << "  c_opt: ";
+        std::cout.flush();
+
+    }
+
+    points = copy(s_opt);
 
 }
 
-float SimulatedAnnealing::euler(int c_temp, int c_current, int t_i)
+float SimulatedAnnealing::euler(int c_s_dash, int c_s, int t_i)
 {
-    return std::exp(-( (c_temp - c_current) / (float)(t_i) ) );
+    //std::cout << (double)(c_s_dash - c_s) << std::endl;
+    //std::cout << (double)(c_s_dash - c_s) / (double)(t_i) << std::endl;
+    if(t_i < 1)
+    {
+        return 0.0;
+    }
+    return std::exp(-( (double)(c_s_dash - c_s) / (double)(t_i) ) );
+}
+
+double SimulatedAnnealing::t(int i)
+{
+    return SimulatedAnnealing::get_t_i() * std::pow(SimulatedAnnealing::get_alpha(), i);
 }
 
 std::vector<PointLabeler::Point> SimulatedAnnealing::copy(std::vector<PointLabeler::Point> vector)
@@ -146,7 +185,12 @@ std::vector<PointLabeler::Point> SimulatedAnnealing::copy(std::vector<PointLabel
         vector_copy.push_back(Point(vector[i].get_x(), vector[i].get_y(), 
                                     vector[i].get_label_length(), 
                                     vector[i].get_label_height(), 
-                                    vector[i].get_label_text()));
+                                    vector[i].get_label_text(),
+                                    vector[i].get_is_labeled(),
+                                    vector[i].get_label_x(),
+                                    vector[i].get_label_y(),
+                                    vector[i].get_neighborhood_count(),
+                                    vector[i].get_label_enum()));
     }
 
     return vector_copy;
@@ -157,9 +201,28 @@ float SimulatedAnnealing::get_alpha()
     return SimulatedAnnealing::alpha;
 }
 
+
+double SimulatedAnnealing::get_t_i()
+{
+    return SimulatedAnnealing::t_i;
+}
+int SimulatedAnnealing::c(std::vector<PointLabeler::Point> &points)
+{
+    
+    int c = 0;
+    for(int i = 0; i < points.size(); i++)
+    {
+        //std::cout << points[i].get_is_labeled() << std::endl;
+        if(points[i].get_is_labeled() == 1)
+        {
+            c++;
+        }
+    }
+    return c;
+}
+
 int SimulatedAnnealing::set_labels(std::vector<Point> &points, Point &point, Point::Position pos)
 {
-
     int labeled = point.get_is_labeled(); 
 
     point.set_label_pos(pos);

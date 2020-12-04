@@ -184,6 +184,7 @@ int main(int argc, char **argv)
     std::string arg3;
     std::string arg4;
 
+
     // if 3 args are given (generate random with filepath)
     if (argc == 3)
     {
@@ -267,7 +268,9 @@ int main(int argc, char **argv)
 
            
             // solve with simulated annealing algorithm
-            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(2000, 0.9999);
+            // choose alpha close to 1, the closer the solver the decay
+            
+            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(200000, 0.9999, 1.0);
             auto start = std::chrono::high_resolution_clock::now();
             sa.solve(*points);
             auto end = std::chrono::high_resolution_clock::now();
