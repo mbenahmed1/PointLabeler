@@ -19,7 +19,7 @@ int main()
     //sortedLayout layout(n);
     //randomLayout layout(n);
     //levelLayout layout(n);
-    vanEmdeBoasLayout layout(5);
+    vanEmdeBoasLayout layout(8);
 
     layout.find(63);
 }

@@ -68,16 +68,13 @@ void vanEmdeBoasLayout::split(std::vector<int>& vec)
     std::vector<int> b = all[1];
 
     // split a
-    int subtree_size = a.size();
-    if (subtree_size == 1) {
-        subtree_size = 3;
-    }
-    int subtree_count = b.size() / subtree_size;
+    int subtree_count = a.size() + 1;
+    int subtree_size = b.size() / subtree_count;
     split(a);
 
     // foreach tree c in b: split c
     for (int i = 0; i < b.size(); i+=subtree_size) {
-        std::vector<int> c(b.begin() + i, b.begin() + i + 3);
+        std::vector<int> c(b.begin() + i, b.begin() + i + subtree_size);
         split(c);
     }
 
