@@ -157,6 +157,7 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
     }
 
     points = copy(s_opt);
+    return c_opt;
 
 }
 
