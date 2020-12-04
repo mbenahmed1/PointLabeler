@@ -8,7 +8,7 @@ Point::Point(int x, int y, int label_length, int label_height, std::string label
 
 Point::Point(int x, int y, int label_length, int label_height, std::string label_text, 
                                 int is_labeled, int label_x, int label_y, int neighborhood_count, 
-                                Position label_enum) : x(x), y(x), label_length(label_length), 
+                                Position label_enum) : x(x), y(y), label_length(label_length), 
                                 label_height(label_height), label_text(label_text), is_labeled(is_labeled), 
                                 label_x(label_x), label_y(label_y), neighborhood_count(neighborhood_count), 
                                 label_enum(label_enum) {}
