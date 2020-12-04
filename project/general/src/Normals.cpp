@@ -6,7 +6,7 @@ namespace PointLabeler
 Normals::Normals(int radius) : radius(radius)
 {}
 
-std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point> &points)
+int Normals::solve(std::vector<PointLabeler::Point> &points)
 {
     
 
@@ -119,11 +119,12 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
         neighbor_count = 0;
     } // end of label computing loop
 
-    
     // sorting the points by their neighborhood count descending
     // so that points with many neighbors get placed the first
     std::sort(points.begin(), points.end(), PointLabeler::Point::compare);
 
+
+    int labeled_count = points.size();
     // setting labels according to prefered direction    
     for(int i = 0; i < points.size(); i++)
     {
@@ -227,10 +228,11 @@ std::vector<PointLabeler::Point> Normals::solve(std::vector<PointLabeler::Point>
             }
         }
         // resetting label information if label was overlapping
+        labeled_count--;
         points[i].clear();
     }
-    
-    return points;
+
+    return labeled_count;
 }
 
 float Normals::euclidean_distance(PointLabeler::Point point_a, PointLabeler::Point point_b)

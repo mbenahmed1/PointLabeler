@@ -18,12 +18,14 @@ class GreedyAlgorithm
 public:
     explicit GreedyAlgorithm(std::vector<PointLabeler::Point> &points);
 
-    void solve();
+    int solve();
+
+    static bool check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point);
 
 private:
     std::vector<PointLabeler::Point> &points;
 
-    static bool check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point);
+    
 };
 
 }

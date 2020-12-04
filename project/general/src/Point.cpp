@@ -2,19 +2,16 @@
 
 namespace PointLabeler
 {
-Point::Point(int x, int y, int label_length, int label_height, std::string label_text)
-{
-    Point::x = x;
-    Point::y = y;
-    Point::label_height = label_height;
-    Point::label_length = label_length;
-    Point::label_text = label_text;
-    Point::is_labeled = 0;
-    Point::label_x = 0;
-    Point::label_y = 0;
-    Point::neighborhood_count = -1;
+Point::Point(int x, int y, int label_length, int label_height, std::string label_text) : 
+                                            Point(x, y, label_length, label_height, 
+                                            label_text, 0, 0, 0, 0, Position::top_left){}
 
-}
+Point::Point(int x, int y, int label_length, int label_height, std::string label_text, 
+                                int is_labeled, int label_x, int label_y, int neighborhood_count, 
+                                Position label_enum) : x(x), y(y), label_length(label_length), 
+                                label_height(label_height), label_text(label_text), is_labeled(is_labeled), 
+                                label_x(label_x), label_y(label_y), neighborhood_count(neighborhood_count), 
+                                label_enum(label_enum) {}
 
 Point::~Point()
 {
@@ -91,18 +88,22 @@ void Point::set_label_pos(Point::Position pos)
         case top_left:
             set_label_x(x - w);
             set_label_y(y + h);
+            PointLabeler::Point::set_label_enum(top_left);
             break;
         case top_right:
             set_label_x(x);
             set_label_y(y + h);
+            PointLabeler::Point::set_label_enum(top_right);
             break;
         case bottom_left:
             set_label_x(x - w);
             set_label_y(y);
+            PointLabeler::Point::set_label_enum(bottom_left);
             break;
         case bottom_right:
             set_label_x(x);
             set_label_y(y);
+            PointLabeler::Point::set_label_enum(bottom_right);
             break;
     }
     set_is_labeled(1);
@@ -164,6 +165,16 @@ void Point::set_neighborhood_count(int number_of_neighbors)
 bool Point::compare(const PointLabeler::Point &first, const PointLabeler::Point &second)
 {
     return first.get_neighborhood_count() > second.get_neighborhood_count(); 
+}
+
+void Point::set_label_enum(Position label_enum)
+{
+    Point::label_enum = label_enum;
+}
+
+Point::Position Point::get_label_enum()
+{
+    return Point::label_enum;
 }
 
 }

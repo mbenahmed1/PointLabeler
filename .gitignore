@@ -28,3 +28,4 @@ _deps
 
 # misc
 .directory
+.vscode

@@ -12,6 +12,8 @@
 #include <chrono>
 #include "Map.hpp"
 #include "GreedyAlgorithm.hpp"
+#include "Normals.hpp"
+#include "SimulatedAnnealing.hpp"
 
 using namespace PointLabeler;
 
@@ -182,6 +184,7 @@ int main(int argc, char **argv)
     std::string arg3;
     std::string arg4;
 
+
     // if 3 args are given (generate random with filepath)
     if (argc == 3)
     {
@@ -243,15 +246,48 @@ int main(int argc, char **argv)
             //print_message("Read from file: \"" + read_filename + "\".");
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
+           
+           
+            /*
             // solve with greedy Algorithm
             PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
             auto start = std::chrono::high_resolution_clock::now();
             greedyAlgorithm.solve();
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            */
+
+            /*
+            // solve with normal algorithm
+            PointLabeler::Normals normals = PointLabeler::Normals(3000);
+            auto start = std::chrono::high_resolution_clock::now();
+            normals.solve(*points);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            */
+
+           
+            // solve with simulated annealing algorithm
+            // choose alpha close to 1, the closer the solver the decay
+            
+            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(200000, 0.9999, 0.1);
+            auto start = std::chrono::high_resolution_clock::now();
+            sa.solve(*points);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            
+
+
+
+            // print how many % were labeled
+            int labeled_count = get_labeled_count(*points);
+            int label_count = points->size();
+            float rate = 0.0;
+            rate = labeled_count / (float)label_count;
 
             std::cout << get_labeled_count(*points) << "\t" << ((double) duration)/1000 << std::endl;
             //print_message("Write to file: \"" + write_filename + "\".");
+            print_message("Labeled Rate: " + std::to_string(rate) + "%");
             map.write_to_file(points, write_filename);
 
             return 1;

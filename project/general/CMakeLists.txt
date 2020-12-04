@@ -7,6 +7,7 @@ set(POINTLABELER_SOURCES
     src/PointLabeler.cpp
     src/Map.cpp
     src/Normals.cpp
+    src/SimulatedAnnealing.cpp
     src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp)
 
 # set compiler warnings

@@ -20,7 +20,11 @@ public:
 
     void clear();
 
-    Point(int x, int y, int label_length, int label_height, std::string label_text, int is_labeled, int label_x, int label_y);
+    Point(int x, int y, int label_length, int label_height, std::string label_text);
+
+    Point(int x, int y, int label_length, int label_height, std::string label_text, int is_labeled, int label_x, int label_y, int neighborhood_count, Position label_enum);
+
+    ~Point();
 
     int get_x() const;
 
@@ -44,6 +48,16 @@ public:
 
     std::string get_label_text() const;
 
+    int get_neighborhood_count() const;
+
+    void set_neighborhood_count(int number_of_neighbors);
+
+    static bool compare(const PointLabeler::Point &first, const PointLabeler::Point &second);
+
+    void set_label_enum(Position label_enum);
+
+    Position get_label_enum();
+
 private:
     int x;
     int y;
@@ -53,6 +67,8 @@ private:
     int is_labeled;
     int label_x;
     int label_y;
+    int neighborhood_count;
+    Position label_enum;
 
 
 };
