@@ -3,6 +3,7 @@
 #include "sortedLayout.hpp"
 #include "randomLayout.hpp"
 #include "levelLayout.hpp"
+#include "vanEmdeBoasLayout.hpp"
 
 /* Example perfectly balanced binary search tree
                4
@@ -13,11 +14,12 @@
  */
 int main()
 {
-    int n = 6;
+    int n = 4;
 
-    sortedLayout layout(n);
+    //sortedLayout layout(n);
     //randomLayout layout(n);
     //levelLayout layout(n);
+    vanEmdeBoasLayout layout(5);
 
     layout.find(63);
 }

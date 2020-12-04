@@ -17,6 +17,8 @@ public:
 
     ~levelLayout();
 
+    int* level_keys;
+
 private:
 
     int find_rec(int key, int current_node);
@@ -28,7 +30,7 @@ private:
     void print_keys();
 
     int depth;
-    int* level_keys;
+
     int size;
 };
 
