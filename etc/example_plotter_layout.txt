@@ -1,0 +1,11 @@
+#_2
+t_Titel
+x_X-Achsen Beschriftung
+y_Y-Achsen Beschriftung
+label_Labelname1
+label_Labelname2
+0.1 10 0.2 10
+0.9 20 0.1 20
+0.1 30 0.5 30
+0.2 40 0.1 40
+0.9 50 0.4 50
