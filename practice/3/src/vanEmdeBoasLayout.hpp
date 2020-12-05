@@ -38,6 +38,10 @@ private:
 
     void print_keys();
 
+    int BFStovEB(int index, int h);
+
+    int height(int index);
+
     void print_vector(const std::vector<int> &vec);
 
     std::vector<int> tree;

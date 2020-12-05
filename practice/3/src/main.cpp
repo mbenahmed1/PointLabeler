@@ -21,7 +21,7 @@ int main()
     //levelLayout layout(n);
     vanEmdeBoasLayout layout(8);
 
-    layout.find(63);
+    layout.find(9);
 }
 
 

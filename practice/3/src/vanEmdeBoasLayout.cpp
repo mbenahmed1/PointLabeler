@@ -23,19 +23,54 @@ vanEmdeBoasLayout::vanEmdeBoasLayout(int n) : size(std::pow(2, n) - 1), depth(0)
     print_vector(test);
 
     //print_vector(extract_top(test));
-    split(test);
+    if (h % 2 == 0) {
+        split(test);
+    }
+    else {
+        int root_index = test.size() / 2;
+        tree.push_back(test[root_index]);
+
+        std::vector<int> left(test.begin(), test.begin() + root_index);
+        std::vector<int> right(test.begin() + root_index + 1, test.end());
+        split(left);
+        split(right);
+    }
+    //split(test);
     print_vector(tree);
+
+    //for (int i = 0; i < size; i++) {
+    //    std::cout << BFStovEB(i + 1, 4) << std::endl;
+    //}
 
 }
 
 int vanEmdeBoasLayout::find(int key)
 {
-    return 0;
+    return find_rec(key, 0);
 }
 
 int vanEmdeBoasLayout::find_rec(int key, int current_node)
 {
-    return 0;
+    if (current_node >= size) {
+        std::cout << "key does not exist!" << std::endl;
+        return -1;
+    }
+    int value = tree[current_node];
+    if (value == key) {
+        std::cout << "found key " << key << " at depth: " << depth << std::endl;
+        return value;
+    }
+    depth++;
+    if (value < key) {
+        current_node += 0;
+        int index = BFStovEB(2 * current_node + 2, h);
+        return find_rec(key, index);
+    }
+    else {
+        current_node += 0;
+        int index = BFStovEB(2 * current_node + 1, h);
+        return find_rec(key, index);
+    }
 }
 
 void vanEmdeBoasLayout::print_keys()
@@ -159,6 +194,53 @@ void vanEmdeBoasLayout::write_small_tree(std::vector<int> &vec)
     tree.push_back(vec[0]);
     tree.push_back(vec[2]);
 }
+
+// BFS Index to vEB index conversion algorithm
+int vanEmdeBoasLayout::BFStovEB(int index, int h)
+{
+    index = index + 1;
+    if (index <= 1)
+    {
+        return index - 1;
+    }
+    int currh = height(index);
+    int remainder = index & ~(1 << currh);
+    // calculate offset when h is not a power of 2
+    int disttobottom = h - currh - 1;
+    int thing = disttobottom ^ h;
+    int afterthing = height(thing);
+    int topxor = 1 << afterthing;
+    int habove = h & (topxor - 1);
+    int tothehabove = (1 << (h - habove));
+    index = (index & (tothehabove - 1)) + tothehabove;
+    currh -= habove;
+    int offset = (1 << habove) - 1 +(remainder >> currh) * ((1 << topxor) - 1);
+    // calculate spot in h = power of 2
+    if (currh <= 0)
+    {
+        return offset;
+    }
+    int leftspine = (currh & 1) +
+            ((currh & 2) >> 1) * 3 +
+            ((currh & 4) >> 2) * 15 +
+            ((currh & 8) >> 3) * 255 +
+            ((currh & 16) >> 4) * ((1 << 16) - 1);
+    remainder = index & ~(1 << currh);
+    int shift = (remainder & 1) * (currh & 1) +
+                ((remainder >> (currh & 1)) & 3) * ((1 << (currh & 2)) - 1) +
+                ((remainder >> (currh & 3)) & 15) * ((1 << (currh & 4)) - 1) +
+                ((remainder >> (currh & 7)) & 255) * ((1 << (currh & 8)) - 1) +
+                ((remainder >> (currh & 15)) & 0xFFFF) * ((1 << (currh & 16)) - 1);
+
+    return offset + leftspine + shift;
+}
+
+int vanEmdeBoasLayout::height(int index)
+{
+    return std::log2(index);
+}
+
+
 
 
 
