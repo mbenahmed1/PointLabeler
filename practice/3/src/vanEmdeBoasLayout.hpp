@@ -20,9 +20,13 @@ public:
 
 private:
 
-    int find_rec(int key, int current_node);
+    int find_rec(int key, int veb, int bfs);
 
-    void generate_keys();
+    void generate_keys(std::vector<int> &vec);
+
+    void generate_keys_from_bfs();
+
+    void generate_keys_rec(int index, int element, std::vector<int> &vec, int current_depth);
 
     void split(std::vector<int>& vec);
 
@@ -38,16 +42,20 @@ private:
 
     void print_keys();
 
-    int BFStovEB(int index, int h);
+    int bfs_to_veb(int index, int h);
+
+    void create_levels();
+
+    void create_levels_rec(int key, int pos, int decrement);
 
     int height(int index);
 
     void print_vector(const std::vector<int> &vec);
 
-    std::vector<int> tree;
+    int* tree;
     int h;
     int depth;
-    int* keys;
+    int* bfs;
     int size;
 };
 

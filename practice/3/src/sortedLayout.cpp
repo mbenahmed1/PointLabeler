@@ -17,6 +17,7 @@ sortedLayout::sortedLayout(int n) : size(std::pow(2, n) - 1), depth(0)
 
 int sortedLayout::find(int key)
 {
+    depth = 0;
     return find_rec(key, 0, size - 1);
 }
 
