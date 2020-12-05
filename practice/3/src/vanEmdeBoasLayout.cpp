@@ -62,7 +62,7 @@ int vanEmdeBoasLayout::find_rec(int key, int veb, int bfs)
     }
     int value = tree[veb - 1];
     if (value == key) {
-        std::cout << "found key " << key << " at depth: " << depth << std::endl;
+        //std::cout << "found key " << key << " at depth: " << depth << std::endl;
         return value;
     }
     depth++;

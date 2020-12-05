@@ -27,7 +27,7 @@ int sortedLayout::find_rec(int key, int a, int b) {
     int current_key = sorted_keys[root_index];
 
     if (current_key == key) {
-        std::cout << "found key " << key << " at depth: " << depth << std::endl;
+        //std::cout << "found key " << key << " at depth: " << depth << std::endl;
         return current_key;
     }
     if (a == b) {

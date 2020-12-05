@@ -24,12 +24,12 @@ int levelLayout::find(int key)
 int levelLayout::find_rec(int key, int current_node)
 {
     if (current_node >= size) {
-        std::cout << "key does not exist!" << std::endl;
+        //std::cout << "key does not exist!" << std::endl;
         return -1;
     }
     int value = level_keys[current_node];
     if (value == key) {
-        std::cout << "found key " << value << " at depth: " << depth << std::endl;
+        //std::cout << "found key " << value << " at depth: " << depth << std::endl;
         return value;
     }
     depth++;

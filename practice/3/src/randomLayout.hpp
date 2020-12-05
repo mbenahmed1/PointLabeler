@@ -20,9 +20,10 @@ private:
 
     int find_rec(int key, int a, int b);
 
+    void print_keys();
+
     int depth;
     int* random_keys;
-    int* key_indices;
     int size;
 };
 

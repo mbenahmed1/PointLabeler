@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     int n = std::stoi(argv[1]);
 
     int size = std::pow(2, n) - 1;
-    int random_samples = 10;
+    int random_samples = 1000;
     int* random_keys = new int[random_samples];
 
     std::mt19937 gen(31); // seed the generator
@@ -33,57 +33,58 @@ int main(int argc, char **argv)
 
     if (l == 's')
     {
-        std::vector<int> res(size);
-        sortedLayout layout(n);
+        sortedLayout *layout = new sortedLayout(n);
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
-            res[i] = layout.find(random_keys[i]);
+            layout->find(random_keys[i]);
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-        std::cout << n << ", " << ((long double) duration)/1000000 << std::endl;
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";
+        delete layout;
     }
     if (l == 'r')
     {
-        std::vector<int> res(size);
-        randomLayout layout(n);
+        randomLayout *layout = new randomLayout(n);
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
-            res[i] = layout.find(random_keys[i]);
+            layout->find(random_keys[i]);
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-        std::cout << n << ", " << ((long double) duration)/1000000 << std::endl;
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";
+        delete layout;
     }
     if (l == 'l')
     {
-        std::vector<int> res(size);
-        levelLayout layout(n);
+        levelLayout *layout = new levelLayout(n);
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
-            res[i] = layout.find(random_keys[i]);
+            layout->find(random_keys[i]);
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-        std::cout << n << ", " << ((long double) duration)/1000000 << std::endl;
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";
+        delete layout;
     }
     if (l == 'v')
     {
-        std::vector<int> res(size);
-        vanEmdeBoasLayout layout(n);
+        vanEmdeBoasLayout *layout = new vanEmdeBoasLayout(n);
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
-            std::cout << random_keys[i] << std::endl;
-            res[i] = layout.find(random_keys[i]);
+            layout->find(random_keys[i]);
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-        std::cout << n << ", " << ((long double) duration)/1000000 << std::endl;
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";;
+        delete layout;
     }
+
+    delete[] random_keys;
 
 }
 
