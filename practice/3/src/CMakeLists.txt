@@ -3,4 +3,4 @@ project(SearchTreeLayout)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(layout main.cpp sortedLayout.cpp sortedLayout.hpp randomLayout.cpp randomLayout.hpp levelLayout.cpp levelLayout.hpp)
+add_executable(layout main.cpp sortedLayout.cpp sortedLayout.hpp randomLayout.cpp randomLayout.hpp levelLayout.cpp levelLayout.hpp vanEmdeBoasLayout.cpp vanEmdeBoasLayout.hpp)
