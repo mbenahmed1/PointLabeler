@@ -39,7 +39,7 @@ if __name__ == "__main__":
         y_max = int(sys.argv[5])
         # case params did not match pattern
     else:
-        print("usage: $python plotter.py path/to/file.txt or python plotter.py path/to/file.txt [x_min] [x_max] [y_min] [y_max]")
+        print("usage: $python3 plotter.py path/to/file.txt or $python3 plotter.py path/to/file.txt [x_min] [x_max] [y_min] [y_max]")
         exit()
         
     print("reading \"" + filename + "\".")
