@@ -1,49 +1,53 @@
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import numpy as np
 import sys
-import itertools
+
 
 # ***** format ***** 
 # #_[num_variables]
 # t_[title]
 # x_[x_axis_caption]
 # y_[y_axis_caption]
+# format_[x_min] [x_max] [y_min] [y_max]
 # label_[labelname_1]
 # ...
 # label_[labelname_n]
-# [x_1] [y_1] ... [x_n][y_n]
+# [y_1] [x_1] ... [y_n][x_n]
 # ...
 
 markers = ["h", "x", "o", "v", "^", "<", ">", "1", "2", "3", "4", "8", "s", "*", "X", "D"]
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        print("usage: $python plotter.py path/to/file.txt")
+    scaled = 0
+    x_max = 0
+    x_min = 0
+    y_max = 0
+    y_min = 0
+
+    # case no scaling is beeing used
+    if len(sys.argv) == 2:
+        print("Applying default scaling.")
+        filename = str(sys.argv[1])
+        # case scaling is beeing used
+    elif len(sys.argv) == 6:
+        print("Scaling axis.")
+        scaled = 1
+        filename = str(sys.argv[1])
+        x_min = int(sys.argv[2])
+        x_max = int(sys.argv[3])
+        y_min = int(sys.argv[4])
+        y_max = int(sys.argv[5])
+        # case params did not match pattern
+    else:
+        print("usage: $python plotter.py path/to/file.txt or python plotter.py path/to/file.txt [x_min] [x_max] [y_min] [y_max]")
         exit()
+        
+    print("reading \"" + filename + "\".")
 
-    filename = str(sys.argv[1])
-
-    print("reading " + filename + " ...")
-
-
-    xA = []
-    yA = []
-    xB = []
-    yB = []
-    xC = []
-    yC = []
-    
     x_caption = ""
     y_caption = ""
     title = ""
     num_variables = 0
-
-    #x bla bla
-    #y bla bla bla
-    ## 100
-
 
     with open(filename) as data:
 
@@ -80,7 +84,7 @@ if __name__ == "__main__":
         if num_variables > 16:
             print("Too many variables. Max. num_variables = 16.")
             exit
-        
+
         # creating list of num_varibles times list
         lst = [ [] for _ in range(num_variables) ]
 
@@ -101,7 +105,7 @@ if __name__ == "__main__":
         k = 0
         for line in data:
             # if line is a head line
-            if line.startswith("#_") or line.startswith("t_") or line.startswith("x_") or line.startswith("y_") or line.startswith("label_"):
+            if line.startswith("#_") or line.startswith("t_") or line.startswith("x_") or line.startswith("y_") or line.startswith("label_") or line.startswith("format_"):
                 #print("here")
                 k += 1
                 continue
@@ -118,7 +122,7 @@ if __name__ == "__main__":
                 #print(len(item))
                 if len(item) != num_variables * 2:
                     
-                    print("Wront number of coordinates in row " + str(k))
+                    print("Wrong number of coordinates in row " + str(k))
                     exit()
                 # for each variable
                 #print(num_variables)
@@ -128,27 +132,32 @@ if __name__ == "__main__":
                     # x
                     #print(item[j])
                     #print(item[j+1])
-                    lst[j].append(item[k])
+                    lst[j].append(float(item[k]))
                     # y
-                    lst[j].append(item[k+1])
+                    lst[j].append(float(item[k+1]))
                     k += 2
-                    
-            
+     
+
+
+
+    
+    # create plots
     i = 0
     for variable in lst:
-        #print(variable)
         x = variable[1:-1:2]
         y = variable[2:len(variable):2]
         plt.plot(y, x,  marker=markers[i], linestyle='-', label=variable[0])
         i += 1
     
-    print(lst)    
-
+    if scaled == 1:
+        plt.xlim(x_min, x_max)
+        plt.ylim(y_min, y_max)
+        
+    
     plt.title(title)
     plt.xlabel(x_caption)
     plt.ylabel(y_caption)
 
-    
     
  
     plt.legend()
