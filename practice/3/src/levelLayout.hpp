@@ -19,6 +19,8 @@ public:
 
     int* level_keys;
 
+    std::vector<int> get_bfs();
+
 private:
 
     int find_rec(int key, int current_node);

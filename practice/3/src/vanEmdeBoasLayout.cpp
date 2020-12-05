@@ -8,20 +8,21 @@
 #include <set>
 #include <algorithm>
 
-vanEmdeBoasLayout::vanEmdeBoasLayout(int n) : size(std::pow(2, n) - 1), depth(0), h(n), tree()
+vanEmdeBoasLayout::vanEmdeBoasLayout(int n) : size(std::pow(2, n) - 1), depth(0), h(n)
 {
-    keys = new int[size];
-    generate_keys();
-    print_keys();
 
-    // extract top test
-    std::vector<int> test;
-    for (int i = 0; i < size; i++) {
-        test.push_back(i + 1);
-    }
+    bfs = new int[size];
+    tree = new int[size];
+    create_levels();
+    generate_keys_from_bfs();
+    delete[] bfs;
 
-    print_vector(test);
+    //std::vector<int> bfs = levell.get_bfs();
 
+    //generate_keys_from_bfs(bfs);
+    //print_vector(tree);
+
+    /*
     //print_vector(extract_top(test));
     if (h % 2 == 0) {
         split(test);
@@ -37,53 +38,100 @@ vanEmdeBoasLayout::vanEmdeBoasLayout(int n) : size(std::pow(2, n) - 1), depth(0)
     }
     //split(test);
     print_vector(tree);
+     */
+
 
     //for (int i = 0; i < size; i++) {
-    //    std::cout << BFStovEB(i + 1, 4) << std::endl;
+    //    std::cout << bfs_to_veb(i + 1, h) << std::endl;
     //}
+
 
 }
 
 int vanEmdeBoasLayout::find(int key)
 {
-    return find_rec(key, 0);
+    depth = 0;
+    return find_rec(key, 1, 1);
 }
 
-int vanEmdeBoasLayout::find_rec(int key, int current_node)
+int vanEmdeBoasLayout::find_rec(int key, int veb, int bfs)
 {
-    if (current_node >= size) {
+    if (depth >= h) {
         std::cout << "key does not exist!" << std::endl;
         return -1;
     }
-    int value = tree[current_node];
+    int value = tree[veb - 1];
     if (value == key) {
         std::cout << "found key " << key << " at depth: " << depth << std::endl;
         return value;
     }
     depth++;
     if (value < key) {
-        current_node += 0;
-        int index = BFStovEB(2 * current_node + 2, h);
-        return find_rec(key, index);
+        int bfs_index = 2 * bfs + 1;
+        int veb_index = bfs_to_veb(bfs_index, h);
+        return find_rec(key, veb_index, bfs_index);
     }
     else {
-        current_node += 0;
-        int index = BFStovEB(2 * current_node + 1, h);
-        return find_rec(key, index);
+        int bfs_index = 2 * bfs;
+        int veb_index = bfs_to_veb(bfs_index, h);
+        return find_rec(key, veb_index, bfs_index);
     }
 }
 
 void vanEmdeBoasLayout::print_keys()
 {
     for (int i = 0; i < size; i++) {
-        std::cout << keys[i] << ", ";
+        std::cout << bfs[i] << ", ";
     }
     std::cout << std::endl;
 }
-
-void vanEmdeBoasLayout::generate_keys()
+void vanEmdeBoasLayout::generate_keys_from_bfs()
 {
+    for (int i = 0; i < size; i++)
+    {
+        tree[bfs_to_veb(i + 1, h) - 1] = bfs[i];
+    }
+}
 
+
+void vanEmdeBoasLayout::generate_keys(std::vector<int> &vec)
+{
+    generate_keys_rec(0, 0, vec, 0);
+}
+
+void vanEmdeBoasLayout::generate_keys_rec(int veb, int bfs, std::vector<int> &vec, int current_depth)
+{
+    if (current_depth == h) {
+        return;
+    }
+
+    tree[veb] = vec[bfs];
+
+    int left = bfs_to_veb(2*bfs+1,h);
+    int right = bfs_to_veb(2*bfs+2,h);
+
+    generate_keys_rec(left, 2*bfs+1, vec, current_depth + 1);
+    generate_keys_rec(right, 2*bfs+2, vec, current_depth + 1);
+
+}
+
+void vanEmdeBoasLayout::create_levels()
+{
+    create_levels_rec((size + 1) /2, 0, (size + 1) / 2);
+}
+
+void vanEmdeBoasLayout::create_levels_rec(int key, int pos, int decrement) {
+    // root
+    bfs[pos] = key;
+    if (decrement == 1) {
+        return;
+    }
+    decrement /= 2;
+
+    int left = key - decrement;
+    int right = key + decrement;
+    create_levels_rec(left, 2*pos + 1, decrement);
+    create_levels_rec(right, 2*pos + 2, decrement);
 }
 
 void vanEmdeBoasLayout::split(std::vector<int>& vec)
@@ -94,7 +142,7 @@ void vanEmdeBoasLayout::split(std::vector<int>& vec)
         return;
     }
     if (vec.size() == 1) {
-        tree.push_back(vec[0]);
+        //tree.push_back(vec[0]);
         return;
     }
     // two halves a and b
@@ -118,7 +166,8 @@ void vanEmdeBoasLayout::split(std::vector<int>& vec)
 
 vanEmdeBoasLayout::~vanEmdeBoasLayout()
 {
-    delete[] keys;
+    //delete[] bfs;
+    delete[] tree;
 }
 
 
@@ -190,55 +239,100 @@ void vanEmdeBoasLayout::print_vector(const std::vector<int> & vec)
 void vanEmdeBoasLayout::write_small_tree(std::vector<int> &vec)
 {
     std::sort(vec.begin(), vec.end());
-    tree.push_back(vec[1]);
-    tree.push_back(vec[0]);
-    tree.push_back(vec[2]);
+    //tree.push_back(vec[1]);
+    //tree.push_back(vec[0]);
+    //tree.push_back(vec[2]);
+}
+
+static inline int fls(int f)
+{
+    int order;
+    for (order = 0; f; f >>= 1, order++) ;
+
+    return order;
+}
+
+static inline int ilog2(int f)
+{
+    return fls(f) - 1;
+}
+
+static inline int hyperceil(int f)
+{
+    return 1 << fls(f-1);
 }
 
 // BFS Index to vEB index conversion algorithm
-int vanEmdeBoasLayout::BFStovEB(int index, int h)
+int vanEmdeBoasLayout::bfs_to_veb(int bfs_number, int height)
 {
-    index = index + 1;
-    if (index <= 1)
-    {
-        return index - 1;
-    }
-    int currh = height(index);
-    int remainder = index & ~(1 << currh);
-    // calculate offset when h is not a power of 2
-    int disttobottom = h - currh - 1;
-    int thing = disttobottom ^ h;
-    int afterthing = height(thing);
-    int topxor = 1 << afterthing;
-    int habove = h & (topxor - 1);
-    int tothehabove = (1 << (h - habove));
-    index = (index & (tothehabove - 1)) + tothehabove;
-    currh -= habove;
-    int offset = (1 << habove) - 1 +(remainder >> currh) * ((1 << topxor) - 1);
-    // calculate spot in h = power of 2
-    if (currh <= 0)
-    {
-        return offset;
-    }
-    int leftspine = (currh & 1) +
-            ((currh & 2) >> 1) * 3 +
-            ((currh & 4) >> 2) * 15 +
-            ((currh & 8) >> 3) * 255 +
-            ((currh & 16) >> 4) * ((1 << 16) - 1);
-    remainder = index & ~(1 << currh);
-    int shift = (remainder & 1) * (currh & 1) +
-                ((remainder >> (currh & 1)) & 3) * ((1 << (currh & 2)) - 1) +
-                ((remainder >> (currh & 3)) & 15) * ((1 << (currh & 4)) - 1) +
-                ((remainder >> (currh & 7)) & 255) * ((1 << (currh & 8)) - 1) +
-                ((remainder >> (currh & 15)) & 0xFFFF) * ((1 << (currh & 16)) - 1);
+    int split;
+    int top_height, bottom_height;
+    int depth;
+    int subtree_depth, subtree_root, num_subtrees;
+    int toptree_size, subtree_size;
+    unsigned int mask;
+    int prior_length;
 
-    return offset + leftspine + shift;
+    /* if this is a size-3 tree, bfs number is sufficient */
+    if (height <= 2)
+        return bfs_number;
+
+    /* depth is level of the specific node */
+    depth = ilog2(bfs_number);
+
+    /* the vEB layout recursively splits the tree in half */
+    split = hyperceil((height + 1) / 2);
+    bottom_height = split;
+    top_height = height - bottom_height;
+
+    /* node is located in top half - recurse */
+    if (depth < top_height)
+        return bfs_to_veb(bfs_number, top_height);
+
+    /*
+     * Each level adds another bit to the BFS number in the least
+     * position.  Thus we can find the subtree root by shifting off
+     * depth - top_height rightmost bits.
+     */
+    subtree_depth = depth - top_height;
+    subtree_root = bfs_number >> subtree_depth;
+
+    /*
+     * Similarly, the new bfs_number relative to subtree root has
+     * the bit pattern representing the subtree root replaced with
+     * 1 since it is the new root.  This is equivalent to
+     * bfs' = bfs / sr + bfs % sr.
+     */
+
+    /* mask off common bits */
+    num_subtrees = 1 << top_height;
+    bfs_number &= (1 << subtree_depth) - 1;
+
+    /* replace it with one */
+    bfs_number |= 1 << subtree_depth;
+
+    /*
+     * Now we need to count all the nodes before this one, then the
+     * position within this subtree.  The number of siblings before
+     * this subtree root in the layout is the bottom k-1 bits of the
+     * subtree root.
+     */
+    subtree_size = (1 << bottom_height) - 1;
+    toptree_size = (1 << top_height) - 1;
+
+    prior_length = toptree_size +
+                   (subtree_root & (num_subtrees - 1)) * subtree_size;
+
+    return prior_length + bfs_to_veb(bfs_number, bottom_height);
 }
+
+
 
 int vanEmdeBoasLayout::height(int index)
 {
     return std::log2(index);
 }
+
 
 
 
