@@ -12,19 +12,32 @@ class vanEmdeBoasLayout
 {
 public:
 
-    explicit vanEmdeBoasLayout(int n);
+    explicit vanEmdeBoasLayout(int n, bool fast);
 
     int find(int key);
+
+    int find_fast(int key);
 
     ~vanEmdeBoasLayout();
 
 private:
 
+
+    typedef struct{
+        int value;
+        int left;
+        int right;
+    }element;
+
     int find_rec(int key, int veb, int bfs);
+
+    int find_fast_rec(int key, int index, int current_depth);
 
     void generate_keys(std::vector<int> &vec);
 
     void generate_keys_from_bfs();
+
+    void generate_nodes_from_bfs();
 
     void generate_keys_rec(int index, int element, std::vector<int> &vec, int current_depth);
 
@@ -53,6 +66,7 @@ private:
     void print_vector(const std::vector<int> &vec);
 
     int* tree;
+    element* tree2;
     int h;
     int depth;
     int* bfs;

@@ -2,6 +2,7 @@
 #include <cmath>
 #include <random>
 #include <chrono>
+#include <set>
 #include "sortedLayout.hpp"
 #include "randomLayout.hpp"
 #include "levelLayout.hpp"
@@ -72,7 +73,39 @@ int main(int argc, char **argv)
     }
     if (l == 'v')
     {
-        vanEmdeBoasLayout *layout = new vanEmdeBoasLayout(n);
+        vanEmdeBoasLayout *layout = new vanEmdeBoasLayout(n, false);
+        auto start = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < random_samples; i++)
+        {
+            layout->find(random_keys[i]);
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";;
+        delete layout;
+    }
+    if (l == 'w')
+    {
+        vanEmdeBoasLayout *layout = new vanEmdeBoasLayout(n, true);
+        auto start = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < random_samples; i++)
+        {
+            layout->find_fast(random_keys[i]);
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";;
+        delete layout;
+    }
+    if (l == 'm')
+    {
+        std::vector<int> *keys = new std::vector<int>();
+        for (int i = 1; i <= size; i++)
+        {
+            keys->push_back(i);
+        }
+        std::set<int> *layout = new std::set<int>(keys->begin(), keys->end());
+        delete keys;
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
@@ -85,7 +118,6 @@ int main(int argc, char **argv)
     }
 
     delete[] random_keys;
-
 }
 
 

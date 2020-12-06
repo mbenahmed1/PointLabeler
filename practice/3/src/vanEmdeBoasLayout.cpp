@@ -8,15 +8,21 @@
 #include <set>
 #include <algorithm>
 
-vanEmdeBoasLayout::vanEmdeBoasLayout(int n) : size(std::pow(2, n) - 1), depth(0), h(n)
+vanEmdeBoasLayout::vanEmdeBoasLayout(int n, bool fast) : size(std::pow(2, n) - 1), depth(0), h(n)
 {
-
+    tree2 = nullptr;
     bfs = new int[size];
-    tree = new int[size];
+    tree = nullptr;
     create_levels();
-    generate_keys_from_bfs();
+    if (fast)
+    {
+        generate_nodes_from_bfs();
+    }
+    else
+    {
+        generate_keys_from_bfs();
+    }
     delete[] bfs;
-
     //std::vector<int> bfs = levell.get_bfs();
 
     //generate_keys_from_bfs(bfs);
@@ -87,6 +93,7 @@ void vanEmdeBoasLayout::print_keys()
 }
 void vanEmdeBoasLayout::generate_keys_from_bfs()
 {
+    tree = new int[size];
     for (int i = 0; i < size; i++)
     {
         tree[bfs_to_veb(i + 1, h) - 1] = bfs[i];
@@ -332,6 +339,65 @@ int vanEmdeBoasLayout::height(int index)
 {
     return std::log2(index);
 }
+
+int vanEmdeBoasLayout::find_fast(int key)
+{
+    depth = 0;
+    return find_fast_rec(key,0, 0);
+}
+
+int vanEmdeBoasLayout::find_fast_rec(int key, int index, int current_depth)
+{
+    if (current_depth == h) {
+        std::cout << "key not found"  << std::endl;
+        return -1;
+    }
+
+    int value = tree2[index].value;
+
+    if (value == key) {
+        //std::cout << "key found"  << std::endl;
+        return key;
+    }
+    if (key > value) {
+        return find_fast_rec(key, tree2[index].right, current_depth + 1);
+    }
+    else {
+        return find_fast_rec(key, tree2[index].left, current_depth + 1);
+    }
+}
+
+void vanEmdeBoasLayout::generate_nodes_from_bfs()
+{
+    tree2 = new element[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        int value = bfs[i];
+        int bfs_index = i + 1;
+        int bfs_veb = bfs_to_veb(bfs_index, h) - 1;
+        tree2[bfs_veb].value = value;
+        int left_index = bfs_to_veb(2 * bfs_index, h) - 1;
+        int right_index = bfs_to_veb(2 * bfs_index + 1, h) - 1;
+        tree2[bfs_veb].left = left_index;
+        tree2[bfs_veb].right = right_index;
+    }
+
+    /*
+     *     if (value < key) {
+        int bfs_index = 2 * bfs + 1;
+        int veb_index = bfs_to_veb(bfs_index, h);
+        return find_rec(key, veb_index, bfs_index);
+    }
+    else {
+        int bfs_index = 2 * bfs;
+        int veb_index = bfs_to_veb(bfs_index, h);
+        return find_rec(key, veb_index, bfs_index);
+    }
+     */
+}
+
+
 
 
 
