@@ -1,0 +1,244 @@
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169]{beamer}
+
+\mode<presentation> {
+
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+\usepackage{amsmath}
+\usepackage{selinput}      % Halbautomatische Auswahl der Eingabecodierung
+\SelectInputMappings{      % mit Hilfe ausgewählter Glyphen
+  adieresis={ä},	   % siehe: http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt
+  germandbls={ß},
+  Euro={€}
+}
+
+\definecolor{UOSred}{rgb}{0.6745098039215686, 0.02352941176470588, 0.2039215686274510} % UBC Blue (primary)
+\definecolor{UOSgrey}{rgb}{0.8117647058823529, 0.8117647058823529, 0.8117647058823529} % UBC Grey (secondary)
+
+\setbeamercolor{palette primary}{bg=UOSred,fg=white}
+\setbeamercolor{palette secondary}{bg=UOSred,fg=white}
+\setbeamercolor{palette tertiary}{bg=UOSred,fg=white}
+\setbeamercolor{palette quaternary}{bg=UOSred,fg=white}
+\setbeamercolor{structure}{fg=UOSred} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=UOSred} % TOC sections
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[frame number]{}
+
+%gets rid of bottom navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+\addtobeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+     \insertsectionnavigationhorizontal{\paperwidth}{}{}
+  \end{beamercolorbox}}%
+
+}
+
+% Override palette coloring with secondary
+\setbeamercolor{subsection in head/foot}{bg=UOSgrey,fg=white}
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{grffile}
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\graphicspath{{images/}}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Aufgabe 1.1]{Aufgabe 3.1} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{T. Adam, M. ben Ahmed} % Your name
+\institute[UOS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+
+Universität Osnabrück \\ % Your institution for the title page
+
+\medskip
+\textit{Æ} % Your email address
+
+
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1}
+	
+	\textbf{Lemma C}
+	\begin{itemize}
+		\item Zu Zeigen: Nach $N$ Operationen werden maximal $L \leq \log_{\alpha}(\frac{N}{B})$ Level benutzt.
+		\item Im schlimmsten fall $N$ insert Operationen
+		\item Anzahl an Elemente bis Level $j$ entspricht: $ \sum_{i = 1}^{j} |\mathcal{L}_i|$
+		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i| \leq \ell_{j+1} = B \cdot \alpha^{j+1}$
+		\item[]
+	\end{itemize}
+
+		\quad $N \leq B \cdot \alpha^{j+1} \Rightarrow$ 
+		$\frac{N}{B} \leq \alpha^{j+1} \Rightarrow$
+		$\log_{\alpha}(\frac{N}{B}) \leq j + 1$ 
+		
+	\begin{itemize}
+		\item[]
+		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i|$ ist somit erfüllt $\forall j \geq \log_{\alpha}(\frac{N}{B})$
+		\item $L \leq \log_{\alpha}(\frac{N}{B})$
+	\end{itemize}
+
+	
+		
+	
+	\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Aufgabe 3.0}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.35\textwidth} % Left column and width
+	\textbf{Operationen}
+	\begin{itemize}
+		\item find()
+	\end{itemize}
+	
+	\column{.55\textwidth} % Right column and width
+	\includegraphics[scale=.6]{Figure_2.pdf}
+	
+
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Aufgabe 3.0}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.35\textwidth} % Left column and width
+	\textbf{Operationen}
+	\begin{itemize}
+		\item find()
+	\end{itemize}
+	
+	\column{.55\textwidth} % Right column and width
+	\includegraphics[scale=.6]{Figure_3.pdf}
+	
+	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Aufgabe 3.0}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.35\textwidth} % Left column and width
+	\textbf{Operationen}
+	\begin{itemize}
+		\item find()
+	\end{itemize}
+	
+	\column{.55\textwidth} % Right column and width
+	\includegraphics[scale=.6]{Figure_4.pdf}
+	
+	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+
+							
+
+\end{document} 
