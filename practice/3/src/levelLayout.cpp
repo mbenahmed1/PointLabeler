@@ -6,13 +6,18 @@
 #include "levelLayout.hpp"
 #include <cmath>
 
-
-levelLayout::levelLayout(int n) : size(std::pow(2, n) - 1), depth(0)
+levelLayout::levelLayout(int n, bool fast) : size(std::pow(2, n) - 1), depth(0)
 {
     //std::cout << size << std::endl;
+    level_nodes = nullptr;
     level_keys = new int[size];
     create_levels();
     //print_keys();
+    if (fast)
+    {
+        create_level_nodes();
+        delete level_keys;
+    }
 }
 
 int levelLayout::find(int key)
@@ -69,7 +74,6 @@ void levelLayout:: print_keys() {
 
 levelLayout::~levelLayout()
 {
-    delete[] level_keys;
 }
 
 std::vector<int> levelLayout::get_bfs()
@@ -80,4 +84,42 @@ std::vector<int> levelLayout::get_bfs()
         bfs.push_back(level_keys[i]);
     }
     return bfs;
+}
+
+void levelLayout::create_level_nodes()
+{
+    level_nodes = new element[size];
+
+    for (int i = 0; i < size; i++) {
+        level_nodes[i].value = level_keys[i];
+        level_nodes[i].left = 2 * i + 1;
+        level_nodes[i].right = 2 * i + 2;
+    }
+
+}
+
+int levelLayout::find_fast(int key)
+{
+    depth = 0;
+    return find_fast_rec(key, 0);
+}
+
+int levelLayout::find_fast_rec(int key, int current_node)
+{
+    if (current_node >= size) {
+        //std::cout << "key does not exist!" << std::endl;
+        return -1;
+    }
+    int value = level_nodes[current_node].value;
+    if (value == key) {
+        //std::cout << "found key " << value << " at depth: " << depth << std::endl;
+        return value;
+    }
+    depth++;
+    if (value < key) {
+        return find_fast_rec(key, level_nodes[current_node].right);
+    }
+    else {
+        return find_fast_rec(key, level_nodes[current_node].left);
+    }
 }

@@ -11,9 +11,11 @@ class levelLayout
 {
 public:
 
-    explicit levelLayout(int n);
+    explicit levelLayout(int n, bool fast);
 
     int find(int key);
+
+    int find_fast(int key);
 
     ~levelLayout();
 
@@ -23,9 +25,21 @@ public:
 
 private:
 
+    typedef struct{
+        int value;
+        int left;
+        int right;
+    }element;
+
+    element* level_nodes;
+
     int find_rec(int key, int current_node);
 
+    int find_fast_rec(int key, int current_node);
+
     void create_levels();
+
+    void create_level_nodes();
 
     void create_levels_rec(int key, int pos, int decrement);
 

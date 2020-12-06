@@ -60,11 +60,24 @@ int main(int argc, char **argv)
     }
     if (l == 'l')
     {
-        levelLayout *layout = new levelLayout(n);
+        levelLayout *layout = new levelLayout(n, false);
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < random_samples; i++)
         {
             layout->find(random_keys[i]);
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+        std::cout << ((long double) duration)/1000000 << " " << n << " ";
+        delete layout;
+    }
+    if (l == 'i')
+    {
+        levelLayout *layout = new levelLayout(n, true);
+        auto start = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < random_samples; i++)
+        {
+            layout->find_fast(random_keys[i]);
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
