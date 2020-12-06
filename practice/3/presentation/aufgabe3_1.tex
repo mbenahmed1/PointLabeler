@@ -153,47 +153,128 @@ Universität Osnabrück \\ % Your institution for the title page
 
 %------------------------------------------------
 
+
+
 \begin{frame}
-	\frametitle{Aufgabe 3.1}
+	\frametitle{Aufgabe 3.1 - Übersicht}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.40\textwidth} % Left column and width
+		\textbf{Testen von Suchbaum Layouts}
+		\begin{itemize}
+			\item zufällig
+			\item sortiert
+			\item level-weise
+			\item van Emde Boas
+		\end{itemize}
+
+		\column{.35\textwidth} % Right column and width
+		\includegraphics[scale=.2]{portretPeter.jpg}
+		\tiny \texttt{https://staff.fnwi.uva.nl/p.vanemdeboas/}
+		
+		
+	\end{columns}
+	\end{frame}
 	
-	\textbf{Lemma C}
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - (Perfekt) balancierter binärer Suchbaum}
+	
+	\textbf{Baumstruktur}
 	\begin{itemize}
-		\item Zu Zeigen: Nach $N$ Operationen werden maximal $L \leq \log_{\alpha}(\frac{N}{B})$ Level benutzt.
-		\item Im schlimmsten fall $N$ insert Operationen
-		\item Anzahl an Elemente bis Level $j$ entspricht: $ \sum_{i = 1}^{j} |\mathcal{L}_i|$
-		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i| \leq \ell_{j+1} = B \cdot \alpha^{j+1}$
-		\item[]
+		\item Perfekt balancierter binärer Suchbaum
+		\item linker Kindknoten $<$ Elternknoten $<$ rechter Kindknoten
+		\item $n$ Level
+		\item $2^{n}-1$ Schlüssel
+		\item Integerarray speichert die Schlüssel
 	\end{itemize}
 
-		\quad $N \leq B \cdot \alpha^{j+1} \Rightarrow$ 
-		$\frac{N}{B} \leq \alpha^{j+1} \Rightarrow$
-		$\log_{\alpha}(\frac{N}{B}) \leq j + 1$ 
-		
-	\begin{itemize}
-		\item[]
-		\item $N \leq \sum_{i = 1}^{j} |\mathcal{L}_i|$ ist somit erfüllt $\forall j \geq \log_{\alpha}(\frac{N}{B})$
-		\item $L \leq \log_{\alpha}(\frac{N}{B})$
-	\end{itemize}
-
-	
-		
-	
 	\end{frame}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Aufgabe 3.0}
+	\frametitle{Aufgabe 3.1 - Zufällig}
+	
+	\begin{center}
+		\includegraphics[scale=.8]{random_layout.pdf}\\
+		\centering \texttt{find(key)}: iteriere über array
+	\end{center}
+
+	\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Aufsteigend sortiert}
+	
+	
+	\begin{center}
+		\includegraphics[scale=.8]{sorted_layout.pdf}\\
+		\centering \texttt{find(key)}: binäre Suche	
+	\end{center}
+	\end{frame}
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Levelweise sortiert}
+	
+	
+	\begin{center}
+		\includegraphics[scale=.6]{level_layout.pdf}\\
+		\centering \texttt{find(key)}: $links(i) = 2i$, $rechts(i) = 2i+1$	
+	\end{center}
+	\end{frame}
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - van Emde Boas sortiert}
+	
+	
+	\begin{center}
+		\includegraphics[scale=.6]{veb_layout.pdf}\\
+		\centering \texttt{find(key)}: Indizes von Kindknoten können nicht in konstanter Zeit berechnet werden	
+	\end{center}
+	\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Aufgabe 3.1 - Testmaschinen}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-	\column{.35\textwidth} % Left column and width
-	\textbf{Operationen}
+	\column{.30\textwidth} % Left column and width
+	\textbf{Intel Core i5-3570K}
 	\begin{itemize}
-		\item find()
+		\item 4c/4t
+		\item 3,4 - 3,8 GHz
+		\item 6 MB L3
+		\item 8 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+		
 	\end{itemize}
 	
-	\column{.55\textwidth} % Right column and width
-	\includegraphics[scale=.6]{Figure_2.pdf}
+	\column{.30\textwidth} % Right column and width
+	\textbf{Intel Core i7-3770K}
+	\begin{itemize}
+		\item 4c/8t
+		\item 3,5 - 3,9 GHz
+		\item 8 MB L3
+		\item 16 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+		
+	\end{itemize}
 	
+
+	\column{.30\textwidth} % Right column and width
+	\textbf{Intel Core i7-8565U}
+	\begin{itemize}
+		\item 4c/8t
+		\item 1,8 - 4,6 GHz
+		\item 8MB L3
+		\item 16 GB (2400 MHz)
+		\item Linux (Arch)
+	\end{itemize}
 
 \end{columns}
 \end{frame}
@@ -201,7 +282,25 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Aufgabe 3.0}
+	\frametitle{Aufgabe 3.1}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		\textbf{Operationen}
+		\begin{itemize}
+			\item find()
+		\end{itemize}
+		
+		\column{.55\textwidth} % Right column and width
+		\includegraphics[scale=.6]{Figure_4.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
+	
+	%------------------------------------------------
+\begin{frame}
+\frametitle{Aufgabe 3.1}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
 	\column{.35\textwidth} % Left column and width
@@ -220,7 +319,7 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Aufgabe 3.0}
+\frametitle{Aufgabe 3.1}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
 	\column{.35\textwidth} % Left column and width
