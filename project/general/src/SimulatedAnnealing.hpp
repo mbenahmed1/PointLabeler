@@ -3,10 +3,10 @@
 
 #include <vector>
 #include <iostream>
-#include "Point.hpp"
-#include "GreedyAlgorithm.hpp"
 #include <cmath>
 #include <random>
+#include "Point.hpp"
+#include "GreedyAlgorithm.hpp"
 
 namespace PointLabeler
 {
@@ -19,7 +19,7 @@ public:
 
     int solve(std::vector<PointLabeler::Point> &points);
 
-    float get_alpha();
+    double get_alpha();
 
     double get_t_i();
 
@@ -28,11 +28,15 @@ public:
 private:
 
     int set_labels(std::vector<Point> &points, Point &point, Point::Position pos);
-    float euler(int c_temp, int c_current, int t_i);
+
+    double euler(int c_temp, int c_current, double t_i);
+
     std::vector<PointLabeler::Point> copy(std::vector<PointLabeler::Point> vector);
+
     int c(std::vector<PointLabeler::Point> &points);
+
     int steps;
-    float alpha;
+    double alpha;
     double t_i;
 };
 }
