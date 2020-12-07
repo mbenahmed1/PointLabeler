@@ -16,14 +16,16 @@
 #include "SimulatedAnnealing.hpp"
 
 using namespace PointLabeler;
+// default algorithm
+const std::string DEFAULT_SOLVER = "SA";
 
 // default parameters for Simulated Annealing
-double DEFAULT_ALPHA = 0.9999;
-int DEFAULT_STEPS = 100000;
-int DEFAULT_T0 = 1;
+constexpr double DEFAULT_ALPHA = 0.9999;
+constexpr int DEFAULT_STEPS = 100000;
+constexpr int DEFAULT_T0 = 1;
 
 // default paramters for Normals
-int DEFAULT_NEIGHBORHOOD = 1000;
+constexpr int DEFAULT_NEIGHBORHOOD = 1000;
 
 
 /**
@@ -64,7 +66,20 @@ int print_usage()
     std::cout << "or" << std::endl;
     std::cout << "$ ./PointLabeler --random-gen [OUTPUT_FILENAME].txt" << std::endl;
     std::cout << "or" << std::endl;
-    std::cout << "$ ./PointLabeler --cluster-gen [OUTPUT_FILENAME].txt" << std::endl;
+    std::cout << "$ ./PointLabeler --cluster-gen [OUTPUT_FILENAME].txt\n" << std::endl;
+
+    std::cout << "The current default solver is: " << DEFAULT_SOLVER << std::endl;
+
+    std::cout << "To change the solver append one of the following flags to the first command:\n" << std::endl;
+    std::cout << "SIMULATED ANNEALING: -sa\n" << std::endl;
+    std::cout << "    [-alpha] (=" << DEFAULT_ALPHA << ") \t The temperature multiplier after each iteration." << std::endl;
+    std::cout << "    [-steps] (=" << DEFAULT_STEPS << ") \t Number of iterations before halting." << std::endl;
+    std::cout << "    [-t]     (=" << DEFAULT_T0 << ") \t Starting temperature.\n" << std::endl;
+
+    std::cout << "GREEDY ALGORITHM: -g\n" << std::endl;
+
+    std::cout << "NORMAL ALGORITHM: -n [RADIUS]\n" << std::endl;
+
     return 1;
 }
 
@@ -240,8 +255,8 @@ int main(int argc, char **argv)
         }
     }
 
-    // if 5 args are given (read from file, calculate solution, write to file)
-    if (argc == 5)
+    // if 5 or more args are given (read from file, calculate solution, write to file)
+    if (argc >= 5)
     {
         arg1 = argv[1];
         arg2 = argv[2];
@@ -255,38 +270,90 @@ int main(int argc, char **argv)
             //print_message("Read from file: \"" + read_filename + "\".");
             std::vector<PointLabeler::Point> *points = map.load_from_file(read_filename);
 
-           
-           
-            /*
-            // solve with greedy Algorithm
-            PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
-            auto start = std::chrono::high_resolution_clock::now();
-            greedyAlgorithm.solve();
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            */
+            std::string current_solver = DEFAULT_SOLVER;
+            double current_alpha = DEFAULT_ALPHA;
+            int current_steps = DEFAULT_STEPS;
+            int current_t0 = DEFAULT_T0;
 
-            /*
+            int current_neighborhood = DEFAULT_NEIGHBORHOOD;
+
+            // parse algorithm args
+            if (argc >= 6) {
+                std::string algorithm = argv[5];
+
+                if (algorithm == "-sa") {
+
+                    current_solver = "SA";
+
+                    for (int i = 6; i < argc; i += 2)
+                    {
+                        std::string param = argv[i];
+                        std::string value = argv[i + 1];
+
+                        if (param == "-alpha")
+                        {
+                            current_alpha = std::stod(value);
+                        }
+                        if (param == "-steps")
+                        {
+                            current_steps = std::stoi(value);
+                        }
+                        if (param == "-t")
+                        {
+                            current_t0 = std::stoi(value);
+                        }
+                    }
+                }
+                if (algorithm == "-n")
+                {
+                    current_solver = "N";
+                    if (argc >= 7)
+                    {
+                        current_neighborhood = std::stoi(argv[6]);
+                    }
+                }
+                if (algorithm == "-g")
+                {
+                    current_solver = "G";
+                }
+            }
+
+            double current_duration = 0.0;
+
+            // solve with greedy algorithm
+            if (current_solver == "G")
+            {
+                print_message("running Greedy Algorithm");
+                PointLabeler::GreedyAlgorithm greedyAlgorithm = PointLabeler::GreedyAlgorithm(*points);
+                auto start = std::chrono::high_resolution_clock::now();
+                greedyAlgorithm.solve();
+                auto end = std::chrono::high_resolution_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                current_duration = (double) duration;
+            }
             // solve with normal algorithm
-            PointLabeler::Normals normals = PointLabeler::Normals(3000);
-            auto start = std::chrono::high_resolution_clock::now();
-            normals.solve(*points);
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            */
-
-           
-            // solve with simulated annealing algorithm
-            // choose alpha close to 1, the closer the solver the decay
-            
-            PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(200000, 0.9999, 0.1);
-            auto start = std::chrono::high_resolution_clock::now();
-            sa.solve(*points);
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            
-
-
+            if (current_solver == "N")
+            {
+                print_message("running Normals with neighborhoods: " +  std::to_string(current_neighborhood));
+                PointLabeler::Normals normals = PointLabeler::Normals(current_neighborhood);
+                auto start = std::chrono::high_resolution_clock::now();
+                normals.solve(*points);
+                auto end = std::chrono::high_resolution_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                current_duration = (double) duration;
+            }
+            // solve with simulated annealing
+            if (current_solver == "SA")
+            {
+                // choose alpha close to 1, the closer the solver the decay
+                print_message("running SA with steps: " + std::to_string(current_steps) + " alpha: " + std::to_string(current_alpha) +" t0: " + std::to_string(current_t0));
+                PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(current_steps, current_alpha, current_t0);
+                auto start = std::chrono::high_resolution_clock::now();
+                sa.solve(*points);
+                auto end = std::chrono::high_resolution_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                current_duration = (double) duration;
+            }
 
             // print how many % were labeled
             int labeled_count = get_labeled_count(*points);
@@ -294,9 +361,9 @@ int main(int argc, char **argv)
             float rate = 0.0;
             rate = labeled_count / (float)label_count;
 
-            std::cout << get_labeled_count(*points) << "\t" << ((double) duration)/1000 << std::endl;
+            std::cout << get_labeled_count(*points) << "\t" << current_duration/1000 << std::endl;
             //print_message("Write to file: \"" + write_filename + "\".");
-            print_message("Labeled Rate: " + std::to_string(rate) + "%");
+            print_message("Labeled Rate: " + std::to_string(rate * 100) + "%");
             map.write_to_file(points, write_filename);
 
             return 1;
