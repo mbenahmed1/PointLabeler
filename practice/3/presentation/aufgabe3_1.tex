@@ -170,7 +170,7 @@ Universität Osnabrück \\ % Your institution for the title page
 
 		\column{.35\textwidth} % Right column and width
 		\includegraphics[scale=.2]{portretPeter.jpg}
-		\tiny \texttt{https://staff.fnwi.uva.nl/p.vanemdeboas/}
+		\tiny \texttt{\url{https://staff.fnwi.uva.nl/p.vanemdeboas/}}
 		
 		
 	\end{columns}
@@ -221,7 +221,7 @@ Universität Osnabrück \\ % Your institution for the title page
 	
 	
 	\begin{center}
-		\includegraphics[scale=.6]{level_layout.pdf}\\
+		\includegraphics[scale=.8]{level_layout.pdf}\\
 		\centering \texttt{find(key)}: $links(i) = 2i$, $rechts(i) = 2i+1$	
 	\end{center}
 	\end{frame}
@@ -229,13 +229,26 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 \begin{frame}
-	\frametitle{Aufgabe 3.1 - van Emde Boas sortiert}
+	\frametitle{Aufgabe 3.1 - van Emde Boas Layout}
 	
 	
 	\begin{center}
-		\includegraphics[scale=.6]{veb_layout.pdf}\\
-		\centering \texttt{find(key)}: Indizes von Kindknoten können nicht in konstanter Zeit berechnet werden	
+		\includegraphics[scale=.8]{veb_layout.pdf}\\
+		\centering \texttt{find(key)}: ???	
 	\end{center}
+	\end{frame}
+%------------------------------------------------
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Berechnung der Indizes im VEB Layout}
+	
+	\textbf{Van Emde Boas Layout}
+	\begin{itemize}
+		\item wir betrachten zwei mögliche Implementationen
+		\item es ist kein Konstantzeitalgorithmus für Indizeberechnung bekannt
+		\item Konvertieren von \texttt{bfs}-Index zu VEB-Index in $\mathcal{O}(\log h)$
+		\item alternative Implementation durch Zeiger auf Kindknoten
+	\end{itemize}
+
 	\end{frame}
 %------------------------------------------------
 
@@ -282,62 +295,109 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Aufgabe 3.1}
+	\frametitle{Aufgabe 3.1 - Auswertung}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 		
 		\column{.35\textwidth} % Left column and width
-		\textbf{Operationen}
-		\begin{itemize}
-			\item find()
-		\end{itemize}
-		
-		\column{.55\textwidth} % Right column and width
-		\includegraphics[scale=.6]{Figure_4.pdf}
+		\textbf{Vergleich der Layouts}
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{Figure_2.pdf}
 		
 		
 	\end{columns}
 	\end{frame}
 	
-	%------------------------------------------------
-\begin{frame}
-\frametitle{Aufgabe 3.1}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-	
-	\column{.35\textwidth} % Left column and width
-	\textbf{Operationen}
-	\begin{itemize}
-		\item find()
-	\end{itemize}
-	
-	\column{.55\textwidth} % Right column and width
-	\includegraphics[scale=.6]{Figure_3.pdf}
-	
-	
-\end{columns}
-\end{frame}
-
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Aufgabe 3.1}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	\frametitle{Aufgabe 3.1 - Auswertung}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		\textbf{Vergleich der Maschinen}
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{cpu_comp.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
 	
-	\column{.35\textwidth} % Left column and width
-	\textbf{Operationen}
-	\begin{itemize}
-		\item find()
-	\end{itemize}
-	
-	\column{.55\textwidth} % Right column and width
-	\includegraphics[scale=.6]{Figure_4.pdf}
-	
-	
-\end{columns}
-\end{frame}
-
 %------------------------------------------------
 
 
-							
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Auswertung}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		\textbf{Vergleich der VEB Implementationen}
+		\begin{itemize}
+			\item Berechnen von Indizes von entfällt
+		\end{itemize}
+		
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{veb_vebstruct.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Auswertung}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		\textbf{Vergleich der Level Implementationen}
+		\begin{itemize}
+			\item struct-Implementation verbraucht mindestens den \textbf{dreifachen} Speicher
+		\end{itemize}
+		
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{level_levelstruct.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Auswertung}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		\textbf{Vergleich zur STL Implementation}
+		\begin{itemize}
+			\item Die struct Implementationen von VEB und Level sind schneller als \texttt{std::set}
+		\end{itemize}
+		
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{set_level_veb.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Aufgabe 3.1 - Auswertung}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.35\textwidth} % Left column and width
+		Vergleich einiger Layout Implementationen und \texttt{std::set}
+		
+		\column{.6\textwidth} % Right column and width
+		\includegraphics[scale=.6]{struct_comp.pdf}
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+
 
 \end{document} 
