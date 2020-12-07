@@ -17,6 +17,15 @@
 
 using namespace PointLabeler;
 
+// default parameters for Simulated Annealing
+double DEFAULT_ALPHA = 0.9999;
+int DEFAULT_STEPS = 100000;
+int DEFAULT_T0 = 1;
+
+// default paramters for Normals
+int DEFAULT_NEIGHBORHOOD = 1000;
+
+
 /**
  * Checks if string ends with .txt
  * 
