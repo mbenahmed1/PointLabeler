@@ -361,9 +361,10 @@ int main(int argc, char **argv)
             float rate = 0.0;
             rate = labeled_count / (float)label_count;
 
-            std::cout << get_labeled_count(*points) << "\t" << current_duration/1000 << std::endl;
+
             //print_message("Write to file: \"" + write_filename + "\".");
             print_message("Labeled Rate: " + std::to_string(rate * 100) + "%");
+            std::cout << get_labeled_count(*points) << "\t" << current_duration/1000 << std::endl;
             map.write_to_file(points, write_filename);
 
             return 1;
