@@ -33,10 +33,10 @@ if __name__ == "__main__":
         print("Scaling axis.")
         scaled = 1
         filename = str(sys.argv[1])
-        x_min = int(sys.argv[2])
-        x_max = int(sys.argv[3])
-        y_min = int(sys.argv[4])
-        y_max = int(sys.argv[5])
+        x_min = float(sys.argv[2])
+        x_max = float(sys.argv[3])
+        y_min = float(sys.argv[4])
+        y_max = float(sys.argv[5])
         # case params did not match pattern
     else:
         print("usage: $python3 plotter.py path/to/file.txt or $python3 plotter.py path/to/file.txt [x_min] [x_max] [y_min] [y_max]")
