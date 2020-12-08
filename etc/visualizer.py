@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
 import sys
+import pandas as pd
+import seaborn as sns
 
 
 if __name__ == "__main__":
@@ -46,42 +48,34 @@ if __name__ == "__main__":
 
             points += 1
             if int(item[5]) != 0:
-                labeled += 1 
+                labeled += 1
+
+    def drawRect(ax, x, y, w, h):
+        ax.add_patch(patches.Rectangle((x,y), w, -h, facecolor="#ac0634", edgecolor="black", linewidth=1, linestyle='solid'))
 
     
     print(f"labeled {labeled}/{points} points ({100 * labeled/points}%)")
 
+    fig1 = plt.figure()
+    ax1 = fig1.add_subplot(111)
 
-    def plot_rect(ax, x, y, w, h):
-        rect = plt.Rectangle((x,y), w, -h, edgecolor="k")
-        ax.add_patch(rect)
-        
-    
-    def plot_point(ax, x, y, color="k"):
-        ax.scatter([x], [y], s=36, color=color, zorder=3)
+    pts = {'px':   pX,
+           'py':   pY,
+           'draw': draw}
+    df = pd.DataFrame(pts, columns=['px', 'py', 'draw'])
 
 
-    my_dpi = 150
-    fig, ax = plt.subplots(figsize=(800/my_dpi, 800/my_dpi), dpi=my_dpi)
-    ax.set_axisbelow(True)
+    sns.scatterplot(data=df, x="px", y="py", s=25, color="0.25", marker="o")
 
     for px, py, rx, ry, rw, rh, drawable in zip(pX, pY, rX, rY, rW, rH, draw):
-        if drawable == 0:
-            plot_point(ax, px, py, "r")
-        else:
-            plot_point(ax, px, py)
-            plot_rect(ax, rx, ry, rw, rh)
+        if drawable == 1:
+            drawRect(ax1, rx, ry, rw, rh)
 
-
-    minLim = min(min(pX) - max(rW), min(pY) - max(rH))
-    maxLim = max(max(pX) + max(rW), max(pY) + max(rH))
-
-    ax.set(xlim=(minLim, maxLim), ylim=(minLim, maxLim))
-    
+    plt.show()
     #ticks = np.arange(minLim, maxLim, 1)
     #plt.xticks(ticks)
     #plt.yticks(ticks)
 
     #plt.grid()
 
-    plt.show()
+    #plt.show()
