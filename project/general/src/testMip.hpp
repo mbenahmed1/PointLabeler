@@ -1,8 +1,0 @@
-//
-// Created by tim on 01.01.21.
-//
-
-#ifndef POINTLABELER_TESTMIP_HPP
-#define POINTLABELER_TESTMIP_HPP
-
-#endif //POINTLABELER_TESTMIP_HPP
