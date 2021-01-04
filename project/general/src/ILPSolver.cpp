@@ -1,22 +1,16 @@
-/* Copyright 2020, Gurobi Optimization, LLC */
+//
+// Created by tim on 04.01.21.
+//
 
-/* This example formulates and solves the following simple MIP model:
+#include "ILPSolver.hpp"
 
-     maximize    x +   y + 2 z
-     subject to  x + 2 y + 3 z <= 4
-                 x +   y       >= 1
-                 x, y, z binary
-*/
+ILPSolver::ILPSolver(vector<Point> &points) : m_points(points), util(points)
+{}
 
-#include "/opt/gurobi911/linux64/include/gurobi_c++.h"
-#include <sstream>
 
-using namespace std;
-
-int solve()
+int ILPSolver::solve()
 {
-    int o[2][4][2][4];
-    int NUM_POINTS = 5;
+    int NUM_POINTS = m_points.size();
 
     try
     {
@@ -76,7 +70,7 @@ int solve()
                     {
                         ostringstream cname;
                         cname << "c2_" << i << a << j << b;
-                        model.addConstr(l[i][a] + l[j][b] <= 2, cname.str());
+                        model.addConstr(util.o(i, a, j, b) + l[i][a] + l[j][b] <= 2, cname.str());
                     }
                 }
             }
@@ -98,56 +92,23 @@ int solve()
 
         cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
 
-    } catch (GRBException e)
-    {
-        cout << "Error code = " << e.getErrorCode() << endl;
-        cout << e.getMessage() << endl;
-    } catch (...)
-    {
-        cout << "Exception during optimization" << endl;
-    }
+        // Save solution
 
-    return 0;
-}
-
-
-int main_example()
-{
-    try
-    {
-        // Create an environment
-        GRBEnv env = GRBEnv(true);
-        env.set("LogFile", "mip1.log");
-        env.start();
-
-        // Create an empty model
-        GRBModel model = GRBModel(env);
-
-        // Create variables
-        GRBVar x = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "x");
-        GRBVar y = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "y");
-        GRBVar z = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "z");
-
-        // Set objective: maximize x + y + 2 z
-        model.setObjective(x + y + 2 * z, GRB_MAXIMIZE);
-
-        // Add constraint: x + 2 y + 3 z <= 4
-        model.addConstr(x + 2 * y + 3 * z <= 4, "c0");
-
-        // Add constraint: x + y >= 1
-        model.addConstr(x + y >= 1, "c1");
-
-        // Optimize model
-        model.optimize();
-
-        cout << x.get(GRB_StringAttr_VarName) << " "
-             << x.get(GRB_DoubleAttr_X) << endl;
-        cout << y.get(GRB_StringAttr_VarName) << " "
-             << y.get(GRB_DoubleAttr_X) << endl;
-        cout << z.get(GRB_StringAttr_VarName) << " "
-             << z.get(GRB_DoubleAttr_X) << endl;
-
-        cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
+        for (int i = 0; i < NUM_POINTS; i++) {
+            bool labeled = false;
+            for (int a = 0; a < 4; a++)
+            {
+                if (l[i][a].get(GRB_DoubleAttr_X) == 1.0)
+                {
+                    m_points[i].set_label_pos(a + 1);
+                    labeled = true;
+                }
+            }
+            if (!labeled)
+            {
+                m_points[i].clear();
+            }
+        }
 
     } catch (GRBException e)
     {
@@ -161,6 +122,4 @@ int main_example()
     return 0;
 }
 
-int main(int argc, char *argv[]) {
-    return main_example();
-}
+

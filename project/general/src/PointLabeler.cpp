@@ -14,6 +14,7 @@
 #include "GreedyAlgorithm.hpp"
 #include "Normals.hpp"
 #include "SimulatedAnnealing.hpp"
+#include "ILPSolver.hpp"
 
 using namespace PointLabeler;
 // default algorithm
@@ -316,6 +317,10 @@ int main(int argc, char **argv)
                 {
                     current_solver = "G";
                 }
+                if (algorithm == "-ilp")
+                {
+                    current_solver = "ILP";
+                }
             }
 
             double current_duration = 0.0;
@@ -350,6 +355,16 @@ int main(int argc, char **argv)
                 PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(current_steps, current_alpha, current_t0);
                 auto start = std::chrono::high_resolution_clock::now();
                 sa.solve(*points);
+                auto end = std::chrono::high_resolution_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                current_duration = (double) duration;
+            }
+            if (current_solver == "ILP")
+            {
+                print_message("running ILP Solver");
+                ILPSolver solver = ILPSolver(*points);
+                auto start = std::chrono::high_resolution_clock::now();
+                solver.solve();
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
                 current_duration = (double) duration;

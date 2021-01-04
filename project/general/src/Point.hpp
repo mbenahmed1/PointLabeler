@@ -16,6 +16,8 @@ public:
 
     void set_label_pos(Position pos);
 
+    void set_label_pos(int pos);
+
     bool is_overlapping(Point &point) const;
 
     void clear();
@@ -69,7 +71,6 @@ private:
     int label_y;
     int neighborhood_count;
     Position label_enum;
-
 
 };
 

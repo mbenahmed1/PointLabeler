@@ -109,6 +109,27 @@ void Point::set_label_pos(Point::Position pos)
     set_is_labeled(1);
 }
 
+void Point::set_label_pos(int pos)
+{
+    switch (pos)
+    {
+        case 1:
+            set_label_pos(top_left);
+            break;
+        case 2:
+            set_label_pos(top_right);
+            break;
+        case 3:
+            set_label_pos(bottom_left);
+            break;
+        case 4:
+            set_label_pos(bottom_right);
+            break;
+        default:
+            clear();
+    }
+}
+
 bool Point::is_overlapping(Point &point) const
 {
     int xPosA = get_label_x();

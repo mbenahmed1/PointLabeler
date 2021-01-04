@@ -31,7 +31,7 @@ set(POINTLABELER_SOURCES
     src/Map.cpp
     src/Normals.cpp
     src/SimulatedAnnealing.cpp
-    src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp)
+    src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp src/Util.cpp src/ILPSolver.cpp)
 
 set(ILP_SOURCES
         src/testMip.cpp)
@@ -48,9 +48,11 @@ add_executable(testILP ${ILP_SOURCES})
 if(CXX)
     set(CMAKE_CXX_STANDARD 11)
     target_link_libraries(testILP optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+    target_link_libraries(PointLabeler optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
 endif()
 
 target_link_libraries(testILP ${GUROBI_LIBRARY})
+target_link_libraries(PointLabeler ${GUROBI_LIBRARY})
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     include(FeatureSummary)
