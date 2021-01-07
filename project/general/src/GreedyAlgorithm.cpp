@@ -3,12 +3,19 @@
 //
 
 #include "GreedyAlgorithm.hpp"
+#include "Util.hpp"
 
 namespace PointLabeler
 {
 
 GreedyAlgorithm::GreedyAlgorithm(std::vector<PointLabeler::Point> &points) : points(points)
-{}
+{
+    //auto vec = Util::createDataStructure(points);
+
+    //Util::printDataStructure(vec, points);
+
+    //Util::evaluateDataStructure(vec);
+}
 
 int GreedyAlgorithm::solve()
 {

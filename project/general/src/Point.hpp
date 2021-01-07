@@ -60,7 +60,10 @@ public:
 
     Position get_label_enum();
 
+    bool is_bounding_box_overlapping(Point &p) const;
+
 private:
+
     int x;
     int y;
     int label_length;
