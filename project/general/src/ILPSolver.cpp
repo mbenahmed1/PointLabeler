@@ -4,6 +4,73 @@
 
 #include "ILPSolver.hpp"
 
+
+class mycallback : public GRBCallback
+{
+public:
+    int numvars;
+    GRBVar *vars;
+
+    mycallback(int xnumvars, GRBVar *xvars)
+    {
+        numvars = xnumvars;
+        vars = xvars;
+    }
+
+protected:
+    void callback()
+    {
+        try
+        {
+            if (where == GRB_CB_POLLING)
+            {
+                // Ignore polling callback
+            }
+            else if (where == GRB_CB_PRESOLVE)
+            {
+                // Presolve callback
+            }
+            else if (where == GRB_CB_SIMPLEX)
+            {
+                // Simplex callback
+            }
+            else if (where == GRB_CB_MIP)
+            {
+                // General MIP callback
+            }
+            else if (where == GRB_CB_MIPSOL)
+            {
+                // MIP solution callback
+            }
+            else if (where == GRB_CB_MIPNODE)
+            {
+                // MIP node callback
+                cout << "**** New node ****" << endl;
+                if (getIntInfo(GRB_CB_MIPNODE_STATUS) == GRB_OPTIMAL)
+                {
+                    double *x = getNodeRel(vars, numvars);
+                    setSolution(vars, x, numvars);
+                    delete[] x;
+                }
+            }
+            else if (where == GRB_CB_BARRIER)
+            {
+                // Barrier callback
+            }
+            else if (where == GRB_CB_MESSAGE)
+            {
+            }
+        } catch (GRBException e)
+        {
+            cout << "Error number: " << e.getErrorCode() << endl;
+            cout << e.getMessage() << endl;
+        } catch (...)
+        {
+            cout << "Error during callback" << endl;
+        }
+    }
+};
+
 ILPSolver::ILPSolver(vector<Point> &points) : m_points(points), util(points)
 {}
 
@@ -75,11 +142,21 @@ int ILPSolver::solve()
                 }
             }
         }
+        // Create a callback object and associate it with the model
+        int numvars = NUM_POINTS * 4;
+        model.update();
+        GRBVar* vars = model.getVars();
+        for (int i = 0; i < numvars; i++) {
+            cout << vars[i].get(GRB_StringAttr_VarName);
+        }
+        mycallback cb = mycallback(numvars, vars);
 
+        model.setCallback(&cb);
 
         // Optimize model
         model.optimize();
 
+        /* PRINT SOLUTION
         cout << "L_ia VALUES FOR SOLUTION:" << endl;
         for (int i = 0; i < NUM_POINTS; i++)
         {
@@ -91,10 +168,12 @@ int ILPSolver::solve()
         }
 
         cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
+        */
 
         // Save solution
 
-        for (int i = 0; i < NUM_POINTS; i++) {
+        for (int i = 0; i < NUM_POINTS; i++)
+        {
             bool labeled = false;
             for (int a = 0; a < 4; a++)
             {

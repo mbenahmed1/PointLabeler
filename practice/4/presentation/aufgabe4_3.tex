@@ -380,5 +380,28 @@ Universität Osnabrück \\ % Your institution for the title page
 	
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{NKCT $\rightarrow$ EKCT}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{NKCT(G) $\rightarrow$ EKCT(G')}
+	\begin{itemize}
+		\item Verdoppele alle Knoten in $G$
+		\item Kantengewicht zwischen verdoppelten Knoten entspricht Knotengewicht
+		\item Sonstige Kantengewichte: $(|E|+1)\cdot w_{max}$
+		\item EKCT mit $k' = 2k + 1$ auf $G'$ anwenden
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.6]{nekctk.pdf}
+	
+	
+\end{columns}
+\end{frame}
+
+
+%------------------------------------------------
+
+
 
 \end{document} 

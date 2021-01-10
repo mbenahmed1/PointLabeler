@@ -60,7 +60,6 @@ std::vector<std::vector<Point>> Util::createDataStructure(std::vector<Point> &po
             Point &b = points[j];
             if (a.is_bounding_box_overlapping(b))
             {
-                // TODO FIX THIS SHIT сука блять 😀
                 map[i].push_back(b);
                 map[j].push_back(a);
             }
