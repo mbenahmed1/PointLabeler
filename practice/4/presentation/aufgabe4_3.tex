@@ -265,13 +265,21 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{EKCT - Greedy: Prim}
+	\frametitle{Path Klasse}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 		
-		\column{.35\textwidth} % Left column and width
-		\textbf{Vergleich der Maschinen}
-		\column{.6\textwidth} % Right column and width
-		\includegraphics[scale=.6]{greedy_optimal.pdf}
+		\column{.55\textwidth} % Left column and width
+		\textbf{Shortest-Path basierte Heuristiken}
+		\begin{itemize}
+			\item Dijkstra mit max. Pfadlänge $k$ (Gewichte)
+			\item Dijkstra mit max. Pfadlänge $k$ (Kardinalität)
+			\item Erweitere Pfade aus Dijkstra $<k$ mit Prim
+			\item Führe beide Dijkstra Alg. aus und wähle beste Lösung
+		\end{itemize}
+		\column{.25\textwidth} % Right column and width
+		\includegraphics[scale=.5]{path_optimal.pdf}
+		k = 3\\
+		$c^* = 3$
 		
 		
 	\end{columns}
@@ -280,7 +288,97 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 
+\begin{frame}
+	\frametitle{Path - k-DijkstraA}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.65\textwidth} % Left column and width
+		\textbf{k-DijkstraA}
+		\begin{itemize}
+			\item Dijkstra mit max. Pfadlänge $k$ von Knoten $s \Rightarrow x$
+			\item Führe zusätzlich \texttt{len[]} und \texttt{dist[]} ein
+			\item Speichere Länge und Gewicht des bisher besten Pfades
+			\item Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} und $<k$ Kanten
+		\end{itemize}
+		\column{.25\textwidth} % Right column and width
+		\includegraphics[scale=.5]{path_optimal.pdf}
+		k = 3\\
+		$c^* = 3$
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
 
+\begin{frame}
+	\frametitle{Path - k-DijkstraB}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.65\textwidth} % Left column and width
+		\textbf{k-DijkstraB}
+		\begin{itemize}
+			\item Dijkstra mit max. Pfadlänge $k$ von Knoten $s \Rightarrow x$
+			\item Führe zusätzlich \texttt{len[]} und \texttt{dist[]} ein
+			\item Speichere Länge und Gewicht des bisher besten Pfades
+			\item Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} oder mehr Kanten
+		\end{itemize}
+		\column{.25\textwidth} % Right column and width
+		\includegraphics[scale=.5]{path_optimal.pdf}
+		k = 3\\
+		$c^* = 3$
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{Path - DijkstraPrim-A(B)}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.65\textwidth} % Left column and width
+		\textbf{DijkstraPrim-A(B)}
+		\begin{itemize}
+			\item Wende k-DijkstraA(B) für alle Knoten an
+			\item Erweitere Pfade kürzer als $k$ mit Prim
+			\item Wähle beste Lösung
+		\end{itemize}
+		\column{.25\textwidth} % Right column and width
+		\includegraphics[scale=.5]{path_optimal.pdf}
+		k = 3\\
+		$c^* = 3$
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
+
+
+\begin{frame}
+	\frametitle{Path - DijkstraPrim}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.65\textwidth} % Left column and width
+		\textbf{DijkstraPrim}
+		\begin{itemize}
+			\item Führe DijkstraPrim-A aus
+			\item Führe DijkstraPrim-B aus
+			\item Wähle beste Lösung 
+		\end{itemize}
+		\column{.25\textwidth} % Right column and width
+		\includegraphics[scale=.5]{path_optimal.pdf}
+		k = 3\\
+		$c^* = 3$
+		
+		
+	\end{columns}
+	\end{frame}
+	
+%------------------------------------------------
 
 
 \end{document} 
