@@ -85,8 +85,8 @@
   Euro={€}
 }
 
-\definecolor{UOSred}{rgb}{0.6745098039215686, 0.02352941176470588, 0.2039215686274510} % UBC Blue (primary)
-\definecolor{UOSgrey}{rgb}{0.8117647058823529, 0.8117647058823529, 0.8117647058823529} % UBC Grey (secondary)
+\definecolor{UOSred}{rgb}{0.6745098039215686, 0.02352241176470588, 0.2039215686274510} % UBC Blue (primary)
+\definecolor{UOSgrey}{rgb}{0.8117647058823522, 0.8117647058823522, 0.8117647058823522} % UBC Grey (secondary)
 
 \setbeamercolor{palette primary}{bg=UOSred,fg=white}
 \setbeamercolor{palette secondary}{bg=UOSred,fg=white}
@@ -289,43 +289,21 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 \begin{frame}
-	\frametitle{Path - k-DijkstraA}
+	\frametitle{Path - k-DijkstraA(B)}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 		
 		\column{.55\textwidth} % Left column and width
-		\textbf{k-DijkstraA}
+		\textbf{k-DijkstraA(B)}
 		\begin{itemize}
 			\item Dijkstra mit max. Pfadlänge $k$ von Knoten $s \Rightarrow x$
 			\item Führe zusätzlich \texttt{len[]} und \texttt{dist[]} ein
 			\item Speichere Länge und Gewicht des bisher besten Pfades
 			\item Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} und $<k$ Kanten
+			\item (B): Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} oder mehr Kanten
 		\end{itemize}
 		\column{.25\textwidth} % Right column and width
 		\includegraphics[scale=.6]{path_dijkstraAB.pdf}
 		k = 4\\
-		
-		
-	\end{columns}
-	\end{frame}
-	
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Path - k-DijkstraB}
-	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-		
-		\column{.55\textwidth} % Left column and width
-		\textbf{k-DijkstraB}
-		\begin{itemize}
-			\item Dijkstra mit max. Pfadlänge $k$ von Knoten $s \Rightarrow x$
-			\item Führe zusätzlich \texttt{len[]} und \texttt{dist[]} ein
-			\item Speichere Länge und Gewicht des bisher besten Pfades
-			\item Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} oder mehr Kanten
-		\end{itemize}
-		\column{.25\textwidth} % Right column and width
-		\includegraphics[scale=.6]{path_dijkstraAB.pdf}
-		k = 4\\
-
 		
 		
 	\end{columns}
@@ -415,7 +393,7 @@ Universität Osnabrück \\ % Your institution for the title page
 		\column{.25\textwidth} % Right column and width
 		\includegraphics[scale=.6]{dynamic_prim.pdf}
 		k = 4\\
-		$c = 29$
+		$c = 22$
 		
 		
 	\end{columns}
@@ -438,7 +416,7 @@ Universität Osnabrück \\ % Your institution for the title page
 		\column{.25\textwidth} % Right column and width
 		\includegraphics[scale=.6]{dynamic_dijkstra.pdf}
 		k = 4\\
-		$c = 29$
+		$c = 22$
 		
 		
 	\end{columns}
@@ -460,14 +438,70 @@ Universität Osnabrück \\ % Your institution for the title page
 		\column{.25\textwidth} % Right column and width
 		\includegraphics[scale=.6]{dynamic_prim.pdf}
 		k = 4\\
-		$c = 29$
+		$c = 22$
 		
 		
 	\end{columns}
 	\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{NKCT $\rightarrow$ EKCT}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{NKCT(G) $\rightarrow$ EKCT(G')}
+	\begin{itemize}
+		\item Verdoppele alle Knoten in $G$
+		\item Kantengewicht zwischen verdoppelten Knoten entspricht Knotengewicht
+		\item Sonstige Kantengewichte: $(|E|+1)\cdot w_{max}$
+		\item EKCT mit $k' = 2k + 1$ auf $G'$ anwenden
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.6]{nekctk.pdf}
+	
+	
+\end{columns}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+	\frametitle{Tests}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.95\textwidth} % Left column and width
+		\textbf{Laufzeiten und Instanzen}
+		\begin{itemize}
+			\item Komplexität der Algorithmen in  $\mathcal{O}(n^3)$
+			\item Außer DynamicTree und DualGreedy in $\mathcal{O}(n^4)$
+			\item Alle Instanzen lösbar innerhalb von Sekunden
+			\item 20 Random Graphen mit jeweils $[10,20,30]$ Knoten
+			\item Zufällige generierte Kantengewichte (exponenziell-, gleich- und normalverteilt) 
+			\item Getestete k: $3 \leq k \leq n-2$
+			\item Relativ große $k$ realistischer als kleine $k$: Ölfeld Bsp. $k= \frac{n}{2}$
+		\end{itemize}
+		
+		
+		
+	\end{columns}
+	\end{frame}
+	%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Ergebnisse}
+	
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+		
+		\column{.4\textwidth} % Left column and width
+		\includegraphics[scale=.45]{plot_greedy-path.pdf}
+		\column{.55\textwidth} % Right column and width
+		\includegraphics[scale=.45]{plot_dynamic.pdf}
+		
+		
+	\end{columns}
+	\centering
+	Genereller Graph mit 30 Knoten
+	\end{frame}
 	
 %------------------------------------------------
-
 
 
 \end{document} 

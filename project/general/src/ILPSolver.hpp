@@ -9,6 +9,8 @@
 #include "Point.hpp"
 #include "Util.hpp"
 #include <sstream>
+#include <fstream>
+#include <cmath>
 
 using namespace std;
 
