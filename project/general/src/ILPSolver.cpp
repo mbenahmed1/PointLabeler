@@ -3,6 +3,7 @@
 //
 
 #include "ILPSolver.hpp"
+#include "GreedyAlgorithm.hpp"
 
 
 class mycallback : public GRBCallback
@@ -47,7 +48,7 @@ protected:
             else if (where == GRB_CB_MIPNODE)
             {
                 // MIP node callback
-                cout << "**** New node ****" << endl;
+                //cout << "**** New node ****" << endl;
                 if (getIntInfo(GRB_CB_MIPNODE_STATUS) == GRB_OPTIMAL)
                 {
                     double *x = getNodeRel(vars, numvars);
@@ -64,18 +65,54 @@ protected:
 
                     for (int i = 0; i < numvars; i += 4)
                     {
+                        points[i/4].clear();
                         double maxValue = 0.0;
+                        int maxA = -1;
 
                         for (int a = 0; a < 4; a++)
                         {
                             if (x[i+a] > maxValue)
                             {
                                 maxValue = x[i+a];
+                                maxA = a;
                             }
                         }
+
+                        int p_index = i/4;
+
+                        // set points
+                        if (maxValue == 1.0)
+                        {
+                            points[p_index].set_label_pos(maxA);
+                            x[i + maxA] = 1.0;
+                        }
+                        else if (maxValue <= 0.5)
+                        {
+                            points[p_index].clear();
+                            x[i + 0] = 0.0;
+                            x[i + 1] = 0.0;
+                            x[i + 2] = 0.0;
+                            x[i + 3] = 0.0;
+                        }
+                        else if (maxValue > 0.5)
+                        {
+                            x[i + 0] = 0.0;
+                            x[i + 1] = 0.0;
+                            x[i + 2] = 0.0;
+                            x[i + 3] = 0.0;
+                            points[p_index].set_label_pos(maxA);
+                            x[i + maxA] = 1.0;
+
+                            if (Util::hasConflict(map, points, p_index))
+                            {
+                                points[p_index].clear();
+                                x[i + maxA] = 0.0;
+                            }
+                        }
+
+                        // clear solution
+                        points[p_index].clear();
                     }
-
-
 
                     setSolution(vars, x, numvars);
                     delete[] x;
@@ -107,6 +144,9 @@ int ILPSolver::solve()
 {
     int NUM_POINTS = m_points.size();
 
+    GreedyAlgorithm g(m_points);
+    g.solve();
+
     try
     {
         // Create an environment
@@ -122,11 +162,25 @@ int ILPSolver::solve()
 
         for (int i = 0; i < NUM_POINTS; i++)
         {
+            int pos = -1;
+            if (m_points[i].get_is_labeled() == 1)
+            {
+                pos = m_points[i].get_label_enum() - 1;
+            }
             for (int a = 0; a < 4; a++)
             {
                 ostringstream vname;
                 vname << "l_" << i << a;
                 l[i][a] = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, vname.str());
+                if (pos == a)
+                {
+                    l[i][a].set(GRB_DoubleAttr_Start, 1.0);
+                }
+                else
+                {
+                    l[i][a].set(GRB_DoubleAttr_Start, 0.0);
+                }
+
             }
         }
 
