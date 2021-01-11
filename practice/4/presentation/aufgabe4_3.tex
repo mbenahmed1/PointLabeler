@@ -298,8 +298,9 @@ Universität Osnabrück \\ % Your institution for the title page
 			\item Dijkstra mit max. Pfadlänge $k$ von Knoten $s \Rightarrow x$
 			\item Führe zusätzlich \texttt{len[]} und \texttt{dist[]} ein
 			\item Speichere Länge und Gewicht des bisher besten Pfades
-			\item Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} und $<k$ Kanten
-			\item (B): Füge neuen Knoten hinzu, falls \texttt{dist[]} des neuen Pfades $<$ aktuelle \texttt{dist[]} oder mehr Kanten
+			\item (A) \texttt{dist[x]} wird aktualisiert, wenn Gesamtgewicht echt kleiner wird
+			\item (B) \texttt{dist[x]} wird aktualisiert, wenn Gesamtgewicht kleiner oder Länge größer wird
+			\item Füge Knoten mit minimalen \texttt{dist[]} am Ende des Pfades hinzu solange $<k$ Kanten
 		\end{itemize}
 		\column{.25\textwidth} % Right column and width
 		\includegraphics[scale=.6]{path_dijkstraAB.pdf}
