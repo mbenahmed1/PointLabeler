@@ -102,24 +102,29 @@ void Util::printDataStructure(const std::vector<std::vector<Point>> &vec, std::v
 
 std::vector<std::vector<int>> Util::createDataStructure2(std::vector<Point> &points)
 {
-    std::vector<std::vector<int>> map(points.size());
+    std::vector<std::vector<int>> map;
 
-    for (int i = 0; i < points.size() - 1; i++)
+    for (int i = 0; i < points.size(); i++)
     {
         Point &a = points[i];
+        std::vector <int> conflicts;
 
-        for (int j = i + 1; j < points.size(); j++)
+        for (int j = 0; j < points.size(); j++)
         {
+
+            if (i == j) continue;
+
             Point &b = points[j];
             if (a.is_bounding_box_overlapping(b))
             {
-                map[i].push_back(j);
-                map[j].push_back(i);
+                conflicts.push_back(j);
             }
         }
+        map.push_back(conflicts);
     }
     return map;
 }
+
 
 void Util::evaluateDataStructure(const std::vector<std::vector<int>> &map)
 {
@@ -159,7 +164,7 @@ void Util::printDataStructure(const std::vector<std::vector<int>> &vec, std::vec
     }
 }
 
-bool Util::hasConflict(const std::vector<std::vector<int>> &map, std::vector<Point> &points, int index)
+bool Util::hasConflict(std::vector<std::vector<int>> &map, std::vector<Point> &points, int index)
 {
     for (int possible_conflict : map[index])
     {

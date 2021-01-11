@@ -9,7 +9,7 @@ Normals::Normals(int radius) : radius(radius)
 int Normals::solve(std::vector<PointLabeler::Point> &points)
 {
     
-
+    std::vector<std::vector<int>> map = Util::createDataStructure2(points);
     // declaring 2d vector
     std::vector<std::vector<float>> distances(points.size(), std::vector<float>(points.size()));
 
@@ -132,22 +132,22 @@ int Normals::solve(std::vector<PointLabeler::Point> &points)
         if(prefered_label_pos[i] == Point::top_left)
         {
             points[i].set_label_pos(Point::top_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
@@ -157,22 +157,22 @@ int Normals::solve(std::vector<PointLabeler::Point> &points)
         if(prefered_label_pos[i] == Point::top_right)
         {
             points[i].set_label_pos(Point::top_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
@@ -182,22 +182,22 @@ int Normals::solve(std::vector<PointLabeler::Point> &points)
         if(prefered_label_pos[i] == Point::bottom_left)
         {
             points[i].set_label_pos(Point::bottom_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
@@ -207,22 +207,22 @@ int Normals::solve(std::vector<PointLabeler::Point> &points)
         if(prefered_label_pos[i] == Point::bottom_right)
         {
             points[i].set_label_pos(Point::bottom_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::bottom_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_right);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }
             points[i].set_label_pos(Point::top_left);    
-            if(!GreedyAlgorithm::check_overlap(points, points[i]))
+            if(!GreedyAlgorithm::check_overlap(points, points[i], map, i, points))
             {
                 continue;
             }

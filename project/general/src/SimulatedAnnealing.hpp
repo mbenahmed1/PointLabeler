@@ -7,6 +7,7 @@
 #include <random>
 #include "Point.hpp"
 #include "GreedyAlgorithm.hpp"
+#include "Util.hpp"
 
 namespace PointLabeler
 {
@@ -27,7 +28,7 @@ public:
 
 private:
 
-    int set_labels(std::vector<Point> &points, Point &point, Point::Position pos);
+    int set_labels(std::vector<Point> &points, Point &point, Point::Position pos, int pointIndex, std::vector<std::vector<int>>& map);
 
     double euler(int c_temp, int c_current, double t_i);
 

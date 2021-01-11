@@ -19,38 +19,41 @@ GreedyAlgorithm::GreedyAlgorithm(std::vector<PointLabeler::Point> &points) : poi
 
 int GreedyAlgorithm::solve()
 {
+    m_conflicts = Util::createDataStructure2(points);
 
     int labeled_count = points.size();
     //std::vector<PointLabeler::Point> labeled_points = std::vector<PointLabeler::Point>();
-    for (auto &point : points)
+
+    int pointIndex = 0;
+    for(int i = 0; i < points.size(); i++)
     {
-        point.set_label_pos(Point::top_left);
-        if (!check_overlap(points, point))
+        points[i].set_label_pos(Point::top_left);
+        if (!check_overlap(points, points[i], m_conflicts, i, points))
         {
             continue;
         }
-        point.set_label_pos(Point::top_right);
-        if (!check_overlap(points, point))
+        points[i].set_label_pos(Point::top_right);
+        if (!check_overlap(points, points[i], m_conflicts, i, points))
         {
             continue;
         }
-        point.set_label_pos(Point::bottom_left);
-        if (!check_overlap(points, point))
+        points[i].set_label_pos(Point::bottom_left);
+        if (!check_overlap(points, points[i], m_conflicts, i, points))
         {
             continue;
         }
-        point.set_label_pos(Point::bottom_right);
-        if (!check_overlap(points, point))
+        points[i].set_label_pos(Point::bottom_right);
+        if (!check_overlap(points, points[i], m_conflicts, i, points))
         {
             continue;
         }
         labeled_count--;
-        point.clear();
+        points[i].clear();
     }
     return labeled_count;
 }
 
-bool GreedyAlgorithm::check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point)
+bool GreedyAlgorithm::check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point, std::vector<std::vector<int>> &map, int pointIndex, std::vector<Point> &points)
 {
     for (auto &label : labeled)
     {

@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include "Point.hpp"
+#include "Util.hpp"
 
 namespace PointLabeler
 {
@@ -17,15 +18,15 @@ class GreedyAlgorithm
 
 public:
     explicit GreedyAlgorithm(std::vector<PointLabeler::Point> &points);
-
+    
     int solve();
 
-    static bool check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point);
+    static bool check_overlap(std::vector<PointLabeler::Point> &labeled, PointLabeler::Point &point, std::vector<std::vector<int>> &map, int pointIndex, std::vector<Point> &points);
+    
+    std::vector<std::vector<int>> m_conflicts;
 
 private:
     std::vector<PointLabeler::Point> &points;
-
-    
 };
 
 }

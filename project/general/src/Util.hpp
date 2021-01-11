@@ -35,7 +35,7 @@ public:
 
     static void printDataStructure(const std::vector<std::vector<int>>& vec, std::vector<Point>& points);
 
-    static bool hasConflict(const std::vector<std::vector<int>>& map, std::vector<Point> &points, int index);
+    static bool hasConflict(std::vector<std::vector<int>>& map, std::vector<Point> &points, int index);
 
     int o(int i, int a, int j, int b);
 

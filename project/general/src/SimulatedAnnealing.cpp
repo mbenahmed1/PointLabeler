@@ -8,6 +8,8 @@ SimulatedAnnealing::SimulatedAnnealing(int steps, double alpha, double t_i) : st
 
 int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
 {
+    // creating confilct vectors
+    static std::vector<std::vector<int>> map = Util::createDataStructure2(points);
 
     // checking inputs
     if (SimulatedAnnealing::steps <= 0)
@@ -28,7 +30,7 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
     std::mt19937 gen(rd());
 
     // random distribution for point which will be randomly altered
-    std::uniform_int_distribution<> index_distr(0, points.size());
+    std::uniform_int_distribution<> index_distr(0, points.size() - 1);
     // random distribution for switching label positions
     std::uniform_int_distribution<> pos_distr(Point::Position::top_left, Point::Position::bottom_right);
     // random distribution for annealing descision
@@ -89,9 +91,9 @@ int SimulatedAnnealing::solve(std::vector<PointLabeler::Point> &points)
         // counting of labeled points does not seem to work properly
         // though results don't take negative effect
 
-        c_s_dash += set_labels(s_dash, s_dash[index], static_cast<Point::Position>(pos));
+        c_s_dash += set_labels(s_dash, s_dash[index], static_cast<Point::Position>(pos), index, map);
 
-        c_s_dash = c(s_dash);
+        //c_s_dash = c(s_dash);
 
         //std::cout << c_s_dash << std::endl;
         //std::cout << euler(c_s_dash, c_s, t(i)) << std::endl;
@@ -213,13 +215,13 @@ int SimulatedAnnealing::c(std::vector<PointLabeler::Point> &points)
     return c;
 }
 
-int SimulatedAnnealing::set_labels(std::vector<Point> &points, Point &point, Point::Position pos)
+int SimulatedAnnealing::set_labels(std::vector<Point> &points, Point &point, Point::Position pos, int pointIndex, std::vector<std::vector<int>> &map)
 {
     int labeled = point.get_is_labeled();
 
     point.set_label_pos(pos);
 
-    if (GreedyAlgorithm::check_overlap(points, point))
+    if (Util::hasConflict(map, points, pointIndex))
     {
         point.clear();
         return 0 - labeled;
