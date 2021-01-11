@@ -10,8 +10,10 @@ class mycallback : public GRBCallback
 public:
     int numvars;
     GRBVar *vars;
+    vector<Point> &points;
+    std::vector<std::vector<int>> map;
 
-    mycallback(int xnumvars, GRBVar *xvars)
+    mycallback(int xnumvars, GRBVar *xvars, vector<Point>& points) : points(points), map(Util::createDataStructure2(points))
     {
         numvars = xnumvars;
         vars = xvars;
@@ -49,6 +51,32 @@ protected:
                 if (getIntInfo(GRB_CB_MIPNODE_STATUS) == GRB_OPTIMAL)
                 {
                     double *x = getNodeRel(vars, numvars);
+
+
+                    /*DEBUG VARIABLES
+                    for (int i = 0; i < numvars; i += 4) {
+                        cout << vars[i+0].get(GRB_StringAttr_VarName) << ": " << x[i+0];
+                        cout << vars[i+1].get(GRB_StringAttr_VarName) << ": " << x[i+1];
+                        cout << vars[i+2].get(GRB_StringAttr_VarName) << ": " << x[i+2];
+                        cout << vars[i+3].get(GRB_StringAttr_VarName) << ": " << x[i+3] << endl;
+                    }
+                    */
+
+                    for (int i = 0; i < numvars; i += 4)
+                    {
+                        double maxValue = 0.0;
+
+                        for (int a = 0; a < 4; a++)
+                        {
+                            if (x[i+a] > maxValue)
+                            {
+                                maxValue = x[i+a];
+                            }
+                        }
+                    }
+
+
+
                     setSolution(vars, x, numvars);
                     delete[] x;
                 }
@@ -146,10 +174,10 @@ int ILPSolver::solve()
         int numvars = NUM_POINTS * 4;
         model.update();
         GRBVar* vars = model.getVars();
-        for (int i = 0; i < numvars; i++) {
-            cout << vars[i].get(GRB_StringAttr_VarName);
-        }
-        mycallback cb = mycallback(numvars, vars);
+        //for (int i = 0; i < numvars; i++) {
+        //    cout << vars[i].get(GRB_StringAttr_VarName);
+        //}
+        mycallback cb = mycallback(numvars, vars, m_points);
 
         model.setCallback(&cb);
 

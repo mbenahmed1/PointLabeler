@@ -25,13 +25,19 @@ public:
 
     static std::vector<std::vector<Point>> createDataStructure(std::vector<Point> &points);
 
+    static std::vector<std::vector<int>> createDataStructure2(std::vector<Point> &points);
+
     static void evaluateDataStructure(const std::vector<std::vector<Point>>& map);
+
+    static void evaluateDataStructure(const std::vector<std::vector<int>>& map);
 
     static void printDataStructure(const std::vector<std::vector<Point>>& vec, std::vector<Point>& points);
 
-    int o(int i, int a, int j, int b);
+    static void printDataStructure(const std::vector<std::vector<int>>& vec, std::vector<Point>& points);
 
-    std::vector<Point> getNeighbours(Point &p);
+    static bool hasConflict(const std::vector<std::vector<int>>& map, std::vector<Point> &points, int index);
+
+    int o(int i, int a, int j, int b);
 
 };
 

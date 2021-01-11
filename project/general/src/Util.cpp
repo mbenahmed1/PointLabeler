@@ -5,14 +5,8 @@
 #include "Util.hpp"
 
 Util::Util(std::vector<Point> &points) : m_points(points)
-{
-}
+{}
 
-std::vector<Point> Util::getNeighbours(Point &p)
-{
-    std::vector<Point> v;
-    return v;
-}
 
 int Util::o(int i, int a, int j, int b)
 {
@@ -104,4 +98,75 @@ void Util::printDataStructure(const std::vector<std::vector<Point>> &vec, std::v
         }
         std::cout << std::endl;
     }
+}
+
+std::vector<std::vector<int>> Util::createDataStructure2(std::vector<Point> &points)
+{
+    std::vector<std::vector<int>> map(points.size());
+
+    for (int i = 0; i < points.size() - 1; i++)
+    {
+        Point &a = points[i];
+
+        for (int j = i + 1; j < points.size(); j++)
+        {
+            Point &b = points[j];
+            if (a.is_bounding_box_overlapping(b))
+            {
+                map[i].push_back(j);
+                map[j].push_back(i);
+            }
+        }
+    }
+    return map;
+}
+
+void Util::evaluateDataStructure(const std::vector<std::vector<int>> &map)
+{
+    int avg = 0;
+    int min = map.size();
+    int max = 0;
+
+    for (auto & i : map)
+    {
+        int size = i.size();
+        avg += size;
+        if (size < min)
+        {
+            min = size;
+        }
+        if (size > max)
+        {
+            max = size;
+        }
+    }
+
+    avg /= map.size();
+
+    std::cout << "AVG: " << avg << " MAX: " << max << " MIN: " << min << std::endl;
+}
+
+void Util::printDataStructure(const std::vector<std::vector<int>> &vec, std::vector<Point> &points)
+{
+    for (int i = 0; i < vec.size(); i++)
+    {
+        std::cout << "(" << points[i].get_x() << ", " << points[i].get_y() <<"): ";
+        for (int j = 0; j < vec[i].size(); j++)
+        {
+            std::cout << "(" << points[vec[i][j]].get_x() << ", " << points[vec[i][j]].get_y() << "), ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+bool Util::hasConflict(const std::vector<std::vector<int>> &map, std::vector<Point> &points, int index)
+{
+    for (int possible_conflict : map[index])
+    {
+        if (points[index].is_overlapping(points[possible_conflict]))
+        {
+            return true;
+        }
+    }
+    return false;
 }
