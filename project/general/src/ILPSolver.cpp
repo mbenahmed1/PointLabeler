@@ -12,9 +12,9 @@ public:
     int numvars;
     GRBVar *vars;
     vector<Point> &points;
-    std::vector<std::vector<int>> map;
+    std::vector<std::vector<int>>& map;
 
-    mycallback(int xnumvars, GRBVar *xvars, vector<Point>& points) : points(points), map(Util::createDataStructure2(points))
+    mycallback(int xnumvars, GRBVar *xvars, vector<Point>& points, vector<vector<int>>& map) :map(map), points(points)
     {
         numvars = xnumvars;
         vars = xvars;
@@ -25,27 +25,7 @@ protected:
     {
         try
         {
-            if (where == GRB_CB_POLLING)
-            {
-                // Ignore polling callback
-            }
-            else if (where == GRB_CB_PRESOLVE)
-            {
-                // Presolve callback
-            }
-            else if (where == GRB_CB_SIMPLEX)
-            {
-                // Simplex callback
-            }
-            else if (where == GRB_CB_MIP)
-            {
-                // General MIP callback
-            }
-            else if (where == GRB_CB_MIPSOL)
-            {
-                // MIP solution callback
-            }
-            else if (where == GRB_CB_MIPNODE)
+            if (where == GRB_CB_MIPNODE)
             {
                 // MIP node callback
                 //cout << "**** New node ****" << endl;
@@ -84,17 +64,9 @@ protected:
                         if (maxValue == 1.0)
                         {
                             points[p_index].set_label_pos(maxA);
-                            x[i + maxA] = 1.0;
+                            continue;
                         }
-                        else if (maxValue <= 0.5)
-                        {
-                            points[p_index].clear();
-                            x[i + 0] = 0.0;
-                            x[i + 1] = 0.0;
-                            x[i + 2] = 0.0;
-                            x[i + 3] = 0.0;
-                        }
-                        else if (maxValue > 0.5)
+                        else
                         {
                             x[i + 0] = 0.0;
                             x[i + 1] = 0.0;
@@ -117,13 +89,6 @@ protected:
                     setSolution(vars, x, numvars);
                     delete[] x;
                 }
-            }
-            else if (where == GRB_CB_BARRIER)
-            {
-                // Barrier callback
-            }
-            else if (where == GRB_CB_MESSAGE)
-            {
             }
         } catch (GRBException e)
         {
@@ -151,7 +116,8 @@ int ILPSolver::solve()
     {
         // Create an environment
         GRBEnv env = GRBEnv(true);
-        env.set("LogFile", "mip1.log");
+        //env.set("LogFile", "mip1.log");
+        env.set(GRB_IntParam_LogToConsole, 0);
         env.start();
 
         // Create an empty model
@@ -180,7 +146,6 @@ int ILPSolver::solve()
                 {
                     l[i][a].set(GRB_DoubleAttr_Start, 0.0);
                 }
-
             }
         }
 
@@ -226,12 +191,14 @@ int ILPSolver::solve()
         }
         // Create a callback object and associate it with the model
         int numvars = NUM_POINTS * 4;
+        model.set(GRB_IntParam_BranchDir, -1);
         model.update();
+
         GRBVar* vars = model.getVars();
         //for (int i = 0; i < numvars; i++) {
         //    cout << vars[i].get(GRB_StringAttr_VarName);
         //}
-        mycallback cb = mycallback(numvars, vars, m_points);
+        mycallback cb = mycallback(numvars, vars, m_points, g.m_conflicts);
 
         model.setCallback(&cb);
 
