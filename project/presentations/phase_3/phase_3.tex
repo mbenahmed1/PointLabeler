@@ -186,8 +186,42 @@ Universität Osnabrück \\ % Your institution for the title page
 	(4) Variable $l_{ia}$ ist binär.
 	\end{frame}
 %------------------------------------------------
+
 \begin{frame}
-	\frametitle{(d) Ergebnisse - Testmaschinen}
+\frametitle{(b) - Heuristik-Callback}
+\textbf{Heuristik-Callback für LP-Relaxierung}
+
+\begin{itemize}
+	\item Alle Punkte die vollständig (1.0) gelabelt sind übernehmen
+	\item Nicht gelabelte (0.0) Punkte bleiben nicht gelabelt
+	\item Sonst Berechnung des Maximums für jedes Label
+	\item Wähle Labelposition mit höchsten Wert falls keine Überlappung
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{(c) - Weitere Verbesserungen}
+\textbf{Weitere Verbesserungen}
+
+\begin{itemize}
+	\item Verwendung des Greedy Algorithmus zur Berechnung einer initialen Lösung des ILPs
+	\item Wiederverwendung der Überlappungsdatenstruktur für Heuristik Callback
+	\item Tunen der Gurobi Parameter mit dem Automatischen Parameter Tuning Tool
+		\begin{itemize}
+			\item $GRB\_IntParam\_BranchDir = -1$
+		\end{itemize}
+	
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{(d) Ergebnisse - Tests}
+	\centering \quad \quad \quad \quad \quad \quad Implementiert mit Gurobi Version 9.1.1
+	\newline
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 		
 		\column{.30\textwidth} % Left column and width
@@ -277,22 +311,51 @@ Universität Osnabrück \\ % Your institution for the title page
 
 \begin{frame}
 	\frametitle{(d) Ergebnisse - ILP Verbesserungen}
+	\textbf{Einfluss der Verbesserungen auf die Laufzeit des ILP-Solvers}
 	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-	\column{.5\textwidth} % Right column and width
+	\column{.45\textwidth} % Right column and width
 	\textbf{}\\
-	Einfluss der Verbesserungen auf die Laufzeit des ILP-Solvers
+	
+		\begin{table}
+		\tiny
+		\begin{tabular}{cc}
+			\toprule
+			Instanzgröße & Branch and Bound Knoten \\
+			\midrule
+			100 & 1 \\
+			200 & 1 \\
+			300 & 0 \\
+			400 & 1 \\
+			500 & 1 \\
+			600 & 1 \\
+			700 & 1 \\
+			800 & 1 \\
+			900 & 1 \\
+			1000 & 1 \\
+			1100 & 1 \\
+			1200 & 0 \\
+			1300 & 1 \\
+			1400 & 1 \\
+			1500 & 1 \\
+			1600 & 1 \\
+			1700 & 1 \\
+			1800 & 114 \\
+			1900 & 0 \\
+			2000 & 5902 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}%
 	
 	
 	\column{.45\textwidth} % Left column and width
 	\includegraphics[scale=.45]{laufzeit_ilp_verbesserung.pdf}
-	
-
+	\pause
+	\textbf{Fragen?}
 	\end{columns}
-	\end{frame}
+\end{frame}
 
 %------------------------------------------------
-
 
 
 \end{document} 
