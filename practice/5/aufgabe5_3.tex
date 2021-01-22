@@ -160,7 +160,17 @@ Universität Osnabrück \\ % Your institution for the title page
 		\column{.8\textwidth} % Left column and width
 		\textbf{Intriguingly Simple and Fast Transit Routing (2013)}
 		\begin{itemize}
+			\item[]
 			\item J. Dibbelt, T. Pajor, B. Strasser, D. Wagner
+			\item Berechnen von optimalen Routen in öffentlichen Verkehrsnetzen
+			\item[]
+			\item Connection Scan Algorithmus (CSA)
+			\begin{itemize}
+				\item earliest arrival
+				\item multi-criteria optimization
+				\item minimum expected arrival time problem (MEAT)
+			\end{itemize}
+
 		\end{itemize}	
 	\end{columns}
 	\end{frame}
@@ -168,15 +178,37 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Greedy Klasse}
+\frametitle{Earliest Arrival}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-	\column{.45\textwidth} % Left column and width
-	\textbf{Title}
+	\column{.5\textwidth} % Left column and width
+	\textbf{Earliest Arrival Problem}
+	\begin{itemize}
+		\item Gegeben:
+		\begin{itemize}
+			\item Startort und Startzeit
+			\item Zielort
+			\item Fahrplan mit Abfahrts- und Ankunftszeiten
+		\end{itemize}
+		\item Gesucht: Menge an Verbindungen (Route) \\ mit frühster Ankunftszeit
+	\end{itemize}
+	\column{.4\textwidth} % Right column and width
+	\includegraphics[scale=0.2]{bus.png}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Connection Scan Algorithmus}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Left column and width
+	\textbf{Connection Scan Algorithmus}
 	\begin{itemize}
 		\item TODO
 	\end{itemize}
-	\column{.45\textwidth} % Right column and width
+	\column{.4\textwidth} % Right column and width
 	\includegraphics[scale=1]{train.pdf}
 	
 	
