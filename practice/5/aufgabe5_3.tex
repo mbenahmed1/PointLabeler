@@ -244,43 +244,73 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 \begin{frame}
-\frametitle{Probleme}
+\frametitle{Connection Scan Algorithmus}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-	\column{.5\textwidth} % Left column and width
-	\textbf{Earliest Arrival Problem}
+	\column{.6\textwidth} % Left column and width
+	\textbf{Connection Scan Algorithmus}
 	\begin{itemize}
-		\item Gegeben:
-		\begin{itemize}
-			\item Startort und Startzeit
-			\item Zielort
-			\item Fahrplan mit Abfahrts- und Ankunftszeiten
-		\end{itemize}
-		\item Gesucht: Menge an Verbindungen (Route) \\ mit frühster Ankunftszeit
+		\item Array aller Connections nach Abfahrtszeit sortieren
+		\item Für jeden Stop ein Label speichern (intial $\infty$)
+		\item Über Connection Array iterieren und entsprechende Labels aktualisieren
+		\item Beispiel mit 5 Stops und 4 Connections
 	\end{itemize}
-	\column{.4\textwidth} % Right column and width
-	\includegraphics[scale=0.2]{bus.png}	
+	\column{.3\textwidth} % Right column and width
+	\includegraphics[scale=1]{csa_instance.pdf}
+	
 \end{columns}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Connection Scan Algorithmus}
+\frametitle{Connection Scan Algorithmus - Beispiel}
+\centering
+\includegraphics[scale=.7]{csa0.pdf}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Connection Scan Algorithmus - Beispiel}
+\centering
+\includegraphics[scale=.7]{csa1.pdf}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Connection Scan Algorithmus - Beispiel}
+\centering
+\includegraphics[scale=.7]{csa2.pdf}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Connection Scan Algorithmus - Beispiel}
+\centering
+\includegraphics[scale=.7]{csa3.pdf}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Erweiterungen}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
 	\column{.5\textwidth} % Left column and width
-	\textbf{Connection Scan Algorithmus}
+	\textbf{Profile Queries}
 	\begin{itemize}
-		\item TODO
+		\item Pareto Set
+		\item Lösbar durch erweiterung von CSA durch dynamische Programmierung
 	\end{itemize}
 	\column{.4\textwidth} % Right column and width
-	\includegraphics[scale=1]{train.pdf}
-	
+	\includegraphics[scale=0.3]{profiles.png}
 	
 \end{columns}
 \end{frame}
 
 %------------------------------------------------
+
 
 \end{document} 
