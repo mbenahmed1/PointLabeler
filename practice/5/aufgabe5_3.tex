@@ -178,7 +178,73 @@ Universität Osnabrück \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Earliest Arrival}
+\frametitle{Grundbegriffe}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Left column and width
+	\textbf{Stops und Connections}
+	\begin{itemize}
+		\item Stops $p$
+		\item Connections $c$
+		\item $p_{dep}(c)$ Abfahrt-Stop
+		\item $p_{arr}(c)$ Ankunft-Stop
+		\item $\tau_{dep}(c)$ Abfahrtszeit von $c$
+		\item $\tau_{arr}(c)$ Ankunftszeit von $c$
+		\item $\tau_{ch}(p)$ Umstiegszeit an Stop $p$
+	\end{itemize}
+	\column{.3\textwidth} % Right column and width
+	\includegraphics[scale=0.9]{connection.pdf}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Grundbegriffe}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.6\textwidth} % Left column and width
+	\textbf{Trips und Footpaths}
+	\begin{itemize}
+		\item Trip als Reihenfolge von Connections des selben Fahrzeugs
+		\item $t(c)$ Trip von Connection $c$
+		\item Footpath zwischen zwei nahegelegenen Stops
+		\item Footpaths dürfen nicht auf einander folgen
+		\item Routen als Mengen von Trips mit der selben Stop-Sequenz
+	\end{itemize}
+	\column{.3\textwidth} % Right column and width
+	\includegraphics[scale=1.2]{trips_footpaths.pdf}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Probleme}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.5\textwidth} % Left column and width
+	\textbf{Earliest Arrival Problem}
+	\begin{itemize}
+		\item Gegeben:
+		\begin{itemize}
+			\item Startort und Startzeit
+			\item Zielort
+			\item Fahrplan mit Abfahrts- und Ankunftszeiten
+		\end{itemize}
+		\item Gesucht: Menge an Verbindungen (Route) \\ mit frühster Ankunftszeit
+	\end{itemize}
+	\column{.4\textwidth} % Right column and width
+	\includegraphics[scale=0.2]{bus.png}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Probleme}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
 	\column{.5\textwidth} % Left column and width
