@@ -162,13 +162,14 @@ Universität Osnabrück \\ % Your institution for the title page
 		\begin{itemize}
 			\item[]
 			\item J. Dibbelt, T. Pajor, B. Strasser, D. Wagner
-			\item Berechnen von optimalen Routen in öffentlichen Verkehrsnetzen
+			\item Berechnen von optimalen Reisen in öffentlichen Verkehrsnetzen
 			\item[]
 			\item Connection Scan Algorithmus (CSA)
 			\begin{itemize}
 				\item earliest arrival
+				\item profile queries
 				\item multi-criteria optimization
-				\item minimum expected arrival time problem (MEAT)
+				\item minimum expected arrival time
 			\end{itemize}
 
 		\end{itemize}	
@@ -236,7 +237,9 @@ Universität Osnabrück \\ % Your institution for the title page
 		\item Gesucht: Menge an Verbindungen (Route) \\ mit frühster Ankunftszeit
 	\end{itemize}
 	\column{.4\textwidth} % Right column and width
-	\includegraphics[scale=0.2]{bus.png}	
+	\includegraphics[scale=0.18]{LoRaWAN_Teaserbild.jpeg}	
+	\centering
+	\tiny [deutschebahn.com]
 \end{columns}
 \end{frame}
 
@@ -298,19 +301,184 @@ Universität Osnabrück \\ % Your institution for the title page
 \frametitle{Erweiterungen}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-	\column{.5\textwidth} % Left column and width
+	\column{.6\textwidth} % Left column and width
 	\textbf{Profile Queries}
 	\begin{itemize}
-		\item Pareto Set
-		\item Lösbar durch erweiterung von CSA durch dynamische Programmierung
+		\item Abfahrts- und Ankufszeiten häufig unbekannt
+		\item Mehrere Reisen kommen in Frage
+		\item Input: Fahrplan, Zielstop t
+		\item Output: st-Profile für jeden Stop s
+		\item Profile sind Mengen von (Ankunftszeit, Abfahrzeit) Paaren
+		\item ggf. pareto-optimale Mengen verwalten
 	\end{itemize}
 	\column{.4\textwidth} % Right column and width
-	\includegraphics[scale=0.3]{profiles.png}
+	\includegraphics[scale=0.25]{profiles.png}
+	\centering
+	\tiny [bahn.de]
 	
 \end{columns}
 \end{frame}
 
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{Erweiterungen}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.6\textwidth} % Left column and width
+	\textbf{Profile Connection Scan}
+	\begin{itemize}
+		\item Sortiere Connections absteigend nach Abfahrtszeit
+		\item Iteriere über alle Connections
+		\item Füge zu $p_{dep}(c)$ Profil hinzu
+		\item Entferne ggf. dominierte Paare
+	\end{itemize}
+	\column{.4\textwidth} % Right column and width
+	\includegraphics[scale=0.25]{profiles.png}
+	\centering
+	\tiny [bahn.de]
+	
+\end{columns}
+\end{frame}
+	
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Erweiterungen}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.6\textwidth} % Left column and width
+	\textbf{Multi Criteria}
+	\begin{itemize}
+		\item Profile sind Triple aus \\ (Ankunftszeit, Abfahrzeit, \#Umstiege)
+		\item Iteriere über alle Connections
+		\item Füge zu $p_{dep}(c)$ Profil hinzu
+		\item Entferne ggf. dominierte Paare
+		\item []
+	\end{itemize}
+	\textbf{Minimum Expected Arrival Time}
+	\begin{itemize}
+		\item Berechnet alternative Reisen
+	\end{itemize}
+	\column{.4\textwidth} % Right column and width
+	\includegraphics[scale=0.3]{anzahl_umstiege.pdf}
+	\centering
+	\tiny [bahn.de]
+	  
+\end{columns}
+\end{frame}
+	
+
+%------------------------------------------------
+	
+\begin{frame}
+\frametitle{Erweiterungen}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.9\textwidth} % Left column and width
+	\textbf{Algorithmen Übersicht}
+	\begin{itemize}
+		\item Connection Scan
+		\item Dijkstra
+		\begin{itemize}
+			\item Time-Expanded: Graph mit Knoten = Zeipunkte und Kanten = Connections
+			\item Time-Dependent: Graph mit Knoten = Stop und Kanten = elementar Verbindung
+		\end{itemize}
+		\item Dynamische Programmierung auf Fahrplan
+		\begin{itemize}
+			\item RAPTOR
+		\end{itemize}
+	\end{itemize}
+
+		
+\end{columns}
+\end{frame}
+	
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.4\textwidth} % Left column and width
+	\textbf{London}
+	\begin{itemize}
+		\item 20.843 Stops
+		\item 25.537 Trips
+		\item 4.850.431 Connections
+		\item 2.135 Routen
+		\item 45.652 Footpaths
+	\end{itemize}
+\begin{table}[]
+	\begin{tabular}{lr}
+	\toprule
+	Pareto Profile All-to-One			      &         \\
+	\midrule
+	RAPTOR                                    & 1179 ms \\
+	Connection Scan                           & 255 ms  \\
+
+	\bottomrule
+	\end{tabular}
+	\end{table}
+	
+
+	
+	\column{.5\textwidth} % Right column and width
+	\begin{table}[]
+	\begin{tabular}{lr}
+	\toprule
+	Earliest Arrival One-to-All &         \\ 
+	\midrule
+	Time-Expanded               & 876,2 ms \\
+	Time-Dependent              & 18,9 ms \\
+	Connection Scan             & 9,7 ms  \\ 
+	\bottomrule
+	\end{tabular}
+	\end{table}
+\begin{table}[]
+	\begin{tabular}{lr}
+	\toprule
+	Earliest Arrival One-to-One &         \\ 
+	\midrule
+	Time-Expanded               & 64,4 ms \\
+	Time-Dependent              & 10,9 ms \\
+	Connection Scan             & 2,0 ms  \\ 
+	\bottomrule
+	\end{tabular}
+	\end{table}
+	
+		
+\end{columns}
+\end{frame}
+	
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Ergebnisse}
+	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.9\textwidth} % Left column and width
+	\textbf{Zusammenfassung}
+	\begin{itemize}
+		\item CSA hat ein relativ einfaches Konzept
+		\item CSA ist schneller als bestehende Ansätze
+		\item Insbesondere MEAT wird besonders schnell gelöst
+		\item Schnell genug für interaktive Anwendungen \pause
+		\item []
+		\item []
+	\end{itemize}
+	\centering
+	\textbf{Fragen?}
+
+		
+\end{columns}
+\end{frame}
+	
+
+%------------------------------------------------
+
 
 \end{document} 
+
