@@ -38,7 +38,7 @@ namespace PointLabeler
 
         std::vector<Point> s;
         std::vector<Point> s_dash;
-        s = copy(points);
+        s = points;
         int c_s_dash;
 
         //******** i = 0;
@@ -54,7 +54,7 @@ namespace PointLabeler
         int c_s = greedy.solve();
 
         //****** s_opt = s;
-        std::vector<Point> s_opt = copy(s);
+        std::vector<Point> s_opt = s;
 
         //******** c* = c(s)
         int c_opt = c_s;
@@ -68,7 +68,7 @@ namespace PointLabeler
         while (step_count <= steps)
         {
             // copying old solution to s_dash
-            s_dash = copy(s);
+            s_dash = s;
             // copying old c value to c_s_dash
             c_s_dash = c_s;
 
@@ -104,19 +104,19 @@ namespace PointLabeler
 
             if (c_s_dash >= c_s || annealing_distr(gen) < euler(c_s_dash, c_s, t(i)))
             {
-                s = SimulatedAnnealing::copy(s_dash);
+                s = s_dash;
                 c_s = c_s_dash;
 
                 if (c_s_dash > c_opt)
                 {
-                    s_opt = SimulatedAnnealing::copy(s_dash);
+                    s_opt = s_dash;
                     c_opt = c_s_dash;
                 }
             }
             step_count++;
 
             // reheating after some time
-            if (t(i) < 0.00001)
+            if (t(i) < 0.001)
             {
                 i = 1;
             }
@@ -149,7 +149,7 @@ namespace PointLabeler
             std::cout.flush();
         }
 
-        points = copy(s_opt);
+        points = s_opt;
         return c_opt;
     }
 
@@ -163,26 +163,6 @@ namespace PointLabeler
     double SimulatedAnnealing::t(int i)
     {
         return SimulatedAnnealing::get_t_i() * std::pow(SimulatedAnnealing::get_alpha(), i);
-    }
-
-    std::vector<PointLabeler::Point> SimulatedAnnealing::copy(std::vector<PointLabeler::Point> vector)
-    {
-        std::vector<PointLabeler::Point> vector_copy;
-
-        for (int i = 0; i < vector.size(); i++)
-        {
-            vector_copy.push_back(Point(vector[i].get_x(), vector[i].get_y(),
-                                        vector[i].get_label_length(),
-                                        vector[i].get_label_height(),
-                                        vector[i].get_label_text(),
-                                        vector[i].get_is_labeled(),
-                                        vector[i].get_label_x(),
-                                        vector[i].get_label_y(),
-                                        vector[i].get_neighborhood_count(),
-                                        vector[i].get_label_enum()));
-        }
-
-        return vector_copy;
     }
 
     double SimulatedAnnealing::get_alpha()

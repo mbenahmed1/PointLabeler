@@ -31,8 +31,6 @@ namespace PointLabeler
 
         double euler(int c_temp, int c_current, double t_i);
 
-        std::vector<PointLabeler::Point> copy(std::vector<PointLabeler::Point> vector);
-
         int c(std::vector<PointLabeler::Point> &points);
 
         int steps;
