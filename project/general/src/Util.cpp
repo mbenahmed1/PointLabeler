@@ -5,8 +5,8 @@
 #include "Util.hpp"
 
 Util::Util(std::vector<Point> &points) : m_points(points)
-{}
-
+{
+}
 
 int Util::o(int i, int a, int j, int b)
 {
@@ -62,13 +62,13 @@ std::vector<std::vector<Point>> Util::createDataStructure(std::vector<Point> &po
     return map;
 }
 
-void Util::evaluateDataStructure(const std::vector<std::vector<Point>>& map)
+void Util::evaluateDataStructure(const std::vector<std::vector<Point>> &map)
 {
     int avg = 0;
     int min = map.size();
     int max = 0;
 
-    for (auto & i : map)
+    for (auto &i : map)
     {
         int size = i.size();
         avg += size;
@@ -91,7 +91,7 @@ void Util::printDataStructure(const std::vector<std::vector<Point>> &vec, std::v
 {
     for (int i = 0; i < vec.size(); i++)
     {
-        std::cout << "(" << points[i].get_x() << ", " << points[i].get_y() <<"): ";
+        std::cout << "(" << points[i].get_x() << ", " << points[i].get_y() << "): ";
         for (int j = 0; j < vec[i].size(); j++)
         {
             std::cout << "(" << vec[i][j].get_x() << ", " << vec[i][j].get_y() << "), ";
@@ -107,12 +107,13 @@ std::vector<std::vector<int>> Util::createDataStructure2(std::vector<Point> &poi
     for (int i = 0; i < points.size(); i++)
     {
         Point &a = points[i];
-        std::vector <int> conflicts;
+        std::vector<int> conflicts;
 
         for (int j = 0; j < points.size(); j++)
         {
 
-            if (i == j) continue;
+            if (i == j)
+                continue;
 
             Point &b = points[j];
             if (a.is_bounding_box_overlapping(b))
@@ -125,14 +126,13 @@ std::vector<std::vector<int>> Util::createDataStructure2(std::vector<Point> &poi
     return map;
 }
 
-
 void Util::evaluateDataStructure(const std::vector<std::vector<int>> &map)
 {
     int avg = 0;
     int min = map.size();
     int max = 0;
 
-    for (auto & i : map)
+    for (auto &i : map)
     {
         int size = i.size();
         avg += size;
@@ -155,7 +155,7 @@ void Util::printDataStructure(const std::vector<std::vector<int>> &vec, std::vec
 {
     for (int i = 0; i < vec.size(); i++)
     {
-        std::cout << "(" << points[i].get_x() << ", " << points[i].get_y() <<"): ";
+        std::cout << "(" << points[i].get_x() << ", " << points[i].get_y() << "): ";
         for (int j = 0; j < vec[i].size(); j++)
         {
             std::cout << "(" << points[vec[i][j]].get_x() << ", " << points[vec[i][j]].get_y() << "), ";

@@ -5,16 +5,15 @@
 #include "ILPSolver.hpp"
 #include "GreedyAlgorithm.hpp"
 
-
 class mycallback : public GRBCallback
 {
 public:
     int numvars;
     GRBVar *vars;
     vector<Point> &points;
-    std::vector<std::vector<int>>& map;
+    std::vector<std::vector<int>> &map;
 
-    mycallback(int xnumvars, GRBVar *xvars, vector<Point>& points, vector<vector<int>>& map) :map(map), points(points)
+    mycallback(int xnumvars, GRBVar *xvars, vector<Point> &points, vector<vector<int>> &map) : map(map), points(points)
     {
         numvars = xnumvars;
         vars = xvars;
@@ -33,7 +32,6 @@ protected:
                 {
                     double *x = getNodeRel(vars, numvars);
 
-
                     /*DEBUG VARIABLES
                     for (int i = 0; i < numvars; i += 4) {
                         cout << vars[i+0].get(GRB_StringAttr_VarName) << ": " << x[i+0];
@@ -45,20 +43,20 @@ protected:
 
                     for (int i = 0; i < numvars; i += 4)
                     {
-                        points[i/4].clear();
+                        points[i / 4].clear();
                         double maxValue = 0.0;
                         int maxA = -1;
 
                         for (int a = 0; a < 4; a++)
                         {
-                            if (x[i+a] > maxValue)
+                            if (x[i + a] > maxValue)
                             {
-                                maxValue = x[i+a];
+                                maxValue = x[i + a];
                                 maxA = a;
                             }
                         }
 
-                        int p_index = i/4;
+                        int p_index = i / 4;
 
                         // set points
                         if (maxValue == 1.0)
@@ -90,11 +88,13 @@ protected:
                     delete[] x;
                 }
             }
-        } catch (GRBException e)
+        }
+        catch (GRBException e)
         {
             cout << "Error number: " << e.getErrorCode() << endl;
             cout << e.getMessage() << endl;
-        } catch (...)
+        }
+        catch (...)
         {
             cout << "Error during callback" << endl;
         }
@@ -102,8 +102,8 @@ protected:
 };
 
 ILPSolver::ILPSolver(vector<Point> &points) : m_points(points), util(points)
-{}
-
+{
+}
 
 int ILPSolver::solve()
 {
@@ -194,7 +194,7 @@ int ILPSolver::solve()
         model.set(GRB_IntParam_BranchDir, -1);
         model.update();
 
-        GRBVar* vars = model.getVars();
+        GRBVar *vars = model.getVars();
         //for (int i = 0; i < numvars; i++) {
         //    cout << vars[i].get(GRB_StringAttr_VarName);
         //}
@@ -237,17 +237,16 @@ int ILPSolver::solve()
                 m_points[i].clear();
             }
         }
-
-    } catch (GRBException e)
+    }
+    catch (GRBException e)
     {
         cout << "Error code = " << e.getErrorCode() << endl;
         cout << e.getMessage() << endl;
-    } catch (...)
+    }
+    catch (...)
     {
         cout << "Exception during optimization" << endl;
     }
 
     return 0;
 }
-
-

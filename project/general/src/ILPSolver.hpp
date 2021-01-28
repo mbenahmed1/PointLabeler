@@ -17,13 +17,11 @@ using namespace std;
 class ILPSolver
 {
 public:
-
     explicit ILPSolver(vector<Point> &points);
 
     int solve();
 
 private:
-
     vector<Point> &m_points;
 
     Util util;

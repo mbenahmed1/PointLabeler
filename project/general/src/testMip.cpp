@@ -82,7 +82,6 @@ int solve()
             }
         }
 
-
         // Optimize model
         model.optimize();
 
@@ -97,19 +96,19 @@ int solve()
         }
 
         cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
-
-    } catch (GRBException e)
+    }
+    catch (GRBException e)
     {
         cout << "Error code = " << e.getErrorCode() << endl;
         cout << e.getMessage() << endl;
-    } catch (...)
+    }
+    catch (...)
     {
         cout << "Exception during optimization" << endl;
     }
 
     return 0;
 }
-
 
 int main_example()
 {
@@ -148,12 +147,13 @@ int main_example()
              << z.get(GRB_DoubleAttr_X) << endl;
 
         cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
-
-    } catch (GRBException e)
+    }
+    catch (GRBException e)
     {
         cout << "Error code = " << e.getErrorCode() << endl;
         cout << e.getMessage() << endl;
-    } catch (...)
+    }
+    catch (...)
     {
         cout << "Exception during optimization" << endl;
     }
@@ -161,6 +161,7 @@ int main_example()
     return 0;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     return main_example();
 }

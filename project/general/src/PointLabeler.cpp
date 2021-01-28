@@ -28,7 +28,6 @@ constexpr int DEFAULT_T0 = 1;
 // default paramters for Normals
 constexpr int DEFAULT_NEIGHBORHOOD = 1000;
 
-
 /**
  * Checks if string ends with .txt
  * 
@@ -53,7 +52,8 @@ int print_message(std::string text)
     char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-    std::cout << buf << ":" << " " << text << std::endl;
+    std::cout << buf << ":"
+              << " " << text << std::endl;
     return 1;
 }
 
@@ -67,19 +67,25 @@ int print_usage()
     std::cout << "or" << std::endl;
     std::cout << "$ ./PointLabeler --random-gen [OUTPUT_FILENAME].txt" << std::endl;
     std::cout << "or" << std::endl;
-    std::cout << "$ ./PointLabeler --cluster-gen [OUTPUT_FILENAME].txt\n" << std::endl;
+    std::cout << "$ ./PointLabeler --cluster-gen [OUTPUT_FILENAME].txt\n"
+              << std::endl;
 
     std::cout << "The current default solver is: " << DEFAULT_SOLVER << std::endl;
 
-    std::cout << "To change the solver append one of the following flags to the first command:\n" << std::endl;
-    std::cout << "SIMULATED ANNEALING: -sa\n" << std::endl;
+    std::cout << "To change the solver append one of the following flags to the first command:\n"
+              << std::endl;
+    std::cout << "SIMULATED ANNEALING: -sa\n"
+              << std::endl;
     std::cout << "    [-alpha] (=" << DEFAULT_ALPHA << ") \t The temperature multiplier after each iteration." << std::endl;
     std::cout << "    [-steps] (=" << DEFAULT_STEPS << ") \t Number of iterations before halting." << std::endl;
-    std::cout << "    [-t]     (=" << DEFAULT_T0 << ") \t Starting temperature.\n" << std::endl;
+    std::cout << "    [-t]     (=" << DEFAULT_T0 << ") \t Starting temperature.\n"
+              << std::endl;
 
-    std::cout << "GREEDY ALGORITHM: -g\n" << std::endl;
+    std::cout << "GREEDY ALGORITHM: -g\n"
+              << std::endl;
 
-    std::cout << "NORMAL ALGORITHM: -n [RADIUS]\n" << std::endl;
+    std::cout << "NORMAL ALGORITHM: -n [RADIUS]\n"
+              << std::endl;
 
     return 1;
 }
@@ -102,13 +108,11 @@ int read_file(std::string filename)
     file << "Test\n";
     file.close();
 
-
     message = "Finished reading file \"";
     message.append(filename);
     message.append("\".");
     print_message(message);
     return 0;
-
 }
 
 /**
@@ -175,7 +179,7 @@ void evaluate_solution(std::vector<Point> &solution)
         {
             continue;
         }
-        std::cout << "ERROR: label of point " << i << " ("<< p.get_label_text() << ") is not touching the point" << std::endl;
+        std::cout << "ERROR: label of point " << i << " (" << p.get_label_text() << ") is not touching the point" << std::endl;
         return;
     }
     std::cout << valid << std::endl;
@@ -209,28 +213,24 @@ int main(int argc, char **argv)
     std::string arg3;
     std::string arg4;
 
-
     // if 3 args are given (generate random with filepath)
     if (argc == 3)
     {
         arg1 = argv[1];
         arg2 = argv[2];
 
-
         if (arg1 == "--cluster-gen")
         {
             int i = 1;
-            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100*i, -100*i, 100*i, -100*i, 25*i, 12*i, 2000*i, 10*i, 1000*i, 25*i);
-            for(int i = 1; i < 101; i++)
+            std::vector<PointLabeler::Point> *points = map.cluster_generate_points(100 * i, -100 * i, 100 * i, -100 * i, 25 * i, 12 * i, 2000 * i, 10 * i, 1000 * i, 25 * i);
+            for (int i = 1; i < 101; i++)
             {
-            write_filename = arg2;
-            print_message("Generate cluster instance.");
-            points = map.cluster_generate_points(100*i, -100*i, 100*i, -100*i, 25*i, 12*i, 2000*i, 10*i, 1000*i, 25*i);
-            
-            
-            print_message("Write to file \"" + std::to_string(i-1) + write_filename + "\".");
-            map.write_to_file(points, std::to_string(i-1) + write_filename);
-            
+                write_filename = arg2;
+                print_message("Generate cluster instance.");
+                points = map.cluster_generate_points(100 * i, -100 * i, 100 * i, -100 * i, 25 * i, 12 * i, 2000 * i, 10 * i, 1000 * i, 25 * i);
+
+                print_message("Write to file \"" + std::to_string(i - 1) + write_filename + "\".");
+                map.write_to_file(points, std::to_string(i - 1) + write_filename);
             }
             return 1;
         }
@@ -279,10 +279,12 @@ int main(int argc, char **argv)
             int current_neighborhood = DEFAULT_NEIGHBORHOOD;
 
             // parse algorithm args
-            if (argc >= 6) {
+            if (argc >= 6)
+            {
                 std::string algorithm = argv[5];
 
-                if (algorithm == "-sa") {
+                if (algorithm == "-sa")
+                {
 
                     current_solver = "SA";
 
@@ -334,30 +336,30 @@ int main(int argc, char **argv)
                 greedyAlgorithm.solve();
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-                current_duration = (double) duration;
+                current_duration = (double)duration;
             }
             // solve with normal algorithm
             if (current_solver == "N")
             {
-                print_message("running Normals with neighborhoods: " +  std::to_string(current_neighborhood));
+                print_message("running Normals with neighborhoods: " + std::to_string(current_neighborhood));
                 PointLabeler::Normals normals = PointLabeler::Normals(current_neighborhood);
                 auto start = std::chrono::high_resolution_clock::now();
                 normals.solve(*points);
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-                current_duration = (double) duration;
+                current_duration = (double)duration;
             }
             // solve with simulated annealing
             if (current_solver == "SA")
             {
                 // choose alpha close to 1, the closer the solver the decay
-                print_message("running SA with steps: " + std::to_string(current_steps) + " alpha: " + std::to_string(current_alpha) +" t0: " + std::to_string(current_t0));
+                print_message("running SA with steps: " + std::to_string(current_steps) + " alpha: " + std::to_string(current_alpha) + " t0: " + std::to_string(current_t0));
                 PointLabeler::SimulatedAnnealing sa = PointLabeler::SimulatedAnnealing(current_steps, current_alpha, current_t0);
                 auto start = std::chrono::high_resolution_clock::now();
                 sa.solve(*points);
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-                current_duration = (double) duration;
+                current_duration = (double)duration;
             }
             if (current_solver == "ILP")
             {
@@ -367,7 +369,7 @@ int main(int argc, char **argv)
                 solver.solve();
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-                current_duration = (double) duration;
+                current_duration = (double)duration;
             }
 
             // print how many % were labeled
@@ -376,10 +378,9 @@ int main(int argc, char **argv)
             float rate = 0.0;
             rate = labeled_count / (float)label_count;
 
-
             //print_message("Write to file: \"" + write_filename + "\".");
             print_message("Labeled Rate: " + std::to_string(rate * 100) + "%");
-            std::cout << get_labeled_count(*points) << "\t" << current_duration/1000 << std::endl;
+            std::cout << get_labeled_count(*points) << "\t" << current_duration / 1000 << std::endl;
             map.write_to_file(points, write_filename);
 
             return 1;

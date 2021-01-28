@@ -9,26 +9,21 @@
 #include <algorithm>
 #include "Util.hpp"
 
-
-
 namespace PointLabeler
 {
 
+    class Normals
+    {
 
+    public:
+        explicit Normals(int radius);
 
-class Normals
-{
+        int solve(std::vector<PointLabeler::Point> &points);
 
-public:
-    explicit Normals(int radius);
+    private:
+        int radius;
 
-    int solve(std::vector<PointLabeler::Point> &points);
-
-
-private:
-    int radius;
-
-    static float euclidean_distance(PointLabeler::Point point_a, PointLabeler::Point point_b);
-};
-}
+        static float euclidean_distance(PointLabeler::Point point_a, PointLabeler::Point point_b);
+    };
+} // namespace PointLabeler
 #endif //POINTLABELER_NORMALS_HPP

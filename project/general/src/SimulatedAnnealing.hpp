@@ -12,33 +12,32 @@
 namespace PointLabeler
 {
 
-class SimulatedAnnealing
-{
+    class SimulatedAnnealing
+    {
 
-public:
-    explicit SimulatedAnnealing(int steps, double alpha, double t_i);
+    public:
+        explicit SimulatedAnnealing(int steps, double alpha, double t_i);
 
-    int solve(std::vector<PointLabeler::Point> &points);
+        int solve(std::vector<PointLabeler::Point> &points);
 
-    double get_alpha();
+        double get_alpha();
 
-    double get_t_i();
+        double get_t_i();
 
-    double t(int i);
+        double t(int i);
 
-private:
+    private:
+        int set_labels(std::vector<Point> &points, Point &point, Point::Position pos, int pointIndex, std::vector<std::vector<int>> &map);
 
-    int set_labels(std::vector<Point> &points, Point &point, Point::Position pos, int pointIndex, std::vector<std::vector<int>>& map);
+        double euler(int c_temp, int c_current, double t_i);
 
-    double euler(int c_temp, int c_current, double t_i);
+        std::vector<PointLabeler::Point> copy(std::vector<PointLabeler::Point> vector);
 
-    std::vector<PointLabeler::Point> copy(std::vector<PointLabeler::Point> vector);
+        int c(std::vector<PointLabeler::Point> &points);
 
-    int c(std::vector<PointLabeler::Point> &points);
-
-    int steps;
-    double alpha;
-    double t_i;
-};
-}
+        int steps;
+        double alpha;
+        double t_i;
+    };
+} // namespace PointLabeler
 #endif //POINTLABELER_SIMULATEDANNEALING_HPP
