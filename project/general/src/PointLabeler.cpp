@@ -274,7 +274,7 @@ int main(int argc, char **argv)
             std::string current_solver = DEFAULT_SOLVER;
             double current_alpha = DEFAULT_ALPHA;
             int current_steps = DEFAULT_STEPS;
-            int current_t0 = DEFAULT_T0;
+            double current_t0 = DEFAULT_T0;
 
             int current_neighborhood = DEFAULT_NEIGHBORHOOD;
 
@@ -303,7 +303,7 @@ int main(int argc, char **argv)
                         }
                         if (param == "-t")
                         {
-                            current_t0 = std::stoi(value);
+                            current_t0 = std::stod(value);
                         }
                     }
                 }
