@@ -175,3 +175,17 @@ bool Util::hasConflict(std::vector<std::vector<int>> &map, std::vector<Point> &p
     }
     return false;
 }
+
+int Util::getLabeldCount(const std::vector<Point> &points)
+{
+    int c = 0;
+    for (const auto & point : points)
+    {
+        //std::cout << points[i].get_is_labeled() << std::endl;
+        if (point.get_is_labeled() == 1)
+        {
+            c++;
+        }
+    }
+    return c;
+}

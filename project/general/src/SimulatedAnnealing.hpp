@@ -20,22 +20,28 @@ namespace PointLabeler
 
         int solve(std::vector<PointLabeler::Point> &points);
 
-        double get_alpha();
+        double get_alpha() const;
 
-        double get_t_i();
-
-        double t(int i);
+        double get_t_i() const;
 
     private:
-        int set_labels(std::vector<Point> &points, Point &point, Point::Position pos, int pointIndex, std::vector<std::vector<int>> &map);
+        int set_labels(std::vector<Point> &points, Point::Position pos, int pointIndex, std::vector<std::vector<int>> &map);
 
-        double euler(int c_temp, int c_current, double t_i);
+        int set_labels2(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map);
 
-        int c(std::vector<PointLabeler::Point> &points);
+        static double euler(int c_temp, int c_current, double t_i);
+
+        void print_progress(int, int, int, double) const;
 
         int steps;
         double alpha;
         double t_i;
+
+        std::mt19937 gen;
+        // random distribution for point which will be randomly altered
+        std::uniform_int_distribution<> index_distr;
+        // random distribution for switching label positions
+        std::uniform_int_distribution<> pos_distr;
     };
 } // namespace PointLabeler
 #endif //POINTLABELER_SIMULATEDANNEALING_HPP

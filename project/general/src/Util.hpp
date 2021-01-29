@@ -35,6 +35,8 @@ public:
 
     static bool hasConflict(std::vector<std::vector<int>> &map, std::vector<Point> &points, int index);
 
+    static int getLabeldCount(const std::vector<Point>& points);
+
     int o(int i, int a, int j, int b);
 };
 

@@ -39,14 +39,15 @@ set(ILP_SOURCES
 
 
 # set compiler warnings
-#set(CMAKE_CXX_FLAGS_DEBUG "-Wall")
+
 
 # add the executable
 add_executable(PointLabeler ${POINTLABELER_SOURCES})
 add_executable(testILP ${ILP_SOURCES})
 
 if(CXX)
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_FLAGS "-o3")
     target_link_libraries(testILP optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
     target_link_libraries(PointLabeler optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
 endif()
