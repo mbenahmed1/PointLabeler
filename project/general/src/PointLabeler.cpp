@@ -14,7 +14,7 @@
 #include "GreedyAlgorithm.hpp"
 #include "Normals.hpp"
 #include "SimulatedAnnealing.hpp"
-#include "ILPSolver.hpp"
+//#include "ILPSolver.hpp"
 
 using namespace PointLabeler;
 // default algorithm
@@ -47,14 +47,14 @@ bool has_suffix(const std::string &str, const std::string &suffix)
  */
 int print_message(std::string text)
 {
-    time_t now = time(0);
+/*    time_t now = time(0);
     struct tm tstruct;
     char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     std::cout << buf << ":"
               << " " << text << std::endl;
-    return 1;
+    return 1;*/
 }
 
 /**
@@ -363,13 +363,13 @@ int main(int argc, char **argv)
             }
             if (current_solver == "ILP")
             {
-                print_message("running ILP Solver");
+                /*print_message("running ILP Solver");
                 ILPSolver solver = ILPSolver(*points);
                 auto start = std::chrono::high_resolution_clock::now();
                 solver.solve();
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-                current_duration = (double)duration;
+                current_duration = (double)duration;*/
             }
 
             // print how many % were labeled

@@ -111,7 +111,7 @@ namespace PointLabeler
             }
             i++;
 
-            print_progress(c_opt, solution_size, step_count, temperature);
+            //print_progress(c_opt, solution_size, step_count, temperature);
         }
 
         points = s_opt;
