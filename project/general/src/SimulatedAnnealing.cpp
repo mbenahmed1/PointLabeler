@@ -86,7 +86,7 @@ namespace PointLabeler
             //c_s_dash += set_labels(s_dash, static_cast<Point::Position>(pos), index, map);
             c_s_dash += set_labels2(s_dash, index, map);
             //c_s_dash += random_set_labels(s_dash, index, map);
-
+            std::cout << euler(c_s_dash, c_s, temperature) << std::endl;
             // accept worse solutions with a certain probability
             if (c_s_dash >= c_s || annealing_distr(gen) < euler(c_s_dash, c_s, temperature))
             {
@@ -105,11 +105,7 @@ namespace PointLabeler
             step_count++;
 
             // reheating after some time
-            if (temperature < 0.001)
-            {
-                i = 1;
-                temperature = t_i;
-            }
+            temperature = reanealing_temperature_bound(temperature);
             i++;
 
             //print_progress(c_opt, solution_size, step_count, temperature);
@@ -224,6 +220,15 @@ namespace PointLabeler
         std::cout.flush();
     }
 
+    double SimulatedAnnealing::reanealing_temperature_bound(double current_temp)
+    {
+        if(current_temp < 0.0001)
+        {
+            current_temp = t_i;
+            return current_temp;
+        }
+        return current_temp;
+    }
 
 
 
