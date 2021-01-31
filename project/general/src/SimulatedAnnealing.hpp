@@ -35,6 +35,8 @@ namespace PointLabeler
 
         int random_set_labels(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map);
 
+        double next_temp(int iteration);
+
         static double euler(int c_temp, int c_current, double t_i);
 
         void print_progress(int, int, int, double) const;

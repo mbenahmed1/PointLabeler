@@ -105,19 +105,19 @@ namespace PointLabeler
                 }
             }
             // decrease temperature
-            temperature *= alpha;
+            temperature = next_temp(step_count);
 
             step_count++;
 
             // reheating after some time
-            if (temperature < 0.001)
+/*            if (temperature < 0.001)
             {
                 i = 1;
                 temperature = t_i;
-            }
+            }*/
             i++;
 
-            //print_progress(c_opt, solution_size, step_count, temperature);
+            print_progress(c_opt, solution_size, step_count, temperature);
         }
 
         points = s_opt;
@@ -257,6 +257,12 @@ namespace PointLabeler
             delta += set_labels(points, static_cast<Point::Position>(pos), index, map);
         }
         return delta;
+    }
+
+    double SimulatedAnnealing::next_temp(int iteration)
+    {
+        //return old_temp * alpha;
+        return t_i / (1 + std::log(1 + iteration));
     }
 
 
