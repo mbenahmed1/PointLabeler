@@ -84,8 +84,13 @@ namespace PointLabeler
 
             // setting changed label and returning c delta
             //c_s_dash += set_labels(s_dash, static_cast<Point::Position>(pos), index, map);
+            //c_s_dash += set_labels3(s_dash, index, map);
             c_s_dash += set_labels2(s_dash, index, map);
+            //c_s_dash += set_labels4(s_dash, map);
             //c_s_dash += random_set_labels(s_dash, index, map);
+            //c_s_dash = Util::getLabeldCount(s_dash);
+
+            //std::cout << c_s_dash << std::endl;
 
             // accept worse solutions with a certain probability
             if (c_s_dash >= c_s || annealing_distr(gen) < euler(c_s_dash, c_s, temperature))
@@ -174,7 +179,25 @@ namespace PointLabeler
 
     int SimulatedAnnealing::set_labels3(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map)
     {
-        return 0;
+        Point &point = points[pointIndex];
+        if (point.get_is_labeled() == 1)
+        {
+            return set_labels2(points, pointIndex, map);
+        }
+        std::vector<int> neighbours = map[pointIndex];
+        int delta = 0;
+        int pos = pos_distr(gen);
+        for (int index : neighbours)
+        {
+            if (points[index].get_is_labeled() == 1)
+            {
+                points[index].clear();
+                delta -= 1;
+            }
+        }
+        points[pointIndex].set_label_pos(static_cast<Point::Position>(pos));
+        delta += 1;
+        return delta;
     }
 
 
@@ -186,7 +209,7 @@ namespace PointLabeler
         int pos = pos_distr(gen);
         if (rand_int == 1)
         {
-            delta = set_labels(points, static_cast<Point::Position>(pos), pointIndex, map);
+            delta = set_labels3(points, pointIndex, map);
         }
         else
         {
@@ -224,7 +247,17 @@ namespace PointLabeler
         std::cout.flush();
     }
 
-
+    int SimulatedAnnealing::set_labels4(std::vector<Point> &points, std::vector<std::vector<int>> &map)
+    {
+        int delta = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            int index = index_distr(gen);
+            int pos = pos_distr(gen);
+            delta += set_labels(points, static_cast<Point::Position>(pos), index, map);
+        }
+        return delta;
+    }
 
 
 } // namespace PointLabeler
