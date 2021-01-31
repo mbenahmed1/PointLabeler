@@ -31,9 +31,12 @@ namespace PointLabeler
 
         int set_labels3(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map);
 
+        int set_labels4(std::vector<Point> &points, std::vector<std::vector<int>> &map);
+
         int random_set_labels(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map);
 
         double reanealing_temperature_bound(double current_temp);
+        double next_temp(int iteration);
 
         static double euler(int c_temp, int c_current, double t_i);
 
