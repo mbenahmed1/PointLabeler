@@ -85,6 +85,7 @@ namespace PointLabeler
             // setting changed label and returning c delta
             //c_s_dash += set_labels(s_dash, static_cast<Point::Position>(pos), index, map);
             c_s_dash += set_labels2(s_dash, index, map);
+            //c_s_dash += random_set_labels(s_dash, index, map);
 
             // accept worse solutions with a certain probability
             if (c_s_dash >= c_s || annealing_distr(gen) < euler(c_s_dash, c_s, temperature))
@@ -161,12 +162,37 @@ namespace PointLabeler
         point.clear();
 
         std::vector<int> neighbours = map[pointIndex];
-
+        int pos = pos_distr(gen);
         for (int index : neighbours)
         {
-            int pos = pos_distr(gen);
             delta += set_labels(points, static_cast<Point::Position>(pos), index, map);
+            pos = pos_distr(gen);
         }
+        delta += set_labels(points, static_cast<Point::Position>(pos), pointIndex, map);
+        return delta;
+    }
+
+    int SimulatedAnnealing::set_labels3(std::vector<Point> &points, int pointIndex, std::vector<std::vector<int>> &map)
+    {
+        return 0;
+    }
+
+
+    int SimulatedAnnealing::random_set_labels(std::vector<Point> &points, int pointIndex,
+                                              std::vector<std::vector<int>> &map)
+    {
+        int delta;
+        int rand_int = pos_distr(gen);
+        int pos = pos_distr(gen);
+        if (rand_int == 1)
+        {
+            delta = set_labels(points, static_cast<Point::Position>(pos), pointIndex, map);
+        }
+        else
+        {
+            delta = set_labels2(points, pointIndex, map);
+        }
+
         return delta;
     }
 
@@ -197,5 +223,8 @@ namespace PointLabeler
         std::cout << "Step " << step_count << " of " << steps << " t_i: " << temp << "  c_opt: ";
         std::cout.flush();
     }
+
+
+
 
 } // namespace PointLabeler
