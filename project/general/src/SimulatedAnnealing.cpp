@@ -105,7 +105,7 @@ namespace PointLabeler
                 }
             }
             // decrease temperature
-            temperature = next_temp(step_count);
+            temperature *= alpha;
 
             step_count++;
 
