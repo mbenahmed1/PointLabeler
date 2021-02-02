@@ -154,100 +154,103 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 %------------------------------------------------
-
 \begin{frame}
-	\frametitle{(a) - Basis-ILP}
-	\textbf{Formulierung des Basis-ILP}\\
+\frametitle{Phase 4 - Simulated Annealing}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Simulated Annealing:}
 	\begin{itemize}
-		\item $N$	= $ \{1,\dotsc,n\}$ := Punktmenge.
-		\item $P$ = $ \{1,2,3,4\}$ := Labelpositionen.
-		\item $o_{iajb} = 1$, wenn die Label von Punkt $i$ und $j$ in Positionen $a$ und $b$ überlappen, $0$ sonst.
-		\item $l_{ia} = 1$, wenn Punkt $i$ in Position $a$ gelabelt ist, 0 sonst.
+		\item Es werden Nachbarschaften von Lösungen  betrachtet
+		\item Label Position zufällig ändern und neue Lösung auswerten
 	\end{itemize}
-	\end{frame}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.6]{sa_representation.pdf}
+	
+	
+	
+\end{columns}
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Simulated Annealing}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.55\textwidth} % Left column and width
+	\textbf{Simulated Annealing:}
+	\begin{itemize}
+		\item Bessere und gleiche Lösungen werden immer akzeptiert
+		\item Verschlechterungen werden mit bestimmter Wahrscheinlichkeit akzeptiert
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.6]{sa_maximum.pdf}	
+\end{columns}
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Verbesserungen}
+\textbf{Änderungen zu Phase 2}\\
+\begin{itemize}
+	\item Effiziente Datenstruktur für Konflikterkennung
+	\begin{itemize}
+		\item[$\rightarrow$] Potenzielle Konflikte für jeden Punkt speichern
+	\end{itemize}
+	\item Implementation eines Parameter Tuning Tools
+	\begin{itemize}
+		\item[$\rightarrow$] Parameter mittels Bayesian Optimization finden
+	\end{itemize}
+	\item Hinzufügen mehrerer neuer Nachbarschaften
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.30\textwidth} % Left column and width
+	\textbf{Intel Core i5-3570K}
+	\begin{itemize}
+		\item 4c/4t
+		\item 3,4 - 3,8 GHz
+		\item 6 MB L3
+		\item 16 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+	\end{itemize}
+	
+	\column{.30\textwidth} % Right column and width
+	\textbf{Intel Core i7-3770K}
+	\begin{itemize}
+		\item 4c/8t
+		\item 3,5 - 3,9 GHz
+		\item 8 MB L3
+		\item 16 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+		
+	\end{itemize}
+\end{columns}
+\end{frame}
+
 %------------------------------------------------
 
 
 \begin{frame}
-	\frametitle{(a) - Basis-ILP}
-	\textbf{Formulierung des Basis-ILP}
-
-	\begin{align}
-	\max     && \sum_{i = 1}^n \sum_{a = 1}^4 l_{ia} \\
-	\text{s.t.}
-					&& \sum_{a = 1}^4 l_{ia} \leq 1                    && \forall i \in N\\
-					&&   o_{iajb} + l_{ia} + l_{jb} \leq  2        && \forall a,b \in P,\thinspace \thinspace \forall i,j\in N : i \neq j \\
-					&&   l_{ia} \in \{0,1\}                            && \forall a \in P,\thinspace \thinspace \forall i\in N                                      
-	\end{align}
-	\\
-	(1) Maximiere die Anzahl der gelabelten Punkte.\\
-	(2) Pro Punkt darf maximal eine Labelposition gewählt werden.\\
-	(3) Wenn sich Label von zwei Punkten überlappen, darf maximal ein Punkt gelabelt werden.\\
-	(4) Variable $l_{ia}$ ist binär.
-	\end{frame}
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{(b) - Heuristik-Callback}
-\textbf{Heuristik-Callback für LP-Relaxierung}
+\frametitle{Ergebnisse}
+\textbf{Auswertungen TODO}
 
 \begin{itemize}
-	\item Alle Punkte die vollständig (1.0) gelabelt sind übernehmen
-	\item Nicht gelabelte (0.0) Punkte bleiben nicht gelabelt
-	\item Sonst Berechnung des Maximums für jedes Label
-	\item Wähle Labelposition mit höchsten Wert falls keine Überlappung
+	\item Phase 2 SA gegen finales SA (laufzeit + wert)
+	\item setlabels gegen setlabels2 in finaler version (laufzeit + wert)
+	\item parameter tuner
+	\item temperatur egal für setlabels2
 \end{itemize}
 
 \end{frame}
 %------------------------------------------------
 
-\begin{frame}
-\frametitle{(c) - Weitere Verbesserungen}
-\textbf{Weitere Verbesserungen}
-
-\begin{itemize}
-	\item Verwendung des Greedy Algorithmus zur Berechnung einer initialen Lösung des ILPs
-	\item Wiederverwendung der Überlappungsdatenstruktur für Heuristik Callback
-	\item Tunen der Gurobi Parameter mit dem Automatischen Parameter Tuning Tool
-		\begin{itemize}
-			\item $GRB\_IntParam\_BranchDir = -1$
-		\end{itemize}
-	
-\end{itemize}
-
-\end{frame}
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Ergebnisse}
-	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-		
-		\column{.30\textwidth} % Left column and width
-		\textbf{Intel Core i5-3570K}
-		\begin{itemize}
-			\item 4c/4t
-			\item 3,4 - 3,8 GHz
-			\item 6 MB L3
-			\item 16 GB (1600 MHz)
-			\item Linux (Kubuntu 18.04)
-		\end{itemize}
-		
-		\column{.30\textwidth} % Right column and width
-		\textbf{Intel Core i7-3770K}
-		\begin{itemize}
-			\item 4c/8t
-			\item 3,5 - 3,9 GHz
-			\item 8 MB L3
-			\item 16 GB (1600 MHz)
-			\item Linux (Kubuntu 18.04)
-			
-		\end{itemize}
-	\end{columns}
-\end{frame}
-	
-%------------------------------------------------
-
-%------------------------------------------------
 
 
 \end{document} 
