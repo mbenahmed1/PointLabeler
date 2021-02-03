@@ -154,100 +154,213 @@ Universität Osnabrück \\ % Your institution for the title page
 
 
 %------------------------------------------------
-
 \begin{frame}
-	\frametitle{(a) - Basis-ILP}
-	\textbf{Formulierung des Basis-ILP}\\
+\frametitle{Phase 4 - Simulated Annealing}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.6\textwidth} % Left column and width
+	\textbf{Verbesserung von Simulated Annealing}
 	\begin{itemize}
-		\item $N$	= $ \{1,\dotsc,n\}$ := Punktmenge.
-		\item $P$ = $ \{1,2,3,4\}$ := Labelpositionen.
-		\item $o_{iajb} = 1$, wenn die Label von Punkt $i$ und $j$ in Positionen $a$ und $b$ überlappen, $0$ sonst.
-		\item $l_{ia} = 1$, wenn Punkt $i$ in Position $a$ gelabelt ist, 0 sonst.
+		\item Simulated Annealing hat unter den Heuristiken die besten Lösungen geliefert
+		\item Bietet viel Raum für Verbesserungen an
+		\item Nähert die optimale Lösung beliebig nahe an
 	\end{itemize}
-	\end{frame}
-%------------------------------------------------
-
-
-\begin{frame}
-	\frametitle{(a) - Basis-ILP}
-	\textbf{Formulierung des Basis-ILP}
-
-	\begin{align}
-	\max     && \sum_{i = 1}^n \sum_{a = 1}^4 l_{ia} \\
-	\text{s.t.}
-					&& \sum_{a = 1}^4 l_{ia} \leq 1                    && \forall i \in N\\
-					&&   o_{iajb} + l_{ia} + l_{jb} \leq  2        && \forall a,b \in P,\thinspace \thinspace \forall i,j\in N : i \neq j \\
-					&&   l_{ia} \in \{0,1\}                            && \forall a \in P,\thinspace \thinspace \forall i\in N                                      
-	\end{align}
-	\\
-	(1) Maximiere die Anzahl der gelabelten Punkte.\\
-	(2) Pro Punkt darf maximal eine Labelposition gewählt werden.\\
-	(3) Wenn sich Label von zwei Punkten überlappen, darf maximal ein Punkt gelabelt werden.\\
-	(4) Variable $l_{ia}$ ist binär.
-	\end{frame}
+	\column{.3\textwidth} % Right column and width
+\end{columns}
+\end{frame}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{(b) - Heuristik-Callback}
-\textbf{Heuristik-Callback für LP-Relaxierung}
+\frametitle{Phase 4 - Simulated Annealing}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	\column{.55\textwidth} % Left column and width
+	\textbf{Simulated Annealing:}
+	\begin{itemize}
+		\item Es werden Nachbarschaften von Lösungen  betrachtet
+		\item Bessere und gleiche Lösungen werden immer akzeptiert
+		\item Verschlechterungen werden mit bestimmter Wahrscheinlichkeit akzeptiert
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.6]{sa_maximum.pdf}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Verbesserungen}
+\textbf{Änderungen zu Phase 2}\\
+\begin{itemize}
+	\item Effiziente Datenstruktur für Konflikterkennung
+	\begin{itemize}
+		\item[$\rightarrow$] Potenzielle Konflikte für jeden Punkt speichern
+	\end{itemize}
+	\item Implementation eines Parameter Tuning Tools
+	\begin{itemize}
+		\item[$\rightarrow$] Parameter mittels Bayesian Optimization finden
+	\end{itemize}
+	\item Hinzufügen mehrerer neuer Nachbarschaften
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Verbesserungen}
+\textbf{Bayesian Optimization}\\
+\begin{itemize}
+	\item Versucht das maximum einer Funktion zu finden
+	\item $\underset{x \in A}{\max} \thinspace f(x)$ mit $x \in \mathbb{R}^d$
+	\item Gut geeignet für Funktionen $f$ die viel Zeit zum berechnen brauchen
+	\item Ableitungen müssen nicht bekannt sein, $f$ als "Black-Box"
+	\item Hier: $f(x) = SimulatedAnnealing(parameter) $
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Verbesserungen}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Nachbarschaft 1}
+	\begin{itemize}
+		\item ein zufälliger Punkt wird gewählt
+		\item Label wird hinzugefügt/geändert/gelöscht
+		\item[]
+		\item[]
+		\item[]
+	\end{itemize}
+	
+	\column{.45\textwidth} % Right column and width
+	\textbf{Nachbarschaft 2}
+	\begin{itemize}
+		\item ein zufälliger Punkt wird gewählt
+		\item Label wird gelöscht
+		\item Label aller potentiellen Konfliktpunkte werden geändert
+		\item[]
+		\item[]
+	\end{itemize}
+\end{columns}
+\centering
+	\includegraphics[scale=.6]{sa_representation.pdf}
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Ergebnisse}
+\textbf{Parameter Tuning Tool}
 
 \begin{itemize}
-	\item Alle Punkte die vollständig (1.0) gelabelt sind übernehmen
-	\item Nicht gelabelte (0.0) Punkte bleiben nicht gelabelt
-	\item Sonst Berechnung des Maximums für jedes Label
-	\item Wähle Labelposition mit höchsten Wert falls keine Überlappung
+	\item Manuell bestimmte Parameter konnten nicht signifikant verbessert werden
+	\item Für Nachbarschaft 2 haben einige Parameter wenig Einfluss
+	\item[]
+	\item Mögliche Ursachen: 
+	\begin{itemize}
+		\item Zu starke schwankungen durch Zufall
+		\item Zu wenige Iterationen des Optimizers
+	\end{itemize}
 \end{itemize}
 
 \end{frame}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{(c) - Weitere Verbesserungen}
-\textbf{Weitere Verbesserungen}
-
-\begin{itemize}
-	\item Verwendung des Greedy Algorithmus zur Berechnung einer initialen Lösung des ILPs
-	\item Wiederverwendung der Überlappungsdatenstruktur für Heuristik Callback
-	\item Tunen der Gurobi Parameter mit dem Automatischen Parameter Tuning Tool
-		\begin{itemize}
-			\item $GRB\_IntParam\_BranchDir = -1$
-		\end{itemize}
+\frametitle{Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-\end{itemize}
-
+	\column{.30\textwidth} % Left column and width
+	\textbf{Intel Core i5-3570K}
+	\begin{itemize}
+		\item 4c/4t
+		\item 3,4 - 3,8 GHz
+		\item 6 MB L3
+		\item 16 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+	\end{itemize}
+	
+	\column{.30\textwidth} % Right column and width
+	\textbf{Intel Core i7-3770K}
+	\begin{itemize}
+		\item 4c/8t
+		\item 3,5 - 3,9 GHz
+		\item 8 MB L3
+		\item 16 GB (1600 MHz)
+		\item Linux (Kubuntu 18.04)
+		
+	\end{itemize}
+\end{columns}
 \end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Phase 4 - Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Ergebnisse}
+	\begin{itemize}
+		\item Deutliche Verbesserung der Laufzeit
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.45]{runtime_overview.pdf}	
+\end{columns}
+\end{frame}
+
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Ergebnisse}
-	\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-		
-		\column{.30\textwidth} % Left column and width
-		\textbf{Intel Core i5-3570K}
-		\begin{itemize}
-			\item 4c/4t
-			\item 3,4 - 3,8 GHz
-			\item 6 MB L3
-			\item 16 GB (1600 MHz)
-			\item Linux (Kubuntu 18.04)
-		\end{itemize}
-		
-		\column{.30\textwidth} % Right column and width
-		\textbf{Intel Core i7-3770K}
-		\begin{itemize}
-			\item 4c/8t
-			\item 3,5 - 3,9 GHz
-			\item 8 MB L3
-			\item 16 GB (1600 MHz)
-			\item Linux (Kubuntu 18.04)
-			
-		\end{itemize}
-	\end{columns}
-\end{frame}
+\frametitle{Phase 4 - Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 	
-%------------------------------------------------
+	\column{.45\textwidth} % Left column and width
+	\textbf{Ergebnisse}
+	\begin{itemize}
+		\item Nachbarschaft 2 lässt sich schneller Berechnen als Nachbarschaft 1
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.45]{runtime_neighborhood.pdf}	
+\end{columns}
+\end{frame}
 
 %------------------------------------------------
+
+\begin{frame}
+\frametitle{Phase 4 - Ergebnisse}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+	
+	\column{.45\textwidth} % Left column and width
+	\textbf{Ergebnisse}
+	\begin{itemize}
+		\item Nachbarschaft 2 liefert bei größeren Instanzen bessere Ergebnisse
+		\item bei kleinen Instanzen ist Nachbarschaft 1 leicht besser
+		\item Ziefunktionswert aus Phase 2 fast identisch zu Nachbarschaft 1
+	\end{itemize}
+	\column{.45\textwidth} % Right column and width
+	\includegraphics[scale=.45]{sol_neighborhood.pdf}	
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Ergebnisse}
+\textbf{Zusammenfassung}
+
+\begin{itemize}
+	\item Parameter Tuning Tool konnte nicht sinnvoll eingesetzt werden
+	\item Laufzeit konnte um vielfaches reduziert werden
+	\item Erreichte Zielfunktionswerte um mehrere Prozent gesteigert
+	\item[]
+	\item Parameter zeigen viel Potential für weitere Verbesserungen
+	\item Gute Parameter schwierig zu finden
+\end{itemize}
+
+\end{frame}
 
 
 \end{document} 

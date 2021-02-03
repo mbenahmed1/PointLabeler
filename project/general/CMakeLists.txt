@@ -22,8 +22,8 @@ if(MSVC AND MT)
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /MTd")
 endif()
 
-find_package(GUROBI REQUIRED)
-include_directories(${GUROBI_INCLUDE_DIRS})
+#find_package(GUROBI REQUIRED)
+#include_directories(${GUROBI_INCLUDE_DIRS})
 
 
 set(POINTLABELER_SOURCES
@@ -31,28 +31,29 @@ set(POINTLABELER_SOURCES
     src/Map.cpp
     src/Normals.cpp
     src/SimulatedAnnealing.cpp
-    src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp src/Util.cpp src/ILPSolver.cpp)
+    src/Point.cpp src/GreedyAlgorithm.cpp src/GreedyAlgorithm.hpp src/Util.cpp)# src/ILPSolver.cpp)
 
-set(ILP_SOURCES
-        src/testMip.cpp)
+#set(ILP_SOURCES
+#        src/testMip.cpp)
 
 
 
 # set compiler warnings
-#set(CMAKE_CXX_FLAGS_DEBUG "-Wall")
+
 
 # add the executable
 add_executable(PointLabeler ${POINTLABELER_SOURCES})
-add_executable(testILP ${ILP_SOURCES})
+#add_executable(testILP ${ILP_SOURCES})
 
 if(CXX)
-    set(CMAKE_CXX_STANDARD 11)
-    target_link_libraries(testILP optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
-    target_link_libraries(PointLabeler optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_FLAGS "-o3")
+    #target_link_libraries(testILP optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
+    #target_link_libraries(PointLabeler optimized ${GUROBI_CXX_LIBRARY} debug ${GUROBI_CXX_DEBUG_LIBRARY})
 endif()
 
-target_link_libraries(testILP ${GUROBI_LIBRARY})
-target_link_libraries(PointLabeler ${GUROBI_LIBRARY})
+#target_link_libraries(testILP ${GUROBI_LIBRARY})
+#target_link_libraries(PointLabeler ${GUROBI_LIBRARY})
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     include(FeatureSummary)
