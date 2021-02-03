@@ -1,7 +1,10 @@
-//
-// Created by tim on 02.11.20.
-//
-
+/**
+ * GreedyAlgorithm.cpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include "GreedyAlgorithm.hpp"
 #include "Util.hpp"
 
@@ -10,11 +13,6 @@ namespace PointLabeler
 
     GreedyAlgorithm::GreedyAlgorithm(std::vector<PointLabeler::Point> &points) : points(points)
     {
-        //auto vec = Util::createDataStructure(points);
-
-        //Util::printDataStructure(vec, points);
-
-        //Util::evaluateDataStructure(vec);
     }
 
     int GreedyAlgorithm::solve()
@@ -22,7 +20,6 @@ namespace PointLabeler
         m_conflicts = Util::createDataStructure2(points);
 
         int labeled_count = points.size();
-        //std::vector<PointLabeler::Point> labeled_points = std::vector<PointLabeler::Point>();
 
         int pointIndex = 0;
         for (int i = 0; i < points.size(); i++)

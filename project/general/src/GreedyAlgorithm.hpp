@@ -1,7 +1,10 @@
-//
-// Created by tim on 02.11.20.
-//
-
+/**
+ * GreedyAlgorithm.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #ifndef POINTLABELER_GREEDYALGORITHM_HPP
 #define POINTLABELER_GREEDYALGORITHM_HPP
 

@@ -1,3 +1,10 @@
+/**
+ * Map.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include <iostream>
 #include <fstream>
 #include <vector>

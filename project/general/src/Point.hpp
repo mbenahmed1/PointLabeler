@@ -1,3 +1,10 @@
+/**
+ * Point.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #ifndef POINT_HPP
 #define POINT_HPP
 

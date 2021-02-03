@@ -1,3 +1,10 @@
+/**
+ * Normals.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #ifndef POINTLABELER_NORMALS_HPP
 #define POINTLABELER_NORMALS_HPP
 

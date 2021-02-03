@@ -47,14 +47,14 @@ bool has_suffix(const std::string &str, const std::string &suffix)
  */
 int print_message(std::string text)
 {
-/*    time_t now = time(0);
+  time_t now = time(0);
     struct tm tstruct;
     char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     std::cout << buf << ":"
               << " " << text << std::endl;
-    return 1;*/
+    return 1;
 }
 
 /**

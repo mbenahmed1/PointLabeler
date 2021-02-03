@@ -1,6 +1,10 @@
-//
-// Created by tim on 03.01.21.
-//
+/**
+ * Util.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 
 #ifndef POINTLABELER_UTIL_HPP
 #define POINTLABELER_UTIL_HPP

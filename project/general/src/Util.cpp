@@ -1,7 +1,10 @@
-//
-// Created by tim on 03.01.21.
-//
-
+/**
+ * Util.cpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include "Util.hpp"
 
 Util::Util(std::vector<Point> &points) : m_points(points)

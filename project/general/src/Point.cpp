@@ -1,3 +1,10 @@
+/**
+ * Point.cpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include "Point.hpp"
 #include "Util.hpp"
 #include "iostream"
@@ -16,7 +23,6 @@ namespace PointLabeler
 
     Point::~Point()
     {
-        // nothing to do here (?)
     }
 
     int Point::get_x() const

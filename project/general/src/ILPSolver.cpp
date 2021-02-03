@@ -1,7 +1,10 @@
-//
-// Created by tim on 04.01.21.
-//
-
+/**
+ * ILPSolver.cpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include "ILPSolver.hpp"
 #include "GreedyAlgorithm.hpp"
 

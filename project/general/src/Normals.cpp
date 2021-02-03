@@ -1,3 +1,10 @@
+/**
+ * Normals.cpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #include "Normals.hpp"
 
 namespace PointLabeler
@@ -55,8 +62,6 @@ namespace PointLabeler
 
                 // if point lays within distance, sum up x and y coordinates
                 // and compute centroid of those point
-
-                //std::cout << i << " " << j << ": " << distances[i][j] << std::endl;
                 if (distances[i][j] <= Normals::radius)
                 {
                     x_sum += points[j].get_x();
@@ -70,7 +75,6 @@ namespace PointLabeler
             {
                 // set default pos
                 // maybe figure out something smarter later
-                //std::cout << "No neighbors" << std::endl;
                 prefered_label_pos[i] = Point::top_left;
                 continue;
             }

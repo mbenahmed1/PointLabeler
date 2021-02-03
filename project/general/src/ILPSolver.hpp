@@ -1,7 +1,10 @@
-//
-// Created by tim on 04.01.21.
-//
-
+/**
+ * ILPSolver.hpp
+ *
+ *  @date 31.10.2020
+ *  @author Tim Adam (tadam@uos)
+ *  @author Martin ben Ahmed (mbenahmed@uos)
+ */
 #ifndef POINTLABELER_ILPSOLVER_HPP
 #define POINTLABELER_ILPSOLVER_HPP
 
